@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="repro-talk_files/libs/clipboard/clipboard.min.js"></script>
+<script src="repro-talk_files/libs/quarto-html/tabby.min.js"></script>
+<script src="repro-talk_files/libs/quarto-html/popper.min.js"></script>
+<script src="repro-talk_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="repro-talk_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="repro-talk_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="repro-talk_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Jason Geller, PH.D.(he/him)">
+  <meta name="dcterms.date" content="2026-09-11">
+  <title>Would That It Were So Simple: Computational Reproducibility Using Nix and rix</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-1594a9337a7e8ea1c0f84e15710a2968.css">
+  <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="repro-talk_files/libs/revealjs/plugin/revealeditable/quill.css" rel="stylesheet">
+  <link href="repro-talk_files/libs/revealjs/plugin/revealeditable/editable.css" rel="stylesheet">
+  <link href="repro-talk_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script>
+  window._input_file = new TextDecoder('utf-8').decode(
+    Uint8Array.from(atob('LS0tCnRpdGxlOiAiV291bGQgVGhhdCBJdCBXZXJlIFNvIFNpbXBsZTogQ29tcHV0YXRpb25hbCBSZXByb2R1Y2liaWxpdHkgVXNpbmcgTml4IGFuZCByaXgiCmF1dGhvcjogIkphc29uIEdlbGxlciwgUEguRC4oaGUvaGltKSIKZGF0ZTogdG9kYXkKZm9vdGVyOiAiUHJpbmNldG9uIDIwMjYiCmZvcm1hdDoKICByZXZlYWxqczoKICAgIHRoZW1lOiBbc2ltcGxlLCBicmFuZCwgYmMuc2Nzc10KICAgIHNsaWRlLW51bWJlcjogdHJ1ZQogICAgdHJhbnNpdGlvbjogZmFkZQogICAgaW5jcmVtZW50YWw6IGZhbHNlCnJldmVhbGpzLXBsdWdpbnM6CiAgLSBlZGl0YWJsZQpmaWx0ZXJzOgogIC0gZWRpdGFibGUKLS0tCgojIyBUaGUgUmVwbGljYXRpb24gQ3Jpc2lzCgohW0Zyb20gKkEgbWFuaWZlc3RvIGZvciByZXByb2R1Y2libGUgc2NpZW5jZSouIGh0dHBzOi8vZG9pLm9yZy8xMC4xMDM4L3M0MTU2Mi0wMTYtMDAyMV0oaW1hZ2VzL2xlZ28tcmVwbGljYXRpb24ucG5nKQoKIyMgfn5SZXBsaWNhdGlvbiBDcmlzaXN+fiBDcmVkaWJpbGl0eSBSZXZvbHV0aW9uIQoKIVtdKGltYWdlcy9zdi5qcGVnKXtmaWctYWxpZ249ImNlbnRlciIgd2lkdGg9IjMyMCJ9CgojIyBPcGVuIFNjaWVuY2UKCjo6Ojo6IGNvbHVtbnMKOjo6IHsuY29sdW1uIHdpZHRoPSI1MCUifQo8YnI+CgotICAgQmVpbmcgb3BlbiBhbmQgdHJhbnNwYXJlbnQgYWNyb3NzIGFsbCBzdGFnZXMgb2YgdGhlIHJlc2VhcmNoIHByb2Nlc3MKCiAgICAtICAgS2V5IGNvbXBvbmVudHM6CgogICAgICAgIC0gICBEaXNzZW1uYXRpb24KCiAgICAgICAgLSAgIFN0YW5jZQoKICAgICAgICAtICAgKioqV29ya2Zsb3cqKioKCiAgICAgICAgICAgIC0gICBJcyB5b3VyIGVudGlyZSBwcm9qZWN0IHBpcGVsaW5lIHJlcHJvZHVjaWJsZT8KOjo6Cgo6Ojogey5jb2x1bW4gd2lkdGg9IjUwJSJ9Cjxicj4KCiFbUmVwcm9kdWNpYmxlIHJlc2VhcmNoIHByYWN0aWNlcyBhbmQgdHJhbnNwYXJlbmN5IGFjcm9zcyBsaW5ndWlzdGljcy4gKkdsb3NzYSBQc3ljaG9saW5ndWlzdGljcyosIDIoMSksIE5vdmVtYmVyIDIwMjMuIGh0dHBzOi8vZG9pLm9yZy8xMC41MDcwL0c2MDExMjM5XShpbWFnZXMvb3MuanBnKXtmaWctYWxpZ249ImNlbnRlciIgd2lkdGg9IjQzMiJ9Cjo6Ogo6Ojo6OgoKIyMgV2hhdCBpcyBSZXByb2R1Y2libGl0eT8KCnwgQW5hbHlzaXMgLyBEYXRhICAgIHwgU2FtZSBEYXRhICAgICAgICB8IERpZmZlcmVudCBEYXRhICAgIHwKfC0tLS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tLS0tLS0tLS0tLS0tfAp8IFNhbWUgQW5hbHlzaXMgICAgICB8ICoqUmVwcm9kdWNpYmxlKiogfCAqKlJlcGxpY2FibGUqKiAgICB8CnwgRGlmZmVyZW50IEFuYWx5c2lzIHwgKipSb2J1c3QqKiAgICAgICB8ICoqR2VuZXJhbGlzYWJsZSoqIHwKCiMjIFJlcHJvZHVjaWJpbGl0eSBTcGVjdHJ1bQoKIVtdKGltYWdlcy9yZXByb2R1Y2liaWxpdHlfc3BlY3RydW1fZmluYWwucG5nKXtmaWctYWxpZ249ImNlbnRlciJ9CgojIyBIb3cgYXJlIHdlIGRvaW5nPwoKOjo6OjogY29sdW1ucwo6Ojogey5jb2x1bW4gd2lkdGg9IjMyJSJ9Ci0gICBTQ09SRSByZXByb2R1Y2lpYmlsaXkgcHJvamVjdAoKICAgIC0gICA2MDAgcGFwZXJzIGFjcm9zcyA2MiBqb3VybmFscyBmcm9tIHNldmVyYWwgZGlmZmVyZW50IGZpZWxkcyBleGFtaW5lZCBiZXR3ZWVuIDIwMDktMjAxOAo6OjoKCjo6OiB7LmNvbHVtbiB3aWR0aD0iNjglIn0KIVtNaXNrZSwgTy4sIEFiYXRheW8sIEEuTC4sIERhbGV5LCBNLiAqZXQgYWwuKiBJbnZlc3RpZ2F0aW5nIHRoZSByZXByb2R1Y2liaWxpdHkgb2YgdGhlIHNvY2lhbCBhbmQgYmVoYXZpb3VyYWwgc2NpZW5jZXMuICpOYXR1cmUqICoqNjUyKiosIDEyNuKAkzEzNCAoMjAyNikuIGh0dHBzOi8vZG9pLm9yZy8xMC4xMDM4L3M0MTU4Ni0wMjYtMTAyMDMtNV0oaW1hZ2VzLzQxNTg2XzIwMjZfMTAyMDNfRmlnMl9IVE1MLndlYnApey5iaWdmaWcgZmlnLWFsaWduPSJjZW50ZXIifQo6OjoKOjo6OjoKCiMjIEhvdyBhcmUgd2UgZG9pbmc/CgohW01pc2tlLCBPLiwgQWJhdGF5bywgQS5MLiwgRGFsZXksIE0uICpldCBhbC4qIEludmVzdGlnYXRpbmcgdGhlIHJlcHJvZHVjaWJpbGl0eSBvZiB0aGUgc29jaWFsIGFuZCBiZWhhdmlvdXJhbCBzY2llbmNlcy4gKk5hdHVyZSogKio2NTIqKiwgMTI24oCTMTM0ICgyMDI2KS4gaHR0cHM6Ly9kb2kub3JnLzEwLjEwMzgvczQxNTg2LTAyNi0xMDIwMy01XShpbWFnZXMvNDE1ODZfMjAyNl8xMDIwM19GaWczX0hUTUwud2VicCl7ZmlnLWFsaWduPSJjZW50ZXIifQoKIyMgQSBUcnVlIFN0b3J5CgotICAgQSBgYnJtc2AgcGFyYW1ldGVyaXphdGlvbiBwaXRmYWxsIGluIGV4LUdhdXNzaWFuIFJUIG1vZGVsaW5nCi0gICBQYWNrYWdlIHVwZGF0ZSDihpIgc2lsZW50bHkgZGlmZmVyZW50IGRlZmF1bHRzCi0gICBTYW1lIHNjcmlwdCwgZGlmZmVyZW50IG51bWJlcnMsIG5vIGVycm9yIHRocm93bgoKOjo6IGZyYWdtZW50CioqVGhlIHNjYXJ5IHBhcnQ6IG5vdGhpbmcgY3Jhc2hlZC4qKgo6OjoKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKIyMgV2h5IFBzeWNoIFBpcGVsaW5lcyBBcmUgRnJhZ2lsZQoKLSAgIExvbmcgY2hhaW5zOiByYXcgZXllLXRyYWNraW5nL0VFRyDihpIgcHJlcHJvY2Vzc2luZyDihpIgbW9kZWxpbmcg4oaSIGZpZ3VyZXMKLSAgIERlcGVuZGVuY3kgcm90OiBSLCBTdGFuLCBicm1zLCBPUyBsaWJyYXJpZXMgYWxsIGRyaWZ0IGluZGVwZW5kZW50bHkKLSAgIEFkIGhvYyBzY3JpcHRzIHdpdGggbm8gY2FwdHVyZWQgZW52aXJvbm1lbnQKLSAgICJJdCB3b3JrZWQgb24gbXkgbWFjaGluZSIgKHNpeCBtb250aHMgYWdvKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgojIyBSZXByb2R1Y2liaWxpdHkg4omgIE9uZSBUaGluZwoKSXQncyBhIHN0YWNrLCB3aXRoIGEgZmFpbHVyZSBwb2ludCBhdCBldmVyeSBsYXllcjoKCjEuICBFbnZpcm9ubWVudAoyLiAgV29ya2Zsb3cgLyBhbmFseXNpcwozLiAgU3RhdGlzdGljYWwgbW9kZWxpbmcKNC4gIENvbnRpbnVvdXMgdmVyaWZpY2F0aW9uCjUuICBNYXRlcmlhbHMgJiBkYXRhIGhvc3RpbmcKCiMgUHN5Y2hvbG9neSBub3Qgc28gZ29vZCDwn5ifCgojIyBOb3QgSnVzdCBEYXRhOiBFbnZpb3JtZW50IEZyYWdpbGl0eQogCuKWtiAqKlNvZnR3YXJlIHZlcnNpb24qKiDigJQgZS5nLiwgc3ludGF4IChcfFw+KSwgZGVmYXVsdHMgKHN0cmluZ3NBc0ZhY3RvcnMpLCBhbmQgZXZlbiB0aGUgUk5HIGNoYW5nZSBhY3Jvc3MgdmVyc2lvbnMuwqAKCuKWtiAqKnBhY2thZ2VzKiog4oCUIGUuZy4sIGZ1bmN0aW9ucyBnZXQgcmVuYW1lZCwgZGVwcmVjYXRlZCwgZGVmYXVsdHMuwqAKCuKWtiAqKkRvY3VtZW50IHRvb2xzKiog4oCUIGUuZy4sIFBhbmRvYywgTGFUZVgsIFF1YXJ0bywgSnV5cHRlcsKgCgrilrYgKipTeXN0ZW0tbGV2ZWwgZGVwZW5kZW5jaWVzKiog4oCUIGUuZy4sIGNvbXBpbGVycywgbGlicG5nLCBCTEFTL0xBUEFDSy7CoAoK4pa2IElzc3VlOiBjb21iaW5pbmcgaW5jb21wbGV0ZSB0b29scyAoaS5lLiwgc3RhYmlsaXplIHBhcnRzIG9mIGl0KSwgd2hpY2ggbWF5IHJlcXVpcmUgZGl2ZXJzZSBleHBlcnRpc2UgKGUuZy4sIHtyZW52fSwge2dyb3VuZGhvZ30sIHtyYW5nfSwge3JpZ30sIGFuZCBEb2NrZXIpLsKgCgoKIyMgTGF5ZXIgMTogRW52aXJvbm1lbnQKCi0gICBDb250YWluZXJzIHZzLiAqKk5peCoqCi0gICBOaXggLyBge3JpeH1gIGdpdmVzIGRlY2xhcmF0aXZlLCBleGFjdCwgY3Jvc3MtcGxhdGZvcm0gZW52aXJvbm1lbnRzCi0gICBSZWFsIGV4YW1wbGU6IG1hY09TIChBcHBsZSBTaWxpY29uKSArIERldGVybWluYXRlIE5peAogICAgLSAgIFF1YXJ0by9wYW5kb2MgdmVyc2lvbiBtaXNtYXRjaGVzCiAgICAtICAgYHJzdHVkaW9XcmFwcGVyYCBzZWdmYXVsdHMKICAgIC0gICBCaW5hcnkgY2FjaGUgdHJ1c3QgY29uZmlnCgo6Ojogbm90ZXMKTmV2ZXIgaGFuZC1lZGl0IGdlbmVyYXRlZCAubml4IGZpbGVzIOKAlCBhbGwgY29uZmlnIGZsb3dzIHRocm91Z2ggcml4KCkuCjo6OgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgojIyBMYXllciAyOiBXb3JrZmxvdyDigJQgUXVhcnRvCgotICAgTGl0ZXJhdGUgcHJvZ3JhbW1pbmc6IGNvZGUgKyBwcm9zZSArIG91dHB1dCwgb25lIGRvY3VtZW50Ci0gICBQYXJhbWV0ZXJpemVkIHJlcG9ydHMgKHJlcnVuIGZvciBuZXcgZGF0YXNldHMvY29uZGl0aW9ucykKLSAgIE9uZSBzb3VyY2Ugb2YgdHJ1dGggZnJvbSByYXcgZGF0YSB0byBtYW51c2NyaXB0CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCiMjIExheWVyIDM6IFN0YXRpc3RpY2FsIE1vZGVsaW5nCgotICAgYGNtZHN0YW5SYCB3aXRoIHBpbm5lZCB2ZXJzaW9ucwotICAgRXhwbGljaXQgc2VlZHMKLSAgICoqRG9jdW1lbnQgeW91ciBwYXJhbWV0ZXJpemF0aW9uKiog4oCUIGRvbid0IHRydXN0IGRlZmF1bHRzCi0gICBSZXZpc2l0IHRoZSBleC1HYXVzc2lhbiBwaXRmYWxsOiB3aGF0IGNoYW5nZWQsIHdoYXQgaXQgY29zdAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgojIyBMYXllciA0OiBDb250aW51b3VzIFZlcmlmaWNhdGlvbgoKLSAgIEdpdEh1YiBBY3Rpb25zOiBkb2VzIHRoZSBwaXBlbGluZSByZXJ1biAqZnJvbSBzY3JhdGNoKj8KLSAgIE5vdCAiaXQgd29ya3Mgb24gbXkgbGFwdG9wIiDigJQgaXQgd29ya3Mgb24gYSBjbGVhbiBtYWNoaW5lLCBldmVyeSBwdXNoCi0gICBBIGdyZWVuIGJhZGdlIGlzIGEgcmVwcm9kdWNpYmlsaXR5IGNsYWltIHlvdSBjYW4gcG9pbnQgdG8KCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKIyMgTGF5ZXIgNTogTWF0ZXJpYWxzICYgRGF0YSBIb3N0aW5nCgotICAgQ2FzZSBzdHVkeTogT1NGIFByb2plY3RzIGJlaW5nIHBoYXNlZCBvdXQKLSAgIExlc3NvbjogZG9uJ3QgYmV0IHlvdXIgYXJjaGl2ZSBvbiBvbmUgcGxhdGZvcm0gZm9yZXZlcgotICAgRW1lcmdpbmcgc3BsaXQgbW9kZWw6CiAgICAtICAgKipHaXRIdWIqKiDihpIgY29kZSwgbWF0ZXJpYWxzCiAgICAtICAgKipSZXNlYXJjaEJveC5vcmcqKiDihpIgY3VyYXRlZCwgY2l0YWJsZSBkYXRhIHBhY2thZ2VzCi0gICBSZWdpc3RlcmVkIFJlcG9ydHMgYXMgYSBzdHJ1Y3R1cmFsIGluY2VudGl2ZSwgbm90IGp1c3QgcHJlcmVnaXN0cmF0aW9uCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCiMjIExpdmUgRGVtbwoKLSAgIE1pbmltYWwgYHJpeCgpYC1nZW5lcmF0ZWQgZW52aXJvbm1lbnQKLSAgIFF1YXJ0byBkb2MgcmVuZGVyaW5nIGEgQmF5ZXNpYW4gbW9kZWwKLSAgIEdpdEh1YiBBY3Rpb25zIGJhZGdlIGNvbmZpcm1pbmcgYSBjbGVhbiByZXJ1bgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgojIyBXaGF0IGEgTGFiIENhbiBBY3R1YWxseSBEbwoKKipOb3QgcmVhZHkgZm9yIE5peD8qKiBTdGFydCBzbWFsbGVyOgoKLSAgIGByZW52YCBmb3IgUiBkZXBlbmRlbmN5IHNuYXBzaG90cwotICAgRG9ja2VyIGZvciBhIHNoYXJlZCBlbnZpcm9ubWVudAotICAgQSBiYXNpYyBHaXRIdWIgQWN0aW9ucyBjaGVjayB0aGF0IHRoZSBhbmFseXNpcyBzdGlsbCBydW5zCgpSZXByb2R1Y2liaWxpdHkgaXMgYSAqbGFkZGVyKiwgbm90IGEgY2xpZmYuCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCiMjIEN1bHR1cmUsIE5vdCBKdXN0IFRvb2xzCgotICAgVHJhaW4gUkFzIG9uIGVudmlyb25tZW50IGNhcHR1cmUgZnJvbSBkYXkgb25lCi0gICBNYWtlICJjYW4gYSBzdHJhbmdlciByZXJ1biB0aGlzPyIgYSBsYWIgbm9ybQotICAgSW5jZW50aXZlcyBtYXR0ZXIgbW9yZSB0aGFuIGFueSBzaW5nbGUgdG9vbAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgojIyBUYWtlYXdheXMKCjEuICBDb21wdXRhdGlvbmFsIHJlcHJvZHVjaWJpbGl0eSBpcyBhIHN0YWNrIOKAlCBmaW5kIHlvdXIgd2Vha2VzdCBsYXllcgoyLiAgU21hbGwsIGJvcmluZyBoYWJpdHMgKHBpbm5pbmcsIENJLCB2ZXJzaW9uIGNvbnRyb2wpIGJlYXQgaGVyb2ljIG9uZS1vZmYgZml4ZXMKMy4gIFBsYW4gZm9yIHBsYXRmb3JtIGNodXJuIChPU0Yg4oaSIGVsc2V3aGVyZSkgYmVmb3JlIGl0IGZvcmNlcyB5b3VyIGhhbmQKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKIyMgUXVlc3Rpb25zPwoKVGhhbmtzIQ=='), function(c) { return c.charCodeAt(0); })
+  );
+  window._input_filename = '/Users/jasongeller/princeton_2026_rix-nix/repro-talk.qmd';
+  window._quarto_arrow_extension = true;
+  </script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Would That It Were So Simple: Computational Reproducibility Using Nix and rix</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jason Geller, PH.D.(he/him) 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-09-11</p>
+</section>
+<section id="the-replication-crisis" class="slide level2">
+<h2>The Replication Crisis</h2>
+
+<img data-src="images/lego-replication.png" class="r-stretch quarto-figure-center"><p class="caption">From <em>A manifesto for reproducible science</em>. https://doi.org/10.1038/s41562-016-0021</p></section>
+<section id="replication-crisis-credibility-revolution" class="slide level2">
+<h2><del>Replication Crisis</del> Credibility Revolution!</h2>
+
+<img data-src="images/sv.jpeg" class="quarto-figure quarto-figure-center r-stretch" width="320"></section>
+<section id="open-science" class="slide level2">
+<h2>Open Science</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><br></p>
+<ul>
+<li><p>Being open and transparent across all stages of the research process</p>
+<ul>
+<li><p>Key components:</p>
+<ul>
+<li><p>Dissemnation</p></li>
+<li><p>Stance</p></li>
+<li><p><strong><em>Workflow</em></strong></p>
+<ul>
+<li>Is your entire project pipeline reproducible?</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/os.jpg" width="432"></p>
+<figcaption>Reproducible research practices and transparency across linguistics. <em>Glossa Psycholinguistics</em>, 2(1), November 2023. https://doi.org/10.5070/G6011239</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="what-is-reproduciblity" class="slide level2">
+<h2>What is Reproduciblity?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Analysis / Data</th>
+<th>Same Data</th>
+<th>Different Data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Same Analysis</td>
+<td><strong>Reproducible</strong></td>
+<td><strong>Replicable</strong></td>
+</tr>
+<tr class="even">
+<td>Different Analysis</td>
+<td><strong>Robust</strong></td>
+<td><strong>Generalisable</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reproducibility-spectrum" class="slide level2">
+<h2>Reproducibility Spectrum</h2>
+
+<img data-src="images/reproducibility_spectrum_final.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="how-are-we-doing" class="slide level2">
+<h2>How are we doing?</h2>
+<div class="columns">
+<div class="column" style="width:32%;">
+<ul>
+<li><p>SCORE reproduciibiliy project</p>
+<ul>
+<li>600 papers across 62 journals from several different fields examined between 2009-2018</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:68%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/41586_2026_10203_Fig2_HTML.webp" class="bigfig"></p>
+<figcaption>Miske, O., Abatayo, A.L., Daley, M. <em>et al.</em> Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em> <strong>652</strong>, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="how-are-we-doing-1" class="slide level2">
+<h2>How are we doing?</h2>
+
+<img data-src="images/41586_2026_10203_Fig3_HTML.webp" class="r-stretch quarto-figure-center"><p class="caption">Miske, O., Abatayo, A.L., Daley, M. <em>et al.</em> Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em> <strong>652</strong>, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5</p></section>
+<section id="a-true-story" class="slide level2">
+<h2>A True Story</h2>
+<ul>
+<li>A <code>brms</code> parameterization pitfall in ex-Gaussian RT modeling</li>
+<li>Package update → silently different defaults</li>
+<li>Same script, different numbers, no error thrown</li>
+</ul>
+<div class="fragment">
+<p><strong>The scary part: nothing crashed.</strong></p>
+</div>
+</section>
+<section id="why-psych-pipelines-are-fragile" class="slide level2">
+<h2>Why Psych Pipelines Are Fragile</h2>
+<ul>
+<li>Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures</li>
+<li>Dependency rot: R, Stan, brms, OS libraries all drift independently</li>
+<li>Ad hoc scripts with no captured environment</li>
+<li>“It worked on my machine” (six months ago)</li>
+</ul>
+</section>
+<section id="reproducibility-one-thing" class="slide level2">
+<h2>Reproducibility ≠ One Thing</h2>
+<p>It’s a stack, with a failure point at every layer:</p>
+<ol type="1">
+<li>Environment</li>
+<li>Workflow / analysis</li>
+<li>Statistical modeling</li>
+<li>Continuous verification</li>
+<li>Materials &amp; data hosting</li>
+</ol>
+</section>
+<section>
+<section id="psychology-not-so-good" class="title-slide slide level1 center">
+<h1>Psychology not so good 😟</h1>
+
+</section>
+<section id="not-just-data-enviorment-fragility" class="slide level2">
+<h2>Not Just Data: Enviorment Fragility</h2>
+<p>▶ <strong>Software version</strong> — e.g., syntax (|&gt;), defaults (stringsAsFactors), and even the RNG change across versions.&nbsp;</p>
+<p>▶ <strong>packages</strong> — e.g., functions get renamed, deprecated, defaults.&nbsp;</p>
+<p>▶ <strong>Document tools</strong> — e.g., Pandoc, LaTeX, Quarto, Juypter&nbsp;</p>
+<p>▶ <strong>System-level dependencies</strong> — e.g., compilers, libpng, BLAS/LAPACK.&nbsp;</p>
+<p>▶ Issue: combining incomplete tools (i.e., stabilize parts of it), which may require diverse expertise (e.g., {renv}, {groundhog}, {rang}, {rig}, and Docker).&nbsp;</p>
+</section>
+<section id="layer-1-environment" class="slide level2">
+<h2>Layer 1: Environment</h2>
+<ul>
+<li>Containers vs.&nbsp;<strong>Nix</strong></li>
+<li>Nix / <code>{rix}</code> gives declarative, exact, cross-platform environments</li>
+<li>Real example: macOS (Apple Silicon) + Determinate Nix
+<ul>
+<li>Quarto/pandoc version mismatches</li>
+<li><code>rstudioWrapper</code> segfaults</li>
+<li>Binary cache trust config</li>
+</ul></li>
+</ul>
+<aside class="notes">
+<p>Never hand-edit generated .nix files — all config flows through rix().</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="layer-2-workflow-quarto" class="slide level2">
+<h2>Layer 2: Workflow — Quarto</h2>
+<ul>
+<li>Literate programming: code + prose + output, one document</li>
+<li>Parameterized reports (rerun for new datasets/conditions)</li>
+<li>One source of truth from raw data to manuscript</li>
+</ul>
+</section>
+<section id="layer-3-statistical-modeling" class="slide level2">
+<h2>Layer 3: Statistical Modeling</h2>
+<ul>
+<li><code>cmdstanR</code> with pinned versions</li>
+<li>Explicit seeds</li>
+<li><strong>Document your parameterization</strong> — don’t trust defaults</li>
+<li>Revisit the ex-Gaussian pitfall: what changed, what it cost</li>
+</ul>
+</section>
+<section id="layer-4-continuous-verification" class="slide level2">
+<h2>Layer 4: Continuous Verification</h2>
+<ul>
+<li>GitHub Actions: does the pipeline rerun <em>from scratch</em>?</li>
+<li>Not “it works on my laptop” — it works on a clean machine, every push</li>
+<li>A green badge is a reproducibility claim you can point to</li>
+</ul>
+</section>
+<section id="layer-5-materials-data-hosting" class="slide level2">
+<h2>Layer 5: Materials &amp; Data Hosting</h2>
+<ul>
+<li>Case study: OSF Projects being phased out</li>
+<li>Lesson: don’t bet your archive on one platform forever</li>
+<li>Emerging split model:
+<ul>
+<li><strong>GitHub</strong> → code, materials</li>
+<li><strong>ResearchBox.org</strong> → curated, citable data packages</li>
+</ul></li>
+<li>Registered Reports as a structural incentive, not just preregistration</li>
+</ul>
+</section>
+<section id="live-demo" class="slide level2">
+<h2>Live Demo</h2>
+<ul>
+<li>Minimal <code>rix()</code>-generated environment</li>
+<li>Quarto doc rendering a Bayesian model</li>
+<li>GitHub Actions badge confirming a clean rerun</li>
+</ul>
+</section>
+<section id="what-a-lab-can-actually-do" class="slide level2">
+<h2>What a Lab Can Actually Do</h2>
+<p><strong>Not ready for Nix?</strong> Start smaller:</p>
+<ul>
+<li><code>renv</code> for R dependency snapshots</li>
+<li>Docker for a shared environment</li>
+<li>A basic GitHub Actions check that the analysis still runs</li>
+</ul>
+<p>Reproducibility is a <em>ladder</em>, not a cliff.</p>
+</section>
+<section id="culture-not-just-tools" class="slide level2">
+<h2>Culture, Not Just Tools</h2>
+<ul>
+<li>Train RAs on environment capture from day one</li>
+<li>Make “can a stranger rerun this?” a lab norm</li>
+<li>Incentives matter more than any single tool</li>
+</ul>
+</section>
+<section id="takeaways" class="slide level2">
+<h2>Takeaways</h2>
+<ol type="1">
+<li>Computational reproducibility is a stack — find your weakest layer</li>
+<li>Small, boring habits (pinning, CI, version control) beat heroic one-off fixes</li>
+<li>Plan for platform churn (OSF → elsewhere) before it forces your hand</li>
+</ol>
+</section>
+<section id="questions" class="slide level2">
+<h2>Questions?</h2>
+<p>Thanks!</p>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>Princeton 2026</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="repro-talk_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/revealeditable/editable.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="repro-talk_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="repro-talk_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Revealeditable, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

@@ -1,0 +1,33 @@
+meta:
+  name: Boston College
+
+color:
+  palette:
+    bc-maroon: "#98002E"
+    bc-maroon-dark: "#5C001C"
+    bc-gold: "#BC9B6A"
+    bc-black: "#1A1A1A"
+    bc-white: "#FFFFFF"
+  foreground: bc-black
+  background: bc-white
+  primary: bc-maroon
+  secondary: bc-gold
+  link: bc-maroon
+
+typography:
+  fonts:
+    - family: Merriweather
+      source: google
+      weight: [400, 700, 900]
+    - family: Source Sans Pro
+      source: google
+      weight: [400, 600, 700]
+  base:
+    family: Source Sans Pro
+  headings:
+    family: Merriweather
+    weight: 700
+    color: bc-maroon
+  link:
+    color: bc-maroon
+    decoration: none
