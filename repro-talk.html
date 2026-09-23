@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-eec3e6c20ce12e708f8bfc762a6e0565.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-1904e85fa179118976d9bc8e73111460.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -272,8 +272,9 @@ Jason Geller, PH.D.(he/him)
 </tr>
 </tbody>
 </table>
+<p>▎ “Someone else, on another computer, years later, can rerun my code on my data and get my results.”</p>
 </section>
-<section id="how-are-we-doing" class="slide level2">
+<section id="sec-howdoing" class="slide level2">
 <h2>How are we doing?</h2>
 <div class="columns">
 <div class="column" style="width:32%;">
@@ -286,32 +287,39 @@ Jason Geller, PH.D.(he/him)
 </div><div class="column" style="width:68%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/41586_2026_10203_Fig2_HTML.webp" class="bigfig"></p>
+<p><img data-src="images/41586_2026_10203_Fig2_psych.png" class="bigfig"></p>
 <figcaption>Miske, O., Abatayo, A.L., Daley, M. <em>et al.</em> Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em> <strong>652</strong>, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5</figcaption>
 </figure>
 </div>
 </div></div>
 </section>
-<section id="how-are-we-doing-1" class="slide level2">
+<section id="how-are-we-doing" class="slide level2">
 <h2>How are we doing?</h2>
 
 <img data-src="images/41586_2026_10203_Fig3_HTML.webp" class="r-stretch quarto-figure-center"><p class="caption">Miske, O., Abatayo, A.L., Daley, M. <em>et al.</em> Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em> <strong>652</strong>, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5</p></section>
-<section id="how-are-we-doing-2" class="slide level2">
-<h2>How are we doing?</h2>
-<div class="columns">
-<div class="column" style="width:32%;">
+<section>
+<section id="psychology-not-so-good" class="title-slide slide level1 center">
+<h1>Psychology not so good 😟</h1>
+
+</section>
+<section id="why-psych-pipelines-are-fragile" class="slide level2">
+<h2>Why Psych Pipelines Are Fragile</h2>
 <ul>
-<li><p>[STUDY NAME]</p>
-<ul>
-<li><p>[Sample: N papers / journals / years]</p></li>
-<li><p>[Key finding]</p></li>
-</ul></li>
+<li>Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures</li>
+<li>Dependency rot: R, Stan, brms, OS libraries all drift independently</li>
+<li>Ad hoc scripts with no captured environment</li>
+<li>“It worked on my machine” (six months ago)</li>
 </ul>
-</div><div class="column" style="width:68%;">
-<p>[FIGURE: add image + citation caption]</p>
-</div></div>
-<aside class="notes">
-<p>PLACEHOLDER: slot for the psych-specific study that motivates “Psychology not so good”.</p>
+</section>
+<section id="sec-spectrum" class="slide level2">
+<h2>Reproducibility Spectrum</h2>
+
+<img data-src="images/reproducibility_spectrum_final.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="sec-repro-blocks" class="slide level2">
+<h2>Which “reproducible”?</h2>
+
+<img data-src="images/repro-blocks.png" class="hex r-stretch quarto-figure-center"><p class="caption">Source: [ADD SOURCE]</p><aside class="notes">
+<p>Each quote covers only one box. Openness = layer 5, Pipeline = layer 2, the grid = layer 1 (environment). Point back here later: Docker’s saved image covers “across space” but a rebuild breaks “across time”; the Malka et al.&nbsp;evidence slide reports exactly these rows (rebuildable, bitwise, functional).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -324,20 +332,6 @@ Jason Geller, PH.D.(he/him)
           display:block!important;
       }</style></aside>
 </section>
-<section>
-<section id="psychology-not-so-good" class="title-slide slide level1 center">
-<h1>Psychology not so good 😟</h1>
-
-</section>
-<section id="reproducibility-spectrum" class="slide level2">
-<h2>Reproducibility Spectrum</h2>
-
-<img data-src="images/reproducibility_spectrum_final.png" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="reproducibility-one-thing" class="slide level2">
-<h2>Reproducibility ≠ One Thing</h2>
-<p>It’s a stack, with a failure point at every layer:</p>
-
-<img data-src="images/repro-stack.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="enviorment-fragility" class="slide level2">
 <h2>Enviorment Fragility</h2>
 <p>Setting bitwise reproducibility aside, even error-free R code sits on top of four layers, each of which may drift over space and time:</p>
@@ -467,15 +461,13 @@ Jason Geller, PH.D.(he/him)
 <div class="columns">
 <div class="column" style="width:72%;">
 <ul>
-<li><p>Most popular packages for reproducibility, and very easy to use:</p>
+<li><p>Most popular package for reproducibility, and very easy to use:</p>
 <ul>
-<li><p>Creates a snap shot of packages used (and versions)</p>
-<ul>
-<li><p>Open an R session in the folder containing the scripts</p></li>
-<li><p>Run <code>renv::init()</code> and check the folder for <code>renv.lock</code></p></li>
-<li><p>Use <code>renv::restore</code> to load all packages used at runtime</p></li>
+<li><p><code>renv::init()</code> snapshots the packages used (and their versions) into <code>renv.lock</code></p></li>
+<li><p><code>renv::restore()</code> reinstalls them</p></li>
 </ul></li>
-</ul></li>
+<li><p><strong>But</strong> it records, and does not restore, the version of R</p></li>
+<li><p><strong>But</strong> installing old packages can fail (missing OS dependencies)</p></li>
 </ul>
 </div><div class="column" style="width:28%;">
 <div class="quarto-figure quarto-figure-center">
@@ -485,71 +477,57 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div></div>
 </section>
-<section id="renv" class="slide level2">
-<h2><code>Renv</code></h2>
-<ul>
-<li><p>Records, but does not restore the version of R</p></li>
-<li><p>Installation of old packages can fail (due to missing OS-dependencies)</p></li>
-</ul>
-</section>
 <section id="sec-docker" class="slide level2">
 <h2>Docker: what a container does</h2>
-<p><strong>Dockerfile</strong> (recipe) <span class="math inline">\(\rightarrow\)</span> <strong>image</strong> (the environment, frozen) <span class="math inline">\(\rightarrow\)</span> <strong>container</strong> (the image, running)</p>
-
-<img data-src="images/docker-container.svg" class="r-stretch quarto-figure-center"><p class="caption">Adapted from R-Ladies Rome (English): <em>Building Reproducible Pipelines with R, Docker and Nix</em>, Bruno Rodrigues.</p></section>
-<section id="sec-docker-tradeoffs" class="slide level2">
-<h2>Docker</h2>
 <div class="columns">
-<div class="column" style="width:84%;">
-<ul>
-<li><p>Docker is very useful and widely used</p></li>
-<li><p>But the entry cost is high (familiarity with Linux is recommended)</p></li>
-<li><p>Single point of failure (what happens if Docker gets bought, abandoned, etc? <strong>quite unlikely though</strong>)</p></li>
-<li><p>Not actually dealing with reproducibility per se, we’re “abusing” Docker in a way</p></li>
-</ul>
-</div><div class="column" style="width:16%;">
+<div class="column" style="width:86%;">
+<p><strong>Dockerfile</strong> (recipe) <span class="math inline">\(\rightarrow\)</span> <strong>image</strong> (the environment, frozen) <span class="math inline">\(\rightarrow\)</span> <strong>container</strong> (the image, running)</p>
+</div><div class="column" style="width:14%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/docker-logo.svg" class="hex quarto-figure quarto-figure-center" width="140"></p>
+<p><img data-src="images/docker-logo.svg" class="hex quarto-figure quarto-figure-center" width="90"></p>
 </figure>
 </div>
 </div></div>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Tip</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li>Can use Code Ocean instead (<a href="https://codeocean.com/" class="uri">https://codeocean.com/</a>) - costs money</li>
-<li>Binder (free) and you can set it up within manuscript</li>
-</ul>
-</div>
-</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/docker-container.svg"></p>
+<figcaption>Adapted from R-Ladies Rome (English): <em>Building Reproducible Pipelines with R, Docker and Nix</em>, Bruno Rodrigues.</figcaption>
+</figure>
 </div>
 </section>
-<section id="nixrix" class="slide level2">
-<h2>Nix/{Rix}</h2>
+<section id="sec-docker-issues" class="slide level2 code-walk">
+<h2>Docker: rebuilding ≠ reproducing</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb9-1"><a href="" aria-label="1"></a><span class="kw">FROM</span> rocker/r-ver:latest                    <span class="co"># which R? whatever "latest" means today</span></span>
+<span id="cb9-2"><a href="" aria-label="2"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> libxml2-dev   <span class="co"># today's Ubuntu libraries</span></span>
+<span id="cb9-3"><a href="" aria-label="3"></a><span class="kw">RUN</span> <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'install.packages("brms")'</span>   <span class="co"># today's CRAN</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><p>Nix</p>
-<ul>
-<li><p>Package manager: tool to install and manage <em>packages</em></p></li>
-<li><p>Package: any piece of software (not just R packages)</p></li>
-</ul></li>
+<li><strong>The recipe drifts</strong>: every line fetches what’s current <em>on build day</em>. Only the saved image is frozen; Nix pins the recipe itself.</li>
+<li><strong>You must archive the image</strong>: often several GB, and tags on Docker Hub can move or vanish.</li>
+<li><strong>Same image, different CPU</strong>: containers run on the host’s processor, and OpenBLAS picks code per CPU. The last digits can still differ.</li>
+<li><strong>Practical costs</strong>: Linux know-how; Intel-only images are emulated on Apple Silicon; many university clusters don’t allow Docker; one company as a single point of failure.</li>
 </ul>
+<aside class="notes">
+<p>Lower-effort alternatives people ask about: Code Ocean (https://codeocean.com/, paid) and Binder (free, can be set up within a manuscript).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="nixrix-1" class="slide level2">
+<section id="sec-nix-intro" class="slide level2">
 <h2>Nix/{Rix}</h2>
 <ul>
-<li><p>Gold standard of reproducibility: R, R packages and other dependencies must be managed</p></li>
-<li><p>Nix is a package manager actually focused on reproducible builds</p></li>
-<li><p>Nix deals with everything, with one single text file (called a Nix expression)!</p>
-<ul>
-<li>These Nix expressions <em>always</em> build the exact same output</li>
-</ul></li>
+<li><strong>Nix</strong> is a package manager: it installs and manages <em>packages</em>, and a package is any piece of software, not just R packages</li>
+<li>Built for reproducible builds: R, R packages <em>and</em> system dependencies, all declared in one text file (a <em>Nix expression</em>)</li>
+<li>Every input is pinned by hash: the same expression gives the same environment, on any machine</li>
+<li>The “+ Environment” step of the gold standard</li>
 </ul>
 </section>
 <section id="sec-nix-size" class="slide level2">
@@ -570,33 +548,7 @@ Jason Geller, PH.D.(he/him)
 </div></aside></section>
 <section id="sec-rix-nix" class="slide level2 code-walk">
 <h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-code-line-numbers="2-3"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb9-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
-<span id="cb9-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
-<span id="cb9-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb9-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb9-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
-<span id="cb9-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
-<span id="cb9-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
-<span id="cb9-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
-<span id="cb9-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
-<span id="cb9-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
-<span id="cb9-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
-<span id="cb9-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
-<span id="cb9-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
-<span id="cb9-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
-<span id="cb9-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb9-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
-<span id="cb9-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
-<span id="cb9-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb9-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
-<span id="cb9-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
-<span id="cb9-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
-<span id="cb9-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>The snapshot</strong>: every package definition comes from nixpkgs as it was on 2026-08-24.</p>
-</section>
-<section id="nix-a-nix-expression-default.nix" class="slide level2 code-walk">
-<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-code-line-numbers="4-6"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb10-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-code-line-numbers="2-3"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb10-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
 <span id="cb10-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
 <span id="cb10-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
 <span id="cb10-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
@@ -618,11 +570,11 @@ Jason Geller, PH.D.(he/him)
 <span id="cb10-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
 <span id="cb10-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
 <span id="cb10-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>R packages</strong> from that snapshot: exact versions, plus all of their dependencies.</p>
+<p><strong>The snapshot</strong>: every package definition comes from nixpkgs as it was on 2026-08-24.</p>
 </section>
-<section id="sec-nix-cmdstanr" class="slide level2 code-walk">
+<section id="nix-a-nix-expression-default.nix" class="slide level2 code-walk">
 <h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-code-line-numbers="7-14"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb11-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-code-line-numbers="4-6"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb11-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
 <span id="cb11-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
 <span id="cb11-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
 <span id="cb11-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
@@ -644,11 +596,11 @@ Jason Geller, PH.D.(he/him)
 <span id="cb11-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
 <span id="cb11-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
 <span id="cb11-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>cmdstanr from GitHub</strong>: exact commit <em>and</em> content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.</p>
+<p><strong>R packages</strong> from that snapshot: exact versions, plus all of their dependencies.</p>
 </section>
-<section id="nix-a-nix-expression-default.nix-1" class="slide level2 code-walk">
+<section id="sec-nix-cmdstanr" class="slide level2 code-walk">
 <h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-code-line-numbers="15-17"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb12-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-code-line-numbers="7-14"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb12-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
 <span id="cb12-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
 <span id="cb12-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
 <span id="cb12-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
@@ -670,11 +622,11 @@ Jason Geller, PH.D.(he/him)
 <span id="cb12-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
 <span id="cb12-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
 <span id="cb12-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>System software</strong>: R itself, Quarto, pandoc and CmdStan, from the same snapshot.</p>
+<p><strong>cmdstanr from GitHub</strong>: exact commit <em>and</em> content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.</p>
 </section>
-<section id="sec-nix-shell" class="slide level2 code-walk">
+<section id="nix-a-nix-expression-default.nix-1" class="slide level2 code-walk">
 <h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-code-line-numbers="18-21"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb13-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-code-line-numbers="15-17"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb13-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
 <span id="cb13-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
 <span id="cb13-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
 <span id="cb13-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
@@ -696,6 +648,32 @@ Jason Geller, PH.D.(he/him)
 <span id="cb13-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
 <span id="cb13-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
 <span id="cb13-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>System software</strong>: R itself, Quarto, pandoc and CmdStan, from the same snapshot.</p>
+</section>
+<section id="sec-nix-shell" class="slide level2 code-walk">
+<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-code-line-numbers="18-21"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb14-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<span id="cb14-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
+<span id="cb14-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb14-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb14-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
+<span id="cb14-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
+<span id="cb14-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
+<span id="cb14-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
+<span id="cb14-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
+<span id="cb14-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
+<span id="cb14-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
+<span id="cb14-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
+<span id="cb14-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
+<span id="cb14-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
+<span id="cb14-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb14-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb14-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
+<span id="cb14-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb14-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
+<span id="cb14-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
+<span id="cb14-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
+<span id="cb14-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>The shell</strong>: everything above, bundled into what <code>nix-shell</code> opens. By hand, this means learning Nix. <code>{rix}</code> writes it for you, from R.</p>
 </section>
 <section id="sec-rix-intro" class="slide level2 code-walk">
@@ -712,56 +690,11 @@ Jason Geller, PH.D.(he/him)
 </figure>
 </div>
 </div></div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>, <span class="at">repos =</span> <span class="st">"https://ropensci.r-universe.dev"</span>)</span>
-<span id="cb14-2"><a href="" aria-label="2"></a></span>
-<span id="cb14-3"><a href="" aria-label="3"></a><span class="fu">library</span>(rix)</span>
-<span id="cb14-4"><a href="" aria-label="4"></a></span>
-<span id="cb14-5"><a href="" aria-label="5"></a><span class="fu">rix</span>(<span class="at">date        =</span> <span class="st">"2025-01-27"</span>,                  <span class="co"># date (or R version) wanted</span></span>
-<span id="cb14-6"><a href="" aria-label="6"></a>    <span class="at">r_pkgs      =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>),   <span class="co"># R packages</span></span>
-<span id="cb14-7"><a href="" aria-label="7"></a>    <span class="at">system_pkgs =</span> <span class="cn">NULL</span>,                          <span class="co"># system dependencies</span></span>
-<span id="cb14-8"><a href="" aria-label="8"></a>    <span class="at">git_pkgs    =</span> <span class="cn">NULL</span>,                          <span class="co"># GitHub packages</span></span>
-<span id="cb14-9"><a href="" aria-label="9"></a>    <span class="at">tex_pkgs    =</span> <span class="cn">NULL</span>,                          <span class="co"># LaTeX packages</span></span>
-<span id="cb14-10"><a href="" aria-label="10"></a>    <span class="at">ide         =</span> <span class="st">"code"</span>,                        <span class="co"># rstudio / positron / code</span></span>
-<span id="cb14-11"><a href="" aria-label="11"></a>    <span class="at">project_path =</span> <span class="st">"."</span>)                          <span class="co"># where to write default.nix</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="sec-rix-list" class="slide level2">
-<h2>Nix/<code>Rix</code></h2>
-<ul>
-<li><p>List required R version and packages</p></li>
-<li><p>Optionally: more system packages, packages hosted on Github, or LaTeX packages</p></li>
-<li><p>Optionally: an IDE (Rstudio, Radian, VS Code or “other”)</p></li>
-<li><p>Work interactively in an (relavitely) isolated, project-specific and reproducible environment!</p></li>
-</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>, <span class="at">repos =</span> <span class="st">"https://ropensci.r-universe.dev"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="sec-rix-call" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
-<span id="cb15-2"><a href="" aria-label="2"></a></span>
-<span id="cb15-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
-<span id="cb15-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
-<span id="cb15-5"><a href="" aria-label="5"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>, <span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>),</span>
-<span id="cb15-6"><a href="" aria-label="6"></a>  <span class="at">git_pkgs =</span> <span class="fu">list</span>(</span>
-<span id="cb15-7"><a href="" aria-label="7"></a>    <span class="at">package_name =</span> <span class="st">"cmdstanr"</span>,</span>
-<span id="cb15-8"><a href="" aria-label="8"></a>    <span class="at">repo_url     =</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span>,</span>
-<span id="cb15-9"><a href="" aria-label="9"></a>    <span class="at">commit       =</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span></span>
-<span id="cb15-10"><a href="" aria-label="10"></a>  ),</span>
-<span id="cb15-11"><a href="" aria-label="11"></a>  <span class="at">system_pkgs =</span> <span class="fu">c</span>(<span class="st">"quarto"</span>, <span class="st">"cmdstan"</span>),</span>
-<span id="cb15-12"><a href="" aria-label="12"></a>  <span class="at">shell_hook  =</span> <span class="fu">paste</span>(</span>
-<span id="cb15-13"><a href="" aria-label="13"></a>    <span class="st">"export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan"</span>,</span>
-<span id="cb15-14"><a href="" aria-label="14"></a>    <span class="st">"export PRECOMPILED_HEADERS=false"</span>,</span>
-<span id="cb15-15"><a href="" aria-label="15"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
-<span id="cb15-16"><a href="" aria-label="16"></a>  ),</span>
-<span id="cb15-17"><a href="" aria-label="17"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
-<span id="cb15-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
-<span id="cb15-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
-<span id="cb15-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong><code>date</code></strong>: becomes the snapshot line in <code>default.nix</code>, pinning <em>everything</em> to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.</p>
-</section>
-<section id="nixrix-the-rix-call" class="slide level2 code-walk">
-<h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb16-2"><a href="" aria-label="2"></a></span>
 <span id="cb16-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb16-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -781,11 +714,24 @@ Jason Geller, PH.D.(he/him)
 <span id="cb16-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb16-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb16-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong><code>r_pkgs</code></strong>: CRAN packages, at their versions on that date. <code>knitr</code> and <code>rmarkdown</code> are here because Quarto needs them to run R code.</p>
+<p><strong><code>date</code></strong>: becomes the snapshot line in <code>default.nix</code>, pinning <em>everything</em> to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.</p>
+<aside class="notes">
+<p>Never hand-edit the generated default.nix: all configuration flows through rix().</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="nixrix-the-rix-call-1" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-code-line-numbers="6-10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb17-2"><a href="" aria-label="2"></a></span>
 <span id="cb17-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb17-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -805,11 +751,11 @@ Jason Geller, PH.D.(he/him)
 <span id="cb17-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb17-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb17-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong><code>git_pkgs</code></strong>: packages that aren’t on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not "whatever is on GitHub today".</p>
+<p><strong><code>r_pkgs</code></strong>: CRAN packages, at their versions on that date. <code>knitr</code> and <code>rmarkdown</code> are here because Quarto needs them to run R code.</p>
 </section>
-<section id="nixrix-the-rix-call-2" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call-1" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-code-line-numbers="11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-code-line-numbers="6-10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb18-2"><a href="" aria-label="2"></a></span>
 <span id="cb18-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb18-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -829,11 +775,11 @@ Jason Geller, PH.D.(he/him)
 <span id="cb18-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb18-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb18-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong><code>system_pkgs</code></strong>: software outside R. Quarto and CmdStan are the two things that broke in the demo; now they’re part of the environment.</p>
+<p><strong><code>git_pkgs</code></strong>: packages that aren’t on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not "whatever is on GitHub today".</p>
 </section>
-<section id="nixrix-the-rix-call-3" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call-2" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-code-line-numbers="12-16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-code-line-numbers="11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb19-2"><a href="" aria-label="2"></a></span>
 <span id="cb19-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb19-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -853,11 +799,11 @@ Jason Geller, PH.D.(he/him)
 <span id="cb19-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb19-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb19-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong><code>shell_hook</code></strong>: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.</p>
+<p><strong><code>system_pkgs</code></strong>: software outside R. Quarto and CmdStan are the two things that broke in the demo; now they’re part of the environment.</p>
 </section>
-<section id="nixrix-the-rix-call-4" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call-3" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-code-line-numbers="17-19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-code-line-numbers="12-16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb20-2"><a href="" aria-label="2"></a></span>
 <span id="cb20-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb20-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -877,23 +823,47 @@ Jason Geller, PH.D.(he/him)
 <span id="cb20-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb20-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb20-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong><code>shell_hook</code></strong>: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.</p>
+</section>
+<section id="nixrix-the-rix-call-4" class="slide level2 code-walk">
+<h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-code-line-numbers="17-19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<span id="cb21-2"><a href="" aria-label="2"></a></span>
+<span id="cb21-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
+<span id="cb21-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
+<span id="cb21-5"><a href="" aria-label="5"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>, <span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>),</span>
+<span id="cb21-6"><a href="" aria-label="6"></a>  <span class="at">git_pkgs =</span> <span class="fu">list</span>(</span>
+<span id="cb21-7"><a href="" aria-label="7"></a>    <span class="at">package_name =</span> <span class="st">"cmdstanr"</span>,</span>
+<span id="cb21-8"><a href="" aria-label="8"></a>    <span class="at">repo_url     =</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span>,</span>
+<span id="cb21-9"><a href="" aria-label="9"></a>    <span class="at">commit       =</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span></span>
+<span id="cb21-10"><a href="" aria-label="10"></a>  ),</span>
+<span id="cb21-11"><a href="" aria-label="11"></a>  <span class="at">system_pkgs =</span> <span class="fu">c</span>(<span class="st">"quarto"</span>, <span class="st">"cmdstan"</span>),</span>
+<span id="cb21-12"><a href="" aria-label="12"></a>  <span class="at">shell_hook  =</span> <span class="fu">paste</span>(</span>
+<span id="cb21-13"><a href="" aria-label="13"></a>    <span class="st">"export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan"</span>,</span>
+<span id="cb21-14"><a href="" aria-label="14"></a>    <span class="st">"export PRECOMPILED_HEADERS=false"</span>,</span>
+<span id="cb21-15"><a href="" aria-label="15"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb21-16"><a href="" aria-label="16"></a>  ),</span>
+<span id="cb21-17"><a href="" aria-label="17"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
+<span id="cb21-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb21-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong><code>ide</code>, <code>project_path</code>, <code>overwrite</code></strong>: no IDE (<code>\"rstudio\"</code>, <code>\"positron\"</code>, <code>\"code\"</code> also work); write <code>default.nix</code> into this folder.</p>
 </section>
 <section id="sec-rix-python" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: Python too</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-code-line-numbers="4-7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">rix</span>(</span>
-<span id="cb21-2"><a href="" aria-label="2"></a>  <span class="at">date    =</span> <span class="st">"2026-08-24"</span>,</span>
-<span id="cb21-3"><a href="" aria-label="3"></a>  <span class="at">r_pkgs  =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"reticulate"</span>),</span>
-<span id="cb21-4"><a href="" aria-label="4"></a>  <span class="at">py_conf =</span> <span class="fu">list</span>(</span>
-<span id="cb21-5"><a href="" aria-label="5"></a>    <span class="at">py_version =</span> <span class="st">"3.12"</span>,</span>
-<span id="cb21-6"><a href="" aria-label="6"></a>    <span class="at">py_pkgs    =</span> <span class="fu">c</span>(<span class="st">"pandas"</span>, <span class="st">"numpy"</span>)</span>
-<span id="cb21-7"><a href="" aria-label="7"></a>  ),</span>
-<span id="cb21-8"><a href="" aria-label="8"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
-<span id="cb21-9"><a href="" aria-label="9"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
-<span id="cb21-10"><a href="" aria-label="10"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
-<span id="cb21-11"><a href="" aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="" aria-label="1"></a><span class="ex">$</span> nix-shell <span class="at">--pure</span> <span class="at">--run</span> <span class="st">'python --version'</span></span>
-<span id="cb22-2"><a href="" aria-label="2"></a><span class="ex">Python</span> 3.12.14                  <span class="co"># pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-code-line-numbers="4-7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-label="1"></a><span class="fu">rix</span>(</span>
+<span id="cb22-2"><a href="" aria-label="2"></a>  <span class="at">date    =</span> <span class="st">"2026-08-24"</span>,</span>
+<span id="cb22-3"><a href="" aria-label="3"></a>  <span class="at">r_pkgs  =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"reticulate"</span>),</span>
+<span id="cb22-4"><a href="" aria-label="4"></a>  <span class="at">py_conf =</span> <span class="fu">list</span>(</span>
+<span id="cb22-5"><a href="" aria-label="5"></a>    <span class="at">py_version =</span> <span class="st">"3.12"</span>,</span>
+<span id="cb22-6"><a href="" aria-label="6"></a>    <span class="at">py_pkgs    =</span> <span class="fu">c</span>(<span class="st">"pandas"</span>, <span class="st">"numpy"</span>)</span>
+<span id="cb22-7"><a href="" aria-label="7"></a>  ),</span>
+<span id="cb22-8"><a href="" aria-label="8"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
+<span id="cb22-9"><a href="" aria-label="9"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb22-10"><a href="" aria-label="10"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
+<span id="cb22-11"><a href="" aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="" aria-label="1"></a><span class="ex">$</span> nix-shell <span class="at">--pure</span> <span class="at">--run</span> <span class="st">'python --version'</span></span>
+<span id="cb23-2"><a href="" aria-label="2"></a><span class="ex">Python</span> 3.12.14                  <span class="co"># pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong><code>py_conf</code></strong>: one <code>default.nix</code> pins R, Python <em>and</em> both sets of packages. R reaches that exact Python through <code>reticulate</code>, never a system one.</p>
 <aside class="notes">
 <p>Tested on macOS (Apple Silicon): builds and runs with –pure; reticulate calls the pinned numpy.</p>
@@ -909,56 +879,18 @@ Jason Geller, PH.D.(he/him)
           display:block!important;
       }</style></aside>
 </section>
-<section id="sec-rix-steps" class="slide level2">
-<h2>Nix/<code>Rix</code></h2>
-<ul>
-<li>Steps:</li>
-</ul>
-<ol type="1">
-<li>Install Nix on your computer</li>
-<li><code>rix::rix()</code> generates a <code>default.nix</code> file</li>
-<li>Build expressions using <code>nix-build</code> (in terminal) or <code>rix::nix_build()</code> from R</li>
-<li>“Drop” into the development environment using <code>nix-shell</code></li>
-</ol>
-</section>
 <section id="sec-rix-use" class="slide level2">
 <h2>Nix/<code>Rix</code>: using it</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="" aria-label="1"></a><span class="ex">Rscript</span> gen-env.R    <span class="co"># rix() writes default.nix</span></span>
-<span id="cb23-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build the environment (slow only the first time)</span></span>
-<span id="cb23-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span> <span class="at">--run</span> <span class="st">"quarto render nix_rix_example.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="" aria-label="1"></a><span class="ex">Rscript</span> gen-env.R    <span class="co"># rix() writes default.nix</span></span>
+<span id="cb24-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build the environment (slow only the first time)</span></span>
+<span id="cb24-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span> <span class="at">--run</span> <span class="st">"quarto render nix_rix_example.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Line 3 runs one command inside the environment. <code>--pure</code>: nothing from your own machine leaks in: not your R, not your packages, not <code>~/.cmdstan</code>.</li>
-<li>Plain <code>nix-shell</code> drops you into the environment to work interactively.</li>
-</ul>
-</section></section>
-<section>
-<section id="rix-example" class="title-slide slide level1 center">
-<h1><code>Rix</code> Example</h1>
-
-</section>
-<section id="why-psych-pipelines-are-fragile" class="slide level2">
-<h2>Why Psych Pipelines Are Fragile</h2>
-<ul>
-<li>Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures</li>
-<li>Dependency rot: R, Stan, brms, OS libraries all drift independently</li>
-<li>Ad hoc scripts with no captured environment</li>
-<li>“It worked on my machine” (six months ago)</li>
-</ul>
-</section>
-<section id="layer-1-environment" class="slide level2">
-<h2>Layer 1: Environment</h2>
-<ul>
-<li>Containers vs.&nbsp;<strong>Nix</strong></li>
-<li>Nix / <code>{rix}</code> gives declarative, exact, cross-platform environments</li>
-<li>Real example: macOS (Apple Silicon) + Determinate Nix
-<ul>
-<li>Quarto/pandoc version mismatches</li>
-<li><code>rstudioWrapper</code> segfaults</li>
-<li>Binary cache trust config</li>
-</ul></li>
+<li>Once, beforehand: install Nix (<a href="https://nixos.org/download/">nixos.org/download</a>, or the Determinate Systems installer)</li>
+<li><code>--pure</code>: nothing from your own machine leaks in: not your R, not your packages, not <code>~/.cmdstan</code></li>
+<li>Plain <code>nix-shell</code> drops you into the environment to work interactively</li>
 </ul>
 <aside class="notes">
-<p>Never hand-edit generated .nix files — all config flows through rix().</p>
+<p>Live demo here: same repo that failed earlier, now rendering inside the environment. Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -970,52 +902,183 @@ Jason Geller, PH.D.(he/him)
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section></section>
+<section>
+<section id="continuous-integration" class="title-slide slide level1 center">
+<h1>Continuous Integration</h1>
+
 </section>
-<section id="layer-2-workflow-quarto" class="slide level2">
-<h2>Layer 2: Workflow — Quarto</h2>
+<section id="sec-ci" class="slide level2">
+<h2>CI: what it is</h2>
 <ul>
-<li>Literate programming: code + prose + output, one document</li>
-<li>Parameterized reports (rerun for new datasets/conditions)</li>
-<li>One source of truth from raw data to manuscript</li>
+<li>Every time you push to GitHub, <strong>GitHub Actions</strong> starts a fresh computer and reruns your pipeline from scratch</li>
+<li>Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed</li>
+<li>Free for public repositories (a monthly allowance for private ones)</li>
+<li>“Works on my laptop” becomes <strong>“works on a clean machine, every push”</strong></li>
 </ul>
 </section>
-<section id="layer-3-statistical-modeling" class="slide level2">
-<h2>Layer 3: Statistical Modeling</h2>
+<section id="sec-ci-workflow" class="slide level2 code-walk">
+<h2>CI: the workflow (<code>render.yml</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-code-line-numbers="2-5"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb25-1"><a href="" aria-label="1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> render-report</span></span>
+<span id="cb25-2"><a href="" aria-label="2"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb25-3"><a href="" aria-label="3"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb25-4"><a href="" aria-label="4"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb25-5"><a href="" aria-label="5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">"0 6 * * 1"</span></span>
+<span id="cb25-6"><a href="" aria-label="6"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb25-7"><a href="" aria-label="7"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb25-8"><a href="" aria-label="8"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb25-9"><a href="" aria-label="9"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb25-10"><a href="" aria-label="10"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v7</span></span>
+<span id="cb25-11"><a href="" aria-label="11"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/install-nix-action@v31</span></span>
+<span id="cb25-12"><a href="" aria-label="12"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/cachix-action@v17</span></span>
+<span id="cb25-13"><a href="" aria-label="13"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb25-14"><a href="" aria-label="14"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rstats-on-nix</span></span>
+<span id="cb25-15"><a href="" aria-label="15"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-build</span></span>
+<span id="cb25-16"><a href="" aria-label="16"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-shell --pure --run "quarto render nix_rix_example.qmd"</span></span>
+<span id="cb25-17"><a href="" aria-label="17"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v7</span></span>
+<span id="cb25-18"><a href="" aria-label="18"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb25-19"><a href="" aria-label="19"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> report</span></span>
+<span id="cb25-20"><a href="" aria-label="20"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> nix_rix_example.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>When</strong>: on every push, <em>and</em> every Monday morning, even if nobody touched the code. That catches things disappearing upstream.</p>
+</section>
+<section id="ci-the-workflow-render.yml" class="slide level2 code-walk">
+<h2>CI: the workflow (<code>render.yml</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-code-line-numbers="8"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb26-1"><a href="" aria-label="1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> render-report</span></span>
+<span id="cb26-2"><a href="" aria-label="2"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb26-3"><a href="" aria-label="3"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb26-4"><a href="" aria-label="4"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb26-5"><a href="" aria-label="5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">"0 6 * * 1"</span></span>
+<span id="cb26-6"><a href="" aria-label="6"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb26-7"><a href="" aria-label="7"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb26-8"><a href="" aria-label="8"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb26-9"><a href="" aria-label="9"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb26-10"><a href="" aria-label="10"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v7</span></span>
+<span id="cb26-11"><a href="" aria-label="11"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/install-nix-action@v31</span></span>
+<span id="cb26-12"><a href="" aria-label="12"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/cachix-action@v17</span></span>
+<span id="cb26-13"><a href="" aria-label="13"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb26-14"><a href="" aria-label="14"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rstats-on-nix</span></span>
+<span id="cb26-15"><a href="" aria-label="15"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-build</span></span>
+<span id="cb26-16"><a href="" aria-label="16"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-shell --pure --run "quarto render nix_rix_example.qmd"</span></span>
+<span id="cb26-17"><a href="" aria-label="17"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v7</span></span>
+<span id="cb26-18"><a href="" aria-label="18"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb26-19"><a href="" aria-label="19"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> report</span></span>
+<span id="cb26-20"><a href="" aria-label="20"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> nix_rix_example.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Where</strong>: a brand-new Ubuntu machine, every run. Not your laptop, not your <code>~/.cmdstan</code>.</p>
+</section>
+<section id="ci-the-workflow-render.yml-1" class="slide level2 code-walk">
+<h2>CI: the workflow (<code>render.yml</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-code-line-numbers="10-14"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb27-1"><a href="" aria-label="1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> render-report</span></span>
+<span id="cb27-2"><a href="" aria-label="2"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb27-3"><a href="" aria-label="3"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb27-4"><a href="" aria-label="4"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb27-5"><a href="" aria-label="5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">"0 6 * * 1"</span></span>
+<span id="cb27-6"><a href="" aria-label="6"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb27-7"><a href="" aria-label="7"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb27-8"><a href="" aria-label="8"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb27-9"><a href="" aria-label="9"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb27-10"><a href="" aria-label="10"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v7</span></span>
+<span id="cb27-11"><a href="" aria-label="11"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/install-nix-action@v31</span></span>
+<span id="cb27-12"><a href="" aria-label="12"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/cachix-action@v17</span></span>
+<span id="cb27-13"><a href="" aria-label="13"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb27-14"><a href="" aria-label="14"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rstats-on-nix</span></span>
+<span id="cb27-15"><a href="" aria-label="15"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-build</span></span>
+<span id="cb27-16"><a href="" aria-label="16"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-shell --pure --run "quarto render nix_rix_example.qmd"</span></span>
+<span id="cb27-17"><a href="" aria-label="17"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v7</span></span>
+<span id="cb27-18"><a href="" aria-label="18"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb27-19"><a href="" aria-label="19"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> report</span></span>
+<span id="cb27-20"><a href="" aria-label="20"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> nix_rix_example.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Setup</strong>: get the code, install Nix, and pull prebuilt packages from the <code>rstats-on-nix</code> cache: minutes, not hours of compiling.</p>
+</section>
+<section id="ci-the-workflow-render.yml-2" class="slide level2 code-walk">
+<h2>CI: the workflow (<code>render.yml</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-code-line-numbers="15-16"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb28-1"><a href="" aria-label="1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> render-report</span></span>
+<span id="cb28-2"><a href="" aria-label="2"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb28-3"><a href="" aria-label="3"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb28-4"><a href="" aria-label="4"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb28-5"><a href="" aria-label="5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">"0 6 * * 1"</span></span>
+<span id="cb28-6"><a href="" aria-label="6"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb28-7"><a href="" aria-label="7"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb28-8"><a href="" aria-label="8"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb28-9"><a href="" aria-label="9"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb28-10"><a href="" aria-label="10"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v7</span></span>
+<span id="cb28-11"><a href="" aria-label="11"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/install-nix-action@v31</span></span>
+<span id="cb28-12"><a href="" aria-label="12"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/cachix-action@v17</span></span>
+<span id="cb28-13"><a href="" aria-label="13"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb28-14"><a href="" aria-label="14"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rstats-on-nix</span></span>
+<span id="cb28-15"><a href="" aria-label="15"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-build</span></span>
+<span id="cb28-16"><a href="" aria-label="16"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-shell --pure --run "quarto render nix_rix_example.qmd"</span></span>
+<span id="cb28-17"><a href="" aria-label="17"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v7</span></span>
+<span id="cb28-18"><a href="" aria-label="18"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb28-19"><a href="" aria-label="19"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> report</span></span>
+<span id="cb28-20"><a href="" aria-label="20"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> nix_rix_example.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Run</strong>: the same two commands you run on your laptop. No <code>install.packages()</code> steps: <code>default.nix</code> <em>is</em> the environment.</p>
+</section>
+<section id="ci-the-workflow-render.yml-3" class="slide level2 code-walk">
+<h2>CI: the workflow (<code>render.yml</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-code-line-numbers="17-20"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb29-1"><a href="" aria-label="1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> render-report</span></span>
+<span id="cb29-2"><a href="" aria-label="2"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb29-3"><a href="" aria-label="3"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb29-4"><a href="" aria-label="4"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb29-5"><a href="" aria-label="5"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">"0 6 * * 1"</span></span>
+<span id="cb29-6"><a href="" aria-label="6"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb29-7"><a href="" aria-label="7"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb29-8"><a href="" aria-label="8"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb29-9"><a href="" aria-label="9"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb29-10"><a href="" aria-label="10"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v7</span></span>
+<span id="cb29-11"><a href="" aria-label="11"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/install-nix-action@v31</span></span>
+<span id="cb29-12"><a href="" aria-label="12"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> cachix/cachix-action@v17</span></span>
+<span id="cb29-13"><a href="" aria-label="13"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb29-14"><a href="" aria-label="14"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rstats-on-nix</span></span>
+<span id="cb29-15"><a href="" aria-label="15"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-build</span></span>
+<span id="cb29-16"><a href="" aria-label="16"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> nix-shell --pure --run "quarto render nix_rix_example.qmd"</span></span>
+<span id="cb29-17"><a href="" aria-label="17"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v7</span></span>
+<span id="cb29-18"><a href="" aria-label="18"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb29-19"><a href="" aria-label="19"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> report</span></span>
+<span id="cb29-20"><a href="" aria-label="20"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> nix_rix_example.html</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Keep the output</strong>: the rendered report is saved and downloadable from every run.</p>
+</section>
+<section id="sec-ci-why" class="slide level2">
+<h2>CI: why Nix + CI</h2>
 <ul>
-<li><code>cmdstanR</code> with pinned versions</li>
-<li>Explicit seeds</li>
-<li><strong>Document your parameterization</strong> — don’t trust defaults</li>
-<li>Revisit the ex-Gaussian pitfall: what changed, what it cost</li>
+<li><strong>Without Nix</strong>, the workflow needs its own setup steps: install R, packages, CmdStan, Quarto… a <em>second</em> environment definition that can drift from yours</li>
+<li><strong>With Nix</strong>, CI builds the <em>same</em> <code>default.nix</code> you use locally: one definition, used everywhere</li>
+<li>A pinned environment + a weekly run = an early warning if anything upstream vanishes (a GitHub commit, a download URL)</li>
 </ul>
 </section>
-<section id="layer-4-continuous-verification" class="slide level2">
-<h2>Layer 4: Continuous Verification</h2>
+<section id="sec-ci-payoff" class="slide level2 code-walk">
+<h2>CI: the payoff</h2>
 <ul>
-<li>GitHub Actions: does the pipeline rerun <em>from scratch</em>?</li>
-<li>Not “it works on my laptop” — it works on a clean machine, every push</li>
-<li>A green badge is a reproducibility claim you can point to</li>
+<li>A green badge in your README: <strong>“this analysis reran from scratch on a clean machine”</strong></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="" aria-label="1"></a><span class="al">![render](https://github.com/USER/REPO/actions/workflows/render.yml/badge.svg)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A claim reviewers (and future you) can check with one click</li>
+<li>❌ tells you <em>before</em> a reviewer does</li>
 </ul>
 </section>
-<section id="layer-5-materials-data-hosting" class="slide level2">
-<h2>Layer 5: Materials &amp; Data Hosting</h2>
+<section id="sec-beyond" class="slide level2">
+<h2>Beyond the environment</h2>
 <ul>
-<li>Case study: OSF Projects being phased out</li>
-<li>Lesson: don’t bet your archive on one platform forever</li>
-<li>Emerging split model:
+<li><strong>Workflow (Quarto)</strong>: code, prose and output in one document, one source of truth from raw data to manuscript</li>
+<li><strong>Statistical modeling</strong>: pinned <code>cmdstanr</code>, explicit seeds, documented parameterization</li>
+<li><strong>Materials &amp; data hosting</strong>: OSF Projects are being phased out; don’t bet your archive on one platform
 <ul>
-<li><strong>GitHub</strong> → code, materials</li>
-<li><strong>ResearchBox.org</strong> → curated, citable data packages</li>
+<li>GitHub for code, ResearchBox.org for citable data</li>
 </ul></li>
-<li>Registered Reports as a structural incentive, not just preregistration</li>
 </ul>
-</section>
-<section id="live-demo" class="slide level2">
-<h2>Live Demo</h2>
-<ul>
-<li>Minimal <code>rix()</code>-generated environment</li>
-<li>Quarto doc rendering a Bayesian model</li>
-<li>GitHub Actions badge confirming a clean rerun</li>
-</ul>
+<aside class="notes">
+<p>Modeling example to mention: the ex-Gaussian parameterization pitfall (what changed, what it cost). Also: parameterized Quarto reports for new datasets; Registered Reports as a structural incentive, not just preregistration.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="what-a-lab-can-actually-do" class="slide level2">
 <h2>What a Lab Can Actually Do</h2>
@@ -1035,10 +1098,11 @@ Jason Geller, PH.D.(he/him)
 <li>Incentives matter more than any single tool</li>
 </ul>
 </section>
-<section id="takeaways" class="slide level2">
+<section id="sec-takeaways" class="slide level2">
 <h2>Takeaways</h2>
 <ol type="1">
-<li>Computational reproducibility is a stack — find your weakest layer</li>
+<li>“Reproducible” means many things: say which one you claim, and find your weakest layer</li>
+<li>Declare the whole environment once (<code>{rix}</code>), and let CI rerun it from scratch</li>
 <li>Small, boring habits (pinning, CI, version control) beat heroic one-off fixes</li>
 <li>Plan for platform churn (OSF → elsewhere) before it forces your hand</li>
 </ol>
@@ -1264,44 +1328,6 @@ Jason Geller, PH.D.(he/him)
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
