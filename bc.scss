@@ -4,7 +4,8 @@ $bc-maroon: #98002E;
 $bc-maroon-dark: #5C001C;
 $bc-gold: #BC9B6A;
 
-$presentation-font-size-root: 30px;
+$presentation-font-size-root: 36px;
+$code-block-font-size: 0.62em;
 
 /*-- scss:rules --*/
 
@@ -136,4 +137,65 @@ $presentation-font-size-root: 30px;
   width: 100%;
   max-width: 100%;
   max-height: 72vh;
+}
+
+// Logos and hex stickers: no card shadow or rounded corners
+.reveal section img.hex {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+// Stepped code walkthroughs (Nix/rix section): whole block visible, no scrolling
+.reveal section.code-walk div.sourceCode {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+.reveal section.code-walk pre.sourceCode code,
+.reveal section.code-walk div.sourceCode pre code,
+.reveal section.code-walk pre code {
+  font-size: 17px;
+  line-height: 1.3;
+  max-height: none;
+  overflow: visible;
+}
+.reveal section.code-walk > p {
+  font-size: 0.8em;
+  margin-top: 0.2em;
+}
+
+// Section dividers (# headings) are nested slides: keep their text white too
+.reveal .slides > section > section.title-slide h1,
+.reveal .slides > section > section.title-slide h1 code,
+.reveal .slides > section > section.title-slide h2,
+.reveal .slides > section > section.title-slide p {
+  color: #FFFFFF !important;
+}
+
+// BC logo: top-right corner instead of Quarto's default bottom-right
+.reveal .slide-logo {
+  top: 16px !important;
+  right: 20px !important;
+  bottom: auto !important;
+  left: auto !important;
+  max-height: 64px !important;
+  height: 64px;
+  width: auto;
+  z-index: 2147483647 !important;
+}
+
+// Keep the slide number bottom-right (Quarto moves it next to the logo)
+.reveal .slide-number,
+.reveal.has-logo .slide-number {
+  top: auto !important;
+  bottom: 8px !important;
+  right: 12px !important;
+}
+
+// Stepped highlights: dim the other lines less, and mark the active lines
+.reveal div.sourceCode pre code.has-line-highlights > span:not(.highlight-line) {
+  opacity: 0.55;
+}
+.reveal div.sourceCode pre code.has-line-highlights > span.highlight-line {
+  background: rgba(52, 199, 89, 0.18);     // light green
+  font-weight: 600;
 }
