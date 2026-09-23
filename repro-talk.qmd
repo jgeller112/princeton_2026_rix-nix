@@ -1,5 +1,5 @@
 ---
-title: "I swear it worked on my computer! Computational Reproducibility Using Nix and rix"
+title: "I swear it worked! Computational Reproducibility Using Nix and rix"
 author: "Jason Geller, PH.D.(he/him)"
 date: today
 footer: "Princeton 2026"
