@@ -199,3 +199,8 @@ $code-block-font-size: 0.62em;
   background: rgba(52, 199, 89, 0.18);     // light green
   font-weight: 600;
 }
+
+// Bullets on code-walk slides: a touch smaller so code + list fit together
+.reveal section.code-walk > ul {
+  font-size: 0.8em;
+}
