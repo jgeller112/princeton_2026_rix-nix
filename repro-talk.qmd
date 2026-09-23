@@ -55,8 +55,9 @@ resources:
 | Same Analysis      | **Reproducible** | **Replicable**    |
 | Different Analysis | **Robust**       | **Generalisable** |
 
+▎ "Someone else, on another computer, years later, can rerun my code on my data and get my results."
 
-## How are we doing?
+## How are we doing? {#sec-howdoing}
 
 ::::: columns
 ::: {.column width="32%"}
@@ -66,7 +67,7 @@ resources:
 :::
 
 ::: {.column width="68%"}
-![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig2_HTML.webp){.bigfig fig-align="center"}
+![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig2_psych.png){.bigfig fig-align="center"}
 :::
 :::::
 
@@ -74,37 +75,28 @@ resources:
 
 ![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig3_HTML.webp){fig-align="center"}
 
-## How are we doing?
-
-::::: columns
-::: {.column width="32%"}
--   [STUDY NAME]
-
-    -   [Sample: N papers / journals / years]
-
-    -   [Key finding]
-:::
-
-::: {.column width="68%"}
-[FIGURE: add image + citation caption]
-:::
-:::::
-
-::: notes
-PLACEHOLDER: slot for the psych-specific study that motivates "Psychology not so good".
-:::
-
 # Psychology not so good 😟
 
-## Reproducibility Spectrum
+## Why Psych Pipelines Are Fragile
+
+-   Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures
+-   Dependency rot: R, Stan, brms, OS libraries all drift independently
+-   Ad hoc scripts with no captured environment
+-   "It worked on my machine" (six months ago)
+
+## Reproducibility Spectrum {#sec-spectrum}
 
 ![](images/reproducibility_spectrum_final.png){fig-align="center"}
 
-## Reproducibility ≠ One Thing
+## Which "reproducible"? {#sec-repro-blocks}
 
-It's a stack, with a failure point at every layer:
+![Source: [ADD SOURCE]](images/repro-blocks.png){.hex fig-align="center"}
 
-![](images/repro-stack.svg){fig-align="center"}
+::: notes
+Each quote covers only one box. Openness = layer 5, Pipeline = layer 2, the grid = layer 1 (environment).
+Point back here later: Docker's saved image covers "across space" but a rebuild breaks "across time";
+the Malka et al. evidence slide reports exactly these rows (rebuildable, bitwise, functional).
+:::
 
 ## Enviorment Fragility
 
@@ -149,7 +141,6 @@ set.seed(123); sample(1:10, 3)
 ```
 LaTeX Error: File `lualatex-math.sty' not found.
 ```
-
 
 ## 4. System libraries and compilers {#sec-env-sys}
 
@@ -231,15 +222,15 @@ Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Thr
 
 ::::: columns
 ::: {.column width="72%"}
--   Most popular packages for reproducibility, and very easy to use:
+-   Most popular package for reproducibility, and very easy to use:
 
-    -   Creates a snap shot of packages used (and versions)
+    -   `renv::init()` snapshots the packages used (and their versions) into `renv.lock`
 
-        -   Open an R session in the folder containing the scripts
+    -   `renv::restore()` reinstalls them
 
-        -   Run `renv::init()` and check the folder for `renv.lock`
+-   **But** it records, and does not restore, the version of R
 
-        -   Use `renv::restore` to load all packages used at runtime
+-   **But** installing old packages can fail (missing OS dependencies)
 :::
 
 ::: {.column width="28%"}
@@ -247,41 +238,19 @@ Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Thr
 :::
 :::::
 
-## `Renv`
-
--   Records, but does not restore the version of R
-
--   Installation of old packages can fail (due to missing OS-dependencies)
-
 ## Docker: what a container does {#sec-docker}
 
-**Dockerfile** (recipe) $\rightarrow$ **image** (the environment, frozen) $\rightarrow$ **container** (the image, running)
-
-![Adapted from R-Ladies Rome (English): *Building Reproducible Pipelines with R, Docker and Nix*, Bruno Rodrigues.](images/docker-container.svg){fig-align="center"}
-
-## Docker {#sec-docker-tradeoffs}
-
 ::::: columns
-::: {.column width="84%"}
--   Docker is very useful and widely used
-
--   But the entry cost is high (familiarity with Linux is recommended)
-
--   Single point of failure (what happens if Docker gets bought, abandoned, etc? **quite unlikely though**)
-
--   Not actually dealing with reproducibility per se, we’re “abusing” Docker in a way
-
+::: {.column width="86%"}
+**Dockerfile** (recipe) $\rightarrow$ **image** (the environment, frozen) $\rightarrow$ **container** (the image, running)
 :::
 
-::: {.column width="16%"}
-![](images/docker-logo.svg){.hex fig-align="center" width="140"}
+::: {.column width="14%"}
+![](images/docker-logo.svg){.hex fig-align="center" width="90"}
 :::
 :::::
 
-::: callout-tip
--   Can use Code Ocean instead (<https://codeocean.com/>) - costs money
--   Binder (free) and you can set it up within manuscript
-:::
+![Adapted from R-Ladies Rome (English): *Building Reproducible Pipelines with R, Docker and Nix*, Bruno Rodrigues.](images/docker-container.svg){fig-align="center"}
 
 ## Docker: rebuilding ≠ reproducing {#sec-docker-issues .code-walk}
 
@@ -294,26 +263,18 @@ RUN Rscript -e 'install.packages("brms")'   # today's CRAN
 -   **The recipe drifts**: every line fetches what's current *on build day*. Only the saved image is frozen; Nix pins the recipe itself.
 -   **You must archive the image**: often several GB, and tags on Docker Hub can move or vanish.
 -   **Same image, different CPU**: containers run on the host's processor, and OpenBLAS picks code per CPU. The last digits can still differ.
--   **Where it runs**: Intel-only images are emulated (slow) on Apple Silicon, and many university clusters don't allow Docker (Apptainer instead).
+-   **Practical costs**: Linux know-how; Intel-only images are emulated on Apple Silicon; many university clusters don't allow Docker; one company as a single point of failure.
 
+::: notes
+Lower-effort alternatives people ask about: Code Ocean (https://codeocean.com/, paid) and Binder (free, can be set up within a manuscript).
+:::
 
-## Nix/{Rix}
+## Nix/{Rix} {#sec-nix-intro}
 
--   Nix
-
-    -   Package manager: tool to install and manage *packages*
-
-    -   Package: any piece of software (not just R packages)
-
-## Nix/{Rix}
-
--   Gold standard of reproducibility: R, R packages and other dependencies must be managed
-
--   Nix is a package manager actually focused on reproducible builds
-
--   Nix deals with everything, with one single text file (called a Nix expression)!
-
-    -   These Nix expressions *always* build the exact same output
+-   **Nix** is a package manager: it installs and manages *packages*, and a package is any piece of software, not just R packages
+-   Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
+-   Every input is pinned by hash: the same expression gives the same environment, on any machine
+-   The "+ Environment" step of the gold standard
 
 ## Nix, the package manager: size {#sec-nix-size}
 
@@ -488,32 +449,9 @@ in { inherit pkgs shell; }
 :::
 :::::
 
-```{r}
-#| eval: false
-#| echo: true
-
+```r
 install.packages("rix", repos = "https://ropensci.r-universe.dev")
-
-library(rix)
-
-rix(date        = "2025-01-27",                  # date (or R version) wanted
-    r_pkgs      = c("brms", "palmerpenguins"),   # R packages
-    system_pkgs = NULL,                          # system dependencies
-    git_pkgs    = NULL,                          # GitHub packages
-    tex_pkgs    = NULL,                          # LaTeX packages
-    ide         = "code",                        # rstudio / positron / code
-    project_path = ".")                          # where to write default.nix
 ```
-
-## Nix/`Rix` {#sec-rix-list}
-
--   List required R version and packages
-
--   Optionally: more system packages, packages hosted on Github, or LaTeX packages
-
--   Optionally: an IDE (Rstudio, Radian, VS Code or “other”)
-
--   Work interactively in an (relavitely) isolated, project-specific and reproducible environment!
 
 ## Nix/`Rix`: the `rix()` call {#sec-rix-call .code-walk}
 
@@ -541,6 +479,10 @@ rix(
 ```
 
 **`date`**: becomes the snapshot line in `default.nix`, pinning *everything* to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.
+
+::: notes
+Never hand-edit the generated default.nix: all configuration flows through rix().
+:::
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
@@ -704,15 +646,6 @@ Python 3.12.14                  # pandas 3.0.4, numpy 2.5.1: same 2026-08-24 sna
 Tested on macOS (Apple Silicon): builds and runs with --pure; reticulate calls the pinned numpy.
 :::
 
-## Nix/`Rix` {#sec-rix-steps}
-
--   Steps:
-
-1.  Install Nix on your computer
-2.  `rix::rix()` generates a `default.nix` file
-3.  Build expressions using `nix-build` (in terminal) or `rix::nix_build()` from R
-4.  “Drop” into the development environment using `nix-shell`
-
 ## Nix/`Rix`: using it {#sec-rix-use}
 
 ```{.bash code-line-numbers="|1|2|3"}
@@ -721,72 +654,187 @@ nix-build            # build the environment (slow only the first time)
 nix-shell --pure --run "quarto render nix_rix_example.qmd"
 ```
 
-- Line 3 runs one command inside the environment. `--pure`: nothing from your own machine leaks in: not your R, not your packages, not `~/.cmdstan`.
-- Plain `nix-shell` drops you into the environment to work interactively.
-
-# `Rix` Example
-
-## Why Psych Pipelines Are Fragile
-
--   Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures
--   Dependency rot: R, Stan, brms, OS libraries all drift independently
--   Ad hoc scripts with no captured environment
--   "It worked on my machine" (six months ago)
-
-
-## Layer 1: Environment
-
--   Containers vs. **Nix**
--   Nix / `{rix}` gives declarative, exact, cross-platform environments
--   Real example: macOS (Apple Silicon) + Determinate Nix
-    -   Quarto/pandoc version mismatches
-    -   `rstudioWrapper` segfaults
-    -   Binary cache trust config
+- Once, beforehand: install Nix ([nixos.org/download](https://nixos.org/download/), or the Determinate Systems installer)
+- `--pure`: nothing from your own machine leaks in: not your R, not your packages, not `~/.cmdstan`
+- Plain `nix-shell` drops you into the environment to work interactively
 
 ::: notes
-Never hand-edit generated .nix files — all config flows through rix().
+Live demo here: same repo that failed earlier, now rendering inside the environment.
+Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.
 :::
 
+# Continuous Integration
 
-## Layer 2: Workflow — Quarto
+## CI: what it is {#sec-ci}
 
--   Literate programming: code + prose + output, one document
--   Parameterized reports (rerun for new datasets/conditions)
--   One source of truth from raw data to manuscript
+-   Every time you push to GitHub, **GitHub Actions** starts a fresh computer and reruns your pipeline from scratch
+-   Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
+-   Free for public repositories (a monthly allowance for private ones)
+-   "Works on my laptop" becomes **"works on a clean machine, every push"**
 
+## CI: the workflow (`render.yml`) {#sec-ci-workflow .code-walk}
 
-## Layer 3: Statistical Modeling
+```{.yaml code-line-numbers="2-5"}
+name: render-report
+on:
+  push:
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: rstats-on-nix
+      - run: nix-build
+      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: nix_rix_example.html
+```
 
--   `cmdstanR` with pinned versions
--   Explicit seeds
--   **Document your parameterization** — don't trust defaults
--   Revisit the ex-Gaussian pitfall: what changed, what it cost
+**When**: on every push, *and* every Monday morning, even if nobody touched the code. That catches things disappearing upstream.
 
+## CI: the workflow (`render.yml`) {.code-walk}
 
-## Layer 4: Continuous Verification
+```{.yaml code-line-numbers="8"}
+name: render-report
+on:
+  push:
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: rstats-on-nix
+      - run: nix-build
+      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: nix_rix_example.html
+```
 
--   GitHub Actions: does the pipeline rerun *from scratch*?
--   Not "it works on my laptop" — it works on a clean machine, every push
--   A green badge is a reproducibility claim you can point to
+**Where**: a brand-new Ubuntu machine, every run. Not your laptop, not your `~/.cmdstan`.
 
+## CI: the workflow (`render.yml`) {.code-walk}
 
-## Layer 5: Materials & Data Hosting
+```{.yaml code-line-numbers="10-14"}
+name: render-report
+on:
+  push:
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: rstats-on-nix
+      - run: nix-build
+      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: nix_rix_example.html
+```
 
--   Case study: OSF Projects being phased out
--   Lesson: don't bet your archive on one platform forever
--   Emerging split model:
-    -   **GitHub** → code, materials
-    -   **ResearchBox.org** → curated, citable data packages
--   Registered Reports as a structural incentive, not just preregistration
+**Setup**: get the code, install Nix, and pull prebuilt packages from the `rstats-on-nix` cache: minutes, not hours of compiling.
 
+## CI: the workflow (`render.yml`) {.code-walk}
 
-## Live Demo
+```{.yaml code-line-numbers="15-16"}
+name: render-report
+on:
+  push:
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: rstats-on-nix
+      - run: nix-build
+      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: nix_rix_example.html
+```
 
--   Minimal `rix()`-generated environment
--   Quarto doc rendering a Bayesian model
--   GitHub Actions badge confirming a clean rerun
+**Run**: the same two commands you run on your laptop. No `install.packages()` steps: `default.nix` *is* the environment.
 
-------------------------------------------------------------------------
+## CI: the workflow (`render.yml`) {.code-walk}
+
+```{.yaml code-line-numbers="17-20"}
+name: render-report
+on:
+  push:
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: rstats-on-nix
+      - run: nix-build
+      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: nix_rix_example.html
+```
+
+**Keep the output**: the rendered report is saved and downloadable from every run.
+
+## CI: why Nix + CI {#sec-ci-why}
+
+-   **Without Nix**, the workflow needs its own setup steps: install R, packages, CmdStan, Quarto... a *second* environment definition that can drift from yours
+-   **With Nix**, CI builds the *same* `default.nix` you use locally: one definition, used everywhere
+-   A pinned environment + a weekly run = an early warning if anything upstream vanishes (a GitHub commit, a download URL)
+
+## CI: the payoff {#sec-ci-payoff .code-walk}
+
+-   A green badge in your README: **"this analysis reran from scratch on a clean machine"**
+
+```markdown
+![render](https://github.com/USER/REPO/actions/workflows/render.yml/badge.svg)
+```
+
+-   A claim reviewers (and future you) can check with one click
+-   ❌ tells you *before* a reviewer does
+
+## Beyond the environment {#sec-beyond}
+
+-   **Workflow (Quarto)**: code, prose and output in one document, one source of truth from raw data to manuscript
+-   **Statistical modeling**: pinned `cmdstanr`, explicit seeds, documented parameterization
+-   **Materials & data hosting**: OSF Projects are being phased out; don't bet your archive on one platform
+    -   GitHub for code, ResearchBox.org for citable data
+
+::: notes
+Modeling example to mention: the ex-Gaussian parameterization pitfall (what changed, what it cost).
+Also: parameterized Quarto reports for new datasets; Registered Reports as a structural incentive, not just preregistration.
+:::
 
 ## What a Lab Can Actually Do
 
@@ -798,23 +846,18 @@ Never hand-edit generated .nix files — all config flows through rix().
 
 Reproducibility is a *ladder*, not a cliff.
 
-------------------------------------------------------------------------
-
 ## Culture, Not Just Tools
 
 -   Train RAs on environment capture from day one
 -   Make "can a stranger rerun this?" a lab norm
 -   Incentives matter more than any single tool
 
-------------------------------------------------------------------------
+## Takeaways {#sec-takeaways}
 
-## Takeaways
-
-1.  Computational reproducibility is a stack — find your weakest layer
-2.  Small, boring habits (pinning, CI, version control) beat heroic one-off fixes
-3.  Plan for platform churn (OSF → elsewhere) before it forces your hand
-
-------------------------------------------------------------------------
+1.  "Reproducible" means many things: say which one you claim, and find your weakest layer
+2.  Declare the whole environment once (`{rix}`), and let CI rerun it from scratch
+3.  Small, boring habits (pinning, CI, version control) beat heroic one-off fixes
+4.  Plan for platform churn (OSF → elsewhere) before it forces your hand
 
 ## Questions?
 
