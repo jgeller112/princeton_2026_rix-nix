@@ -18,9 +18,9 @@ resources:
 
 ![From *A manifesto for reproducible science*. https://doi.org/10.1038/s41562-016-0021](images/replication-crisis-cycle-v2.svg)
 
-## ~~Replication Crisis~~ Credibility Revolution!
+## ~~Replication Crisis~~ Credibility Revolution! {#sec-cred}
 
-![](images/sv.jpeg){fig-align="center" width="320"}
+![](images/sv-crown.png){.hex fig-align="center" width="320"}
 
 ## Open Science
 
