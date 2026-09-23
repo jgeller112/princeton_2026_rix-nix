@@ -10,6 +10,8 @@ format:
     logo: images/bc-logo.svg
     transition: fade
     incremental: false
+resources:
+  - media/rix-demo.mp4
 ---
 
 ## The Replication Crisis
