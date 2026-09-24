@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-09-23">
+  <meta name="dcterms.date" content="2026-09-24">
   <title>I swear it worked! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-09-23</p>
+  <p class="date">2026-09-24</p>
 </section>
 <section id="the-replication-crisis" class="slide level2">
 <h2>The Replication Crisis</h2>
@@ -302,14 +302,43 @@ Jason Geller, PH.D.(he/him)
 <h1>Psychology not so good 😟</h1>
 
 </section>
-<section id="why-psych-pipelines-are-fragile" class="slide level2">
-<h2>Why Psych Pipelines Are Fragile</h2>
+<section id="sec-demo-video" class="slide level2">
+<h2>Live Demo</h2>
+<video src="media/rix-demo.mp4#t=0.5" controls="" preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
+<aside class="notes">
+<p>Backup recording: a “stranger’s laptop” (empty home folder, old Quarto 1.3). Three failures: Typst needs Quarto 1.4+, palmerpenguins missing, CmdStan missing.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sec-osf-repro" class="slide level2">
+<h2>How are we doing?</h2>
+<div class="columns">
+<div class="column" style="width:32%;">
 <ul>
-<li>Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures</li>
-<li>Dependency rot: R, Stan, brms, OS libraries all drift independently</li>
-<li>Ad hoc scripts with no captured environment</li>
-<li>“It worked on my machine” (six months ago)</li>
+<li><p>Quintana (2026)</p></li>
+<li><p>Downloaded materials from OSF repos (334 papers)</p>
+<ul>
+<li><p><em>Pysch Sci</em>, <em>JML</em>, and <em>ESP</em></p></li>
+<li><p>When materials are shared, are they usable?</p></li>
+</ul></li>
 </ul>
+</div><div class="column" style="width:68%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/osf_repro.png"></p>
+<figcaption>Quintana, D. S. (2026, September 19). Shared research materials in psychology are widely downloaded but often difficult to reuse. Retrieved from osf.io/preprints/psyarxiv/yswku_v3</figcaption>
+</figure>
+</div>
+</div></div>
 </section>
 <section id="sec-spectrum" class="slide level2">
 <h2>Reproducibility Spectrum</h2>
@@ -431,23 +460,6 @@ Jason Geller, PH.D.(he/him)
 <li><strong>Models</strong>: scikit-learn 0.22 changed <code>LogisticRegression</code>’s default solver (<code>liblinear</code> → <code>lbfgs</code>): same call, different coefficients.</li>
 <li><strong>System libraries</strong>: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.</li>
 </ul>
-</section>
-<section id="sec-demo-video" class="slide level2">
-<h2>Live Demo</h2>
-<video src="media/rix-demo.mp4#t=0.5" controls="" preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
-<aside class="notes">
-<p>Backup recording: a “stranger’s laptop” (empty home folder, old Quarto 1.3). Three failures: Typst needs Quarto 1.4+, palmerpenguins missing, CmdStan missing.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="sec-env-tools" class="slide level2">
 <h2>Managing the environment</h2>

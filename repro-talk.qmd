@@ -2,7 +2,7 @@
 title: "I swear it worked! Computational Reproducibility Using Nix and rix"
 author: "Jason Geller, PH.D.(he/him)"
 date: today
-footer: "Princeton 2026"
+footer: "Princeton 2026 Seminar"
 format:
   revealjs:
     theme: [dark, brand, bc.scss]
@@ -77,12 +77,34 @@ resources:
 
 # Psychology not so good 😟
 
-## Why Psych Pipelines Are Fragile
+## Live Demo {#sec-demo-video}
 
--   Long chains: raw eye-tracking/EEG → preprocessing → modeling → figures
--   Dependency rot: R, Stan, brms, OS libraries all drift independently
--   Ad hoc scripts with no captured environment
--   "It worked on my machine" (six months ago)
+```{=html}
+<video src="media/rix-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
+```
+
+::: notes
+Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Three failures: Typst needs Quarto 1.4+, palmerpenguins missing, CmdStan missing.
+:::
+
+
+## How are we doing? {#sec-osf-repro}
+
+::::: columns
+::: {.column width="32%"}
+-   Quintana (2026)
+
+- Downloaded materials from OSF repos (334 papers)
+  - *Pysch Sci*, *JML*, and *ESP*
+
+  - When materials are shared, are they usable?
+:::
+
+::: {.column width="68%"}
+![Quintana, D. S. (2026, September 19). Shared research materials in psychology are widely downloaded but often difficult to reuse. Retrieved from osf.io/preprints/psyarxiv/yswku_v3](images/osf_repro.png){fig-align="center"}
+
+:::
+:::::
 
 ## Reproducibility Spectrum {#sec-spectrum}
 
@@ -202,15 +224,6 @@ x = np.float32(0.1) + 0.2
 - **Models**: scikit-learn 0.22 changed `LogisticRegression`'s default solver (`liblinear` → `lbfgs`): same call, different coefficients.
 - **System libraries**: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.
 
-## Live Demo {#sec-demo-video}
-
-```{=html}
-<video src="media/rix-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
-```
-
-::: notes
-Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Three failures: Typst needs Quarto 1.4+, palmerpenguins missing, CmdStan missing.
-:::
 
 ## Managing the environment {#sec-env-tools}
 
@@ -859,6 +872,8 @@ Reproducibility is a *ladder*, not a cliff.
 3.  Small, boring habits (pinning, CI, version control) beat heroic one-off fixes
 4.  Plan for platform churn (OSF → elsewhere) before it forces your hand
 
-## Questions?
+## Thanks!
 
-Thanks!
+- Intertsed in learning more about nix and rix check out my tutorial paper with Felipe Vieira and Burno Rodrigues: 
+
+Vieira, F. F., Geller, J., & Rodrigues, B. (2026, January 28). Why risk it, when you can {rix} it: A tutorial for computational reproducibility focused on simulation studies. Retrieved from osf.io/preprints/psyarxiv/a3e8v_v1.
