@@ -204,3 +204,20 @@ $code-block-font-size: 0.62em;
 .reveal section.code-walk > ul {
   font-size: 0.8em;
 }
+
+// Big-statement text: wrap in ::: {.larger}
+.reveal .larger {
+  font-size: 1.6em;
+  line-height: 1.3;
+}
+
+// Logos inside a line of text (e.g. the R logo in a sentence)
+.reveal section img.inline-logo {
+  display: inline-block;
+  height: 1.1em;
+  width: auto;
+  margin: 0 0.1em;
+  vertical-align: -0.15em;
+  box-shadow: none;
+  border-radius: 0;
+}

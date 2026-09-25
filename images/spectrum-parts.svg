@@ -1,0 +1,16 @@
+<svg width="1400" height="420" viewBox="0 0 1400 420" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+<rect width="1400" height="420" fill="#FFFFFF"/>
+<polygon points="80,190.0 328,167.6 328,212.4 80,190.0" fill="#B9E3CF" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+<text x="204.0" y="352" text-anchor="middle" font-size="25" fill="#333333">Code</text>
+<polygon points="328,167.6 576,145.2 576,234.8 328,212.4" fill="#86CDAE" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+<text x="452.0" y="352" text-anchor="middle" font-size="25" fill="#333333">+ Data</text>
+<polygon points="576,145.2 824,122.8 824,257.2 576,234.8" fill="#4FB08A" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+<text x="700.0" y="352" text-anchor="middle" font-size="25" fill="#333333">+ Documentation</text>
+<polygon points="824,122.8 1072,100.4 1072,279.6 824,257.2" fill="#23906A" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+<text x="948.0" y="352" text-anchor="middle" font-size="25" fill="#333333">+ Article</text>
+<polygon points="1072,100.4 1320,78.0 1320,302.0 1072,279.6" fill="#0E6B50" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+<text x="1196.0" y="352" text-anchor="middle" font-size="25" fill="#333333">+ Environment</text>
+<text x="20" y="150" font-size="26" font-weight="bold" fill="#1A1A1A">Not reproducible</text>
+<text x="1320" y="60.0" text-anchor="end" font-size="26" font-weight="bold" fill="#1A1A1A">Gold standard</text>
+<rect x="1058" y="70.0" width="276" height="302.0" rx="14" fill="none" stroke="#98002E" stroke-width="6"/>
+</svg>

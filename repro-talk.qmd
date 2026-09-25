@@ -9,10 +9,17 @@ format:
     slide-number: true
     logo: images/bc-logo.svg
     transition: fade
-    incremental: false
+    incremental: true
 resources:
   - media/rix-demo.mp4
 ---
+
+## Disclaimer {#sec-disclaimer}
+
+::: {.larger}
+I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
+:::
+
 
 ## The Replication Crisis
 
@@ -28,23 +35,25 @@ resources:
 ::: {.column width="50%"}
 <br>
 
--   Being open and transparent across all stages of the research process
+- Being open and transparent across all stages of the research process
 
-    -   Key components:
+  - Key components:
 
-        -   Dissemnation
+    - Dissemnation
 
-        -   Stance
+    - Stance
 
-        -   ***Workflow***
+    - ***Workflow***
 
-            -   Is your entire project pipeline reproducible?
+      - Is your entire project pipeline reproducible?
 :::
 
 ::: {.column width="50%"}
 <br>
 
+::: {.fragment}
 ![Reproducible research practices and transparency across linguistics. *Glossa Psycholinguistics*, 2(1), November 2023. https://doi.org/10.5070/G6011239](images/os.jpg){fig-align="center" width="432"}
+:::
 :::
 :::::
 
@@ -55,29 +64,11 @@ resources:
 | Same Analysis      | **Reproducible** | **Replicable**    |
 | Different Analysis | **Robust**       | **Generalisable** |
 
+| Computational Reproducubility
+
 ▎ "Someone else, on another computer, years later, can rerun my code on my data and get my results."
 
-## How are we doing? {#sec-howdoing}
-
-::::: columns
-::: {.column width="32%"}
--   SCORE reproduciibiliy project
-
-    -   600 papers across 62 journals from several different fields examined between 2009-2018
-:::
-
-::: {.column width="68%"}
-![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig2_psych.png){.bigfig fig-align="center"}
-:::
-:::::
-
-## How are we doing?
-
-![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig3_HTML.webp){fig-align="center"}
-
-# Psychology not so good 😟
-
-## Live Demo {#sec-demo-video}
+## Demo {#sec-demo-video}
 
 ```{=html}
 <video src="media/rix-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
@@ -88,67 +79,98 @@ Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Thr
 :::
 
 
+## How are we doing? {#sec-howdoing}
+
+::::: columns
+::: {.column width="32%"}
+- SCORE reproduciibiliy project
+
+  - 600 papers across 62 journals from several different fields examined between 2009-2018
+:::
+
+::: {.column width="68%"}
+::: {.fragment}
+![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig2_psych.png){.bigfig fig-align="center"}
+:::
+:::
+:::::
+
+## How are we doing?
+
+![Miske, O., Abatayo, A.L., Daley, M. *et al.* Investigating the reproducibility of the social and behavioural sciences. *Nature* **652**, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5](images/41586_2026_10203_Fig3_HTML.webp){fig-align="center"}
+
 ## How are we doing? {#sec-osf-repro}
 
 ::::: columns
 ::: {.column width="32%"}
--   Quintana (2026)
+- Quintana (2026)
 
 - Downloaded materials from OSF repos (334 papers)
+
   - *Pysch Sci*, *JML*, and *ESP*
 
   - When materials are shared, are they usable?
 :::
 
 ::: {.column width="68%"}
+::: {.fragment}
 ![Quintana, D. S. (2026, September 19). Shared research materials in psychology are widely downloaded but often difficult to reuse. Retrieved from osf.io/preprints/psyarxiv/yswku_v3](images/osf_repro.png){fig-align="center"}
-
+:::
 :::
 :::::
 
+# Psychology not so good 😟
+
 ## Reproducibility Spectrum {#sec-spectrum}
 
-![](images/reproducibility_spectrum_final.png){fig-align="center"}
+![](images/spectrum-parts.svg){fig-align="center"}
 
 ## Which "reproducible"? {#sec-repro-blocks}
 
-![Source: [ADD SOURCE]](images/repro-blocks.png){.hex fig-align="center"}
+![Adapted from \[ADD SOURCE\]](images/env-grid.svg){.hex fig-align="center"}
 
 ::: notes
-Each quote covers only one box. Openness = layer 5, Pipeline = layer 2, the grid = layer 1 (environment).
-Point back here later: Docker's saved image covers "across space" but a rebuild breaks "across time";
-the Malka et al. evidence slide reports exactly these rows (rebuildable, bitwise, functional).
+Transition: last slide, the final step to the gold standard was the environment. But what does "my environment is reproducible" actually mean?
+
+Grid (don't read every cell): two directions, across space (another machine/OS, today) and across time (years from now). Three levels: the build succeeds, the result is the same, the bytes are the same (strictest; numbers later on the Malka et al. slide).
+
+Punchline: most tools cover only one or two of these six boxes. The question isn't "is it reproducible?" but "WHICH BOXES?" When we get to specific tools later, we'll come back to this grid.
+
+Hand-off: "Let's start with how the environment breaks." -> Environment Fragility
 :::
 
 ## Enviorment Fragility
 
-Setting bitwise reproducibility aside, even error-free R code sits on top of 
-four layers, each of which may drift over space and time:
+Setting bitwise reproducibility aside, even error-free R code sits on top of four layers, each of which may drift over space and time:
 
-1. **R version**
-2. **R packages**
-3. **Document tools**: e.g., Pandoc, LaTeX, Quarto
-4. **System libraries and compilers**: e.g., gcc, libpng, BLAS/LAPACK
+1.  **R version**
+2.  **R packages**
+3.  **Document tools**: e.g., Pandoc, LaTeX, Quarto
+4.  **System libraries and compilers**: e.g., gcc, libpng, BLAS/LAPACK
 
 ## 1. R version {#sec-env-r}
 
-- **Syntax**: the native pipe `|>` exists only since R 4.1.0. 
+- **Syntax**: the native pipe `|>` exists only since R 4.1.0.
 - **Defaults**: R 4.0.0 stopped turning strings into factors. Same code, different object:
 
-```r
+::: {.fragment}
+``` r
 df <- data.frame(group = c("a", "b"))
 class(df$group); as.numeric(df$group)
 #> R 3.6.3:  "factor"      1  2       (stringsAsFactors = TRUE)
 #> R 4.0.0+: "character"  NA NA       (stringsAsFactors = FALSE)
 ```
+:::
 
 - **Random numbers**: R 3.6.0 changed how `sample()` draws. Same seed, different draws:
 
-```r
+::: {.fragment}
+``` r
 set.seed(123); sample(1:10, 3)
 #> R 3.5.3:   3  8  4        (sample.kind = "Rounding")
 #> R 3.6.0+:  3 10  2        (sample.kind = "Rejection")
 ```
+:::
 
 ## 2. R packages {#sec-env-pkgs}
 
@@ -160,9 +182,11 @@ set.seed(123); sample(1:10, 3)
 - Pandoc and LaTeX, called by Quarto (also outside R) or by `{rmarkdown}`. Each has its own version.
 - From this talk's demo: HTML fine, PDF failed until one more LaTeX package was declared:
 
-```
+::: {.fragment}
+```         
 LaTeX Error: File `lualatex-math.sty' not found.
 ```
+:::
 
 ## 4. System libraries and compilers {#sec-env-sys}
 
@@ -174,56 +198,55 @@ LaTeX Error: File `lualatex-math.sty' not found.
 
 - Based on an illustration by Danielle Navarro; eigenvector sign flip in the system's BLAS/LAPACK (`MASS::mvrnorm()` is not invariant, `mvtnorm::rmvnorm()` fine).
 
-```
+::: {.fragment}
+```         
 == MASS (native R) ==
   macOS:    0.28780065222640439   0.59425558497432929  -0.25961849316812602  -2.3918999759288693
   Ubuntu:  -0.43918332712576574   0.25608933342594919   0.85420518537273971  -2.2883238259260961
   Windows: -0.43918332712576580   0.25608933342594914   0.85420518537273971  -2.2883238259260965
   => DIVERGE
 ```
+:::
 
 ## Python, too: language version {#sec-py-version .smaller}
 
 - **Syntax**: `match` statements exist only since Python 3.10, the walrus `:=` since 3.8.
-- **Random numbers**: sampling from a set works in 3.10, but the draws depend on set order, which changes *every run* (string hashing). In 3.11+ it errors:
+- **Random numbers**: sampling from a set works in 3.10, but the draws depend on set order, which changes *every run*. In 3.11+ it errors:
 
-```python
+::: {.fragment}
+``` python
 import random; random.seed(1); random.sample({"a", "b", "c"}, 2)
 #> Python 3.10:  ['a', 'b']   (or ['c', 'a'], ... depends on the run)
 #> Python 3.11+: TypeError: Population must be a sequence.  For dicts or sets, use sorted(d).
 ```
-
-- **Hashing**: same code, same machine, different order each run (unless `PYTHONHASHSEED` is set):
-
-```python
-print(list({"apple", "banana", "cherry"}))
-#> run 1: ['cherry', 'apple', 'banana']
-#> run 2: ['apple', 'cherry', 'banana']
-```
+:::
 
 ## Python, too: packages {#sec-py-pkgs .smaller}
 
 - **Changed defaults, loud**: pandas 2.0 stopped silently dropping text columns:
 
-```python
+::: {.fragment}
+``` python
 df = pd.DataFrame({"group": ["a", "a", "b"], "subject": ["s1", "s2", "s3"], "rt": [500, 520, 610]})
 df.groupby("group").mean()
 #> pandas 1.5: mean rt per group    (subject column quietly dropped)
 #> pandas 2.0+: TypeError: agg function failed [how->mean,dtype->object]
 ```
+:::
 
 - **Changed defaults, silent**: numpy 2.0 changed type promotion. No error, different number:
 
-```python
+::: {.fragment}
+``` python
 x = np.float32(0.1) + 0.2
 #> numpy 1.26: 0.30000000149011613   (float64)
 #> numpy 2.0+: 0.3                   (float32)
 ```
+:::
 
 - **Removed**: `np.float` was removed in numpy 1.24, `DataFrame.append()` in pandas 2.0.
 - **Models**: scikit-learn 0.22 changed `LogisticRegression`'s default solver (`liblinear` → `lbfgs`): same call, different coefficients.
 - **System libraries**: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.
-
 
 ## Managing the environment {#sec-env-tools}
 
@@ -235,21 +258,29 @@ x = np.float32(0.1) + 0.2
 
 ::::: columns
 ::: {.column width="72%"}
--   Most popular package for reproducibility, and very easy to use:
+- Most popular package for reproducibility, and very easy to use:
 
-    -   `renv::init()` snapshots the packages used (and their versions) into `renv.lock`
+  - `renv::init()` snapshots the packages used (and their versions) into `renv.lock`
 
-    -   `renv::restore()` reinstalls them
+  - `renv::restore()` reinstalls them
 
--   **But** it records, and does not restore, the version of R
+- **But** it records, and does not restore, the version of R
 
--   **But** installing old packages can fail (missing OS dependencies)
+- **But** installing old packages can fail (missing OS dependencies)
 :::
 
 ::: {.column width="28%"}
 ![](images/renv.png){.hex fig-align="center" width="220"}
 :::
 :::::
+
+## `Renv`: which boxes? {#sec-renv-boxes}
+
+![](images/scorecard-renv.svg){.hex fig-align="center"}
+
+::: notes
+renv pins package versions, but not R itself or the system libraries underneath, so everything is "partly". Bitwise isn't addressed.
+:::
 
 ## Docker: what a container does {#sec-docker}
 
@@ -267,27 +298,35 @@ x = np.float32(0.1) + 0.2
 
 ## Docker: rebuilding ≠ reproducing {#sec-docker-issues .code-walk}
 
-```dockerfile
+``` dockerfile
 FROM rocker/r-ver:latest                    # which R? whatever "latest" means today
 RUN apt-get update && apt-get install -y libxml2-dev   # today's Ubuntu libraries
 RUN Rscript -e 'install.packages("brms")'   # today's CRAN
 ```
 
--   **The recipe drifts**: every line fetches what's current *on build day*. Only the saved image is frozen; Nix pins the recipe itself.
--   **You must archive the image**: often several GB, and tags on Docker Hub can move or vanish.
--   **Same image, different CPU**: containers run on the host's processor, and OpenBLAS picks code per CPU. The last digits can still differ.
--   **Practical costs**: Linux know-how; Intel-only images are emulated on Apple Silicon; many university clusters don't allow Docker; one company as a single point of failure.
+- **The recipe drifts**: every line fetches what's current *on build day*. Only the saved image is frozen; Nix pins the recipe itself.
+- **You must archive the image**: often several GB, and tags on Docker Hub can move or vanish.
+- **Same image, different CPU**: containers run on the host's processor, and OpenBLAS picks code per CPU. The last digits can still differ.
+- **Practical costs**: Linux know-how; Intel-only images are emulated on Apple Silicon; many university clusters don't allow Docker; one company as a single point of failure.
 
 ::: notes
 Lower-effort alternatives people ask about: Code Ocean (https://codeocean.com/, paid) and Binder (free, can be set up within a manuscript).
 :::
 
+## Docker: which boxes? {#sec-docker-boxes}
+
+![](images/scorecard-docker.svg){.hex fig-align="center"}
+
+::: notes
+Strong across space: pull the saved image anywhere. Weak across time: rebuilding the Dockerfile drifts; results only survive if you archived the image.
+:::
+
 ## Nix/{Rix} {#sec-nix-intro}
 
--   **Nix** is a package manager: it installs and manages *packages*, and a package is any piece of software, not just R packages
--   Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
--   Every input is pinned by hash: the same expression gives the same environment, on any machine
--   The "+ Environment" step of the gold standard
+- **Nix** is a package manager: it installs and manages *packages*, and a package is any piece of software, not just R packages
+- Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
+- Every input is pinned by hash: the same expression gives the same environment, on any machine
+- The "+ Environment" step of the gold standard
 
 ## Nix, the package manager: size {#sec-nix-size}
 
@@ -305,9 +344,17 @@ Malka, Zacchiroli, & Zimmermann (2025) rebuilt **709,816 packages** from `nixpkg
 Malka, Zacchiroli, & Zimmermann (2025)
 :::
 
+## Nix: which boxes? {#sec-nix-boxes}
+
+![](images/scorecard-nix.svg){.hex fig-align="center"}
+
+::: notes
+Numbers from the previous slide (Malka et al.): rebuildable 99.7-99.9%; bitwise 69% (2017) to 91% (2023). The one "partly" is the strictest level.
+:::
+
 ## Nix: a Nix expression (`default.nix`) {#sec-rix-nix .code-walk}
 
-```{.nix code-line-numbers="2-3"}
+``` {.nix code-line-numbers="2-3"}
 let
   pkgs = import (fetchTarball
     "https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz") {};
@@ -336,7 +383,7 @@ in { inherit pkgs shell; }
 
 ## Nix: a Nix expression (`default.nix`) {.code-walk}
 
-```{.nix code-line-numbers="4-6"}
+``` {.nix code-line-numbers="4-6"}
 let
   pkgs = import (fetchTarball
     "https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz") {};
@@ -365,7 +412,7 @@ in { inherit pkgs shell; }
 
 ## Nix: a Nix expression (`default.nix`) {#sec-nix-cmdstanr .code-walk}
 
-```{.nix code-line-numbers="7-14"}
+``` {.nix code-line-numbers="7-14"}
 let
   pkgs = import (fetchTarball
     "https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz") {};
@@ -394,7 +441,7 @@ in { inherit pkgs shell; }
 
 ## Nix: a Nix expression (`default.nix`) {.code-walk}
 
-```{.nix code-line-numbers="15-17"}
+``` {.nix code-line-numbers="15-17"}
 let
   pkgs = import (fetchTarball
     "https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz") {};
@@ -423,7 +470,7 @@ in { inherit pkgs shell; }
 
 ## Nix: a Nix expression (`default.nix`) {#sec-nix-shell .code-walk}
 
-```{.nix code-line-numbers="18-21"}
+``` {.nix code-line-numbers="18-21"}
 let
   pkgs = import (fetchTarball
     "https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz") {};
@@ -454,7 +501,7 @@ in { inherit pkgs shell; }
 
 ::::: columns
 ::: {.column width="78%"}
--   `{rix}` ([website](https://docs.ropensci.org/rix/)) makes writing Nix expressions easy: one R function, `rix()`
+- `{rix}` ([website](https://docs.ropensci.org/rix/)) makes writing Nix expressions easy: one R function, `rix()`
 :::
 
 ::: {.column width="22%"}
@@ -462,13 +509,15 @@ in { inherit pkgs shell; }
 :::
 :::::
 
-```r
+::: {.fragment}
+``` r
 install.packages("rix", repos = "https://ropensci.r-universe.dev")
 ```
+:::
 
 ## Nix/`Rix`: the `rix()` call {#sec-rix-call .code-walk}
 
-```{.r code-line-numbers="4"}
+``` {.r code-line-numbers="4"}
 library(rix)
 
 rix(
@@ -499,7 +548,7 @@ Never hand-edit the generated default.nix: all configuration flows through rix()
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
-```{.r code-line-numbers="5"}
+``` {.r code-line-numbers="5"}
 library(rix)
 
 rix(
@@ -526,7 +575,7 @@ rix(
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
-```{.r code-line-numbers="6-10"}
+``` {.r code-line-numbers="6-10"}
 library(rix)
 
 rix(
@@ -549,11 +598,11 @@ rix(
 )
 ```
 
-**`git_pkgs`**: packages that aren't on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not \"whatever is on GitHub today\".
+**`git_pkgs`**: packages that aren't on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not "whatever is on GitHub today".
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
-```{.r code-line-numbers="11"}
+``` {.r code-line-numbers="11"}
 library(rix)
 
 rix(
@@ -580,7 +629,7 @@ rix(
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
-```{.r code-line-numbers="12-16"}
+``` {.r code-line-numbers="12-16"}
 library(rix)
 
 rix(
@@ -607,7 +656,7 @@ rix(
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
-```{.r code-line-numbers="17-19"}
+``` {.r code-line-numbers="17-19"}
 library(rix)
 
 rix(
@@ -634,7 +683,7 @@ rix(
 
 ## Nix/`Rix`: Python too {#sec-rix-python .code-walk}
 
-```{.r code-line-numbers="4-7"}
+``` {.r code-line-numbers="4-7"}
 rix(
   date    = "2026-08-24",
   r_pkgs  = c("brms", "reticulate"),
@@ -648,7 +697,7 @@ rix(
 )
 ```
 
-```{.bash}
+``` bash
 $ nix-shell --pure --run 'python --version'
 Python 3.12.14                  # pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot
 ```
@@ -661,7 +710,7 @@ Tested on macOS (Apple Silicon): builds and runs with --pure; reticulate calls t
 
 ## Nix/`Rix`: using it {#sec-rix-use}
 
-```{.bash code-line-numbers="|1|2|3"}
+``` {.bash code-line-numbers="|1|2|3"}
 Rscript gen-env.R    # rix() writes default.nix
 nix-build            # build the environment (slow only the first time)
 nix-shell --pure --run "quarto render nix_rix_example.qmd"
@@ -672,198 +721,92 @@ nix-shell --pure --run "quarto render nix_rix_example.qmd"
 - Plain `nix-shell` drops you into the environment to work interactively
 
 ::: notes
-Live demo here: same repo that failed earlier, now rendering inside the environment.
-Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.
+Live demo here: same repo that failed earlier, now rendering inside the environment. Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.
 :::
+
+## {Rix} not perfect
+
+- Misdeclared dependencies: an R package wrongly listed a dependency under 
+  Imports when it belonged in Suggests.
+
+-  Parsing bug: a dependency written as R(\>= x) with no space and a package
+   whose name ends in R. Fixed already in the GitHub development version.
+
+- macOS: the description stays valid, but an OS update can break today’s build.
+  Recommendation: build inside a dockerfile.
+
+- Isolation: use nix-shell --pure, so the shell sees only the declared
+  environment and not software installed on the host.
 
 # Continuous Integration
 
 ## CI: what it is {#sec-ci}
 
--   Every time you push to GitHub, **GitHub Actions** starts a fresh computer and reruns your pipeline from scratch
--   Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
--   Free for public repositories (a monthly allowance for private ones)
--   "Works on my laptop" becomes **"works on a clean machine, every push"**
+- Every time you push to GitHub, **GitHub Actions** starts a fresh computer and reruns your pipeline from scratch
+- Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
+- Free for public repositories (a monthly allowance for private ones)
+- "Works on my laptop" becomes **"works on a clean machine, every push"**
 
-## CI: the workflow (`render.yml`) {#sec-ci-workflow .code-walk}
+## CI: checking *across time* {#sec-ci-time}
 
-```{.yaml code-line-numbers="2-5"}
-name: render-report
-on:
-  push:
-  schedule:
-    - cron: "0 6 * * 1"
-jobs:
-  render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
-      - uses: cachix/cachix-action@v17
-        with:
-          name: rstats-on-nix
-      - run: nix-build
-      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
-      - uses: actions/upload-artifact@v7
-        with:
-          name: report
-          path: nix_rix_example.html
-```
+::::: columns
+::: {.column width="64%"}
+::: {.fragment}
+![Adapted from \[ADD SOURCE\]](images/env-grid-time.svg){.hex fig-align="center"}
+:::
+:::
 
-**When**: on every push, *and* every Monday morning, even if nobody touched the code. That catches things disappearing upstream.
-
-## CI: the workflow (`render.yml`) {.code-walk}
-
-```{.yaml code-line-numbers="8"}
-name: render-report
-on:
-  push:
-  schedule:
-    - cron: "0 6 * * 1"
-jobs:
-  render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
-      - uses: cachix/cachix-action@v17
-        with:
-          name: rstats-on-nix
-      - run: nix-build
-      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
-      - uses: actions/upload-artifact@v7
-        with:
-          name: report
-          path: nix_rix_example.html
-```
-
-**Where**: a brand-new Ubuntu machine, every run. Not your laptop, not your `~/.cmdstan`.
-
-## CI: the workflow (`render.yml`) {.code-walk}
-
-```{.yaml code-line-numbers="10-14"}
-name: render-report
-on:
-  push:
-  schedule:
-    - cron: "0 6 * * 1"
-jobs:
-  render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
-      - uses: cachix/cachix-action@v17
-        with:
-          name: rstats-on-nix
-      - run: nix-build
-      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
-      - uses: actions/upload-artifact@v7
-        with:
-          name: report
-          path: nix_rix_example.html
-```
-
-**Setup**: get the code, install Nix, and pull prebuilt packages from the `rstats-on-nix` cache: minutes, not hours of compiling.
-
-## CI: the workflow (`render.yml`) {.code-walk}
-
-```{.yaml code-line-numbers="15-16"}
-name: render-report
-on:
-  push:
-  schedule:
-    - cron: "0 6 * * 1"
-jobs:
-  render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
-      - uses: cachix/cachix-action@v17
-        with:
-          name: rstats-on-nix
-      - run: nix-build
-      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
-      - uses: actions/upload-artifact@v7
-        with:
-          name: report
-          path: nix_rix_example.html
-```
-
-**Run**: the same two commands you run on your laptop. No `install.packages()` steps: `default.nix` *is* the environment.
-
-## CI: the workflow (`render.yml`) {.code-walk}
-
-```{.yaml code-line-numbers="17-20"}
-name: render-report
-on:
-  push:
-  schedule:
-    - cron: "0 6 * * 1"
-jobs:
-  render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: cachix/install-nix-action@v31
-      - uses: cachix/cachix-action@v17
-        with:
-          name: rstats-on-nix
-      - run: nix-build
-      - run: nix-shell --pure --run "quarto render nix_rix_example.qmd"
-      - uses: actions/upload-artifact@v7
-        with:
-          name: report
-          path: nix_rix_example.html
-```
-
-**Keep the output**: the rendered report is saved and downloadable from every run.
+::: {.column width="36%"}
+-   Every week, a fresh machine rebuilds from `default.nix`: **the same description still builds**
+-   Add a check that key estimates match saved values: **same result, years later**
+:::
+:::::
 
 ## CI: why Nix + CI {#sec-ci-why}
 
--   **Without Nix**, the workflow needs its own setup steps: install R, packages, CmdStan, Quarto... a *second* environment definition that can drift from yours
--   **With Nix**, CI builds the *same* `default.nix` you use locally: one definition, used everywhere
--   A pinned environment + a weekly run = an early warning if anything upstream vanishes (a GitHub commit, a download URL)
+- **Without Nix**, the workflow needs its own setup steps: install R, packages, CmdStan, Quarto... a *second* environment definition that can drift from yours
+- **With Nix**, CI builds the *same* `default.nix` you use locally: one definition, used everywhere
+- A pinned environment + a weekly run = an early warning if anything upstream vanishes (a GitHub commit, a download URL)
 
 ## CI: the payoff {#sec-ci-payoff .code-walk}
 
--   A green badge in your README: **"this analysis reran from scratch on a clean machine"**
+- A green badge in your README: **"this analysis reran from scratch on a clean machine"**
 
-```markdown
+::: {.fragment}
+``` markdown
 ![render](https://github.com/USER/REPO/actions/workflows/render.yml/badge.svg)
 ```
+:::
 
--   A claim reviewers (and future you) can check with one click
--   ❌ tells you *before* a reviewer does
+- A claim reviewers (and future you) can check with one click
+- ❌ tells you *before* a reviewer does
 
 ## Beyond the environment {#sec-beyond}
 
--   **Workflow (Quarto)**: code, prose and output in one document, one source of truth from raw data to manuscript
--   **Statistical modeling**: pinned `cmdstanr`, explicit seeds, documented parameterization
--   **Materials & data hosting**: OSF Projects are being phased out; don't bet your archive on one platform
-    -   GitHub for code, ResearchBox.org for citable data
+- **Workflow (Quarto)**: code, prose and output in one document, one source of truth from raw data to manuscript
+- **Statistical modeling**: pinned `cmdstanr`, explicit seeds, documented parameterization
+- **Materials & data hosting**: OSF Projects are being phased out; don't bet your archive on one platform
+  - GitHub and Zenodo
 
 ::: notes
-Modeling example to mention: the ex-Gaussian parameterization pitfall (what changed, what it cost).
-Also: parameterized Quarto reports for new datasets; Registered Reports as a structural incentive, not just preregistration.
+Modeling example to mention: the ex-Gaussian parameterization pitfall (what changed, what it cost). Also: parameterized Quarto reports for new datasets; Registered Reports as a structural incentive, not just preregistration.
 :::
 
 ## What a Lab Can Actually Do
 
 **Not ready for Nix?** Start smaller:
 
--   `renv` for R dependency snapshots
--   Docker for a shared environment
--   A basic GitHub Actions check that the analysis still runs
+- `renv` for R dependency snapshots
+- Docker for a shared environment
+- A basic GitHub Actions check that the analysis still runs
 
 Reproducibility is a *ladder*, not a cliff.
 
 ## Culture, Not Just Tools
 
--   Train RAs on environment capture from day one
--   Make "can a stranger rerun this?" a lab norm
--   Incentives matter more than any single tool
+- Train RAs on environment capture from day one
+- Make "can a stranger rerun this?" a lab norm
+- Incentives matter more than any single tool
 
 ## Takeaways {#sec-takeaways}
 
@@ -874,6 +817,12 @@ Reproducibility is a *ladder*, not a cliff.
 
 ## Thanks!
 
-- Intertsed in learning more about nix and rix check out my tutorial paper with Felipe Vieira and Burno Rodrigues: 
+- Intertsed in learning more about nix and rix check out my tutorial paper with Felipe Vieira and Burno Rodrigues:
+
+::: {.fragment}
+::: callout-note
+## Forthcoming in *AMPPS*
 
 Vieira, F. F., Geller, J., & Rodrigues, B. (2026, January 28). Why risk it, when you can {rix} it: A tutorial for computational reproducibility focused on simulation studies. Retrieved from osf.io/preprints/psyarxiv/a3e8v_v1.
+:::
+:::
