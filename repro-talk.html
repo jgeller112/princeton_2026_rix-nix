@@ -10,8 +10,8 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-09-25">
-  <title>I swear it worked! Computational Reproducibility Using Nix and rix</title>
+  <meta name="dcterms.date" content="2026-09-28">
+  <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-03559407a41cc6418c4d974a259cf0fc.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-704d8a7781c2b08a0fdc92c412a21ac4.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -200,7 +200,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">I swear it worked! Computational Reproducibility Using Nix and rix</h1>
+  <h1 class="title">I swear it worked on my computer! Computational Reproducibility Using Nix and rix</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-09-25</p>
+  <p class="date">2026-09-28</p>
 </section>
 <section id="sec-disclaimer" class="slide level2">
 <h2>Disclaimer</h2>
@@ -218,10 +218,10 @@ Jason Geller, PH.D.(he/him)
 <p>I will mostly be using <img data-src="images/Rlogo.svg" class="inline-logo" alt="R"> examples.</p>
 </div>
 </section>
-<section id="the-replication-crisis" class="slide level2">
-<h2>The Replication Crisis</h2>
-
-<img data-src="images/replication-crisis-cycle-v2.svg" class="r-stretch quarto-figure-center"><p class="caption">From <em>A manifesto for reproducible science</em>. https://doi.org/10.1038/s41562-016-0021</p></section>
+<section id="the-replication-crisismunafo" class="slide level2">
+<h2>The Replication Crisis<sup>1</sup></h2>
+<p><img data-src="images/replication-crisis-cycle-v2.svg"></p>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Munafò, M. R., Nosek, B. A., Bishop, D. V. M., et al.&nbsp;(2017). A manifesto for reproducible science. <em>Nature Human Behaviour</em>, <em>1</em>, 0021. <a href="https://doi.org/10.1038/s41562-016-0021" class="uri">https://doi.org/10.1038/s41562-016-0021</a></p></li></ol></aside></section>
 <section id="sec-cred" class="slide level2">
 <h2><del>Replication Crisis</del> Credibility Revolution!</h2>
 
@@ -232,7 +232,7 @@ Jason Geller, PH.D.(he/him)
 <div class="column" style="width:50%;">
 <p><br></p>
 <ul>
-<li class="fragment"><p>Being open and transparent across all stages of the research process</p>
+<li class="fragment"><p>Being open and transparent across all stages of the research process<sup>1</sup></p>
 <ul>
 <li class="fragment"><p>Key components:</p>
 <ul>
@@ -250,15 +250,14 @@ Jason Geller, PH.D.(he/him)
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/os.jpg" width="432"></p>
-<figcaption>Reproducible research practices and transparency across linguistics. <em>Glossa Psycholinguistics</em>, 2(1), November 2023. https://doi.org/10.5070/G6011239</figcaption>
+<p><img data-src="images/os.jpg" class="quarto-figure quarto-figure-center" width="432"></p>
 </figure>
 </div>
 </div>
 </div></div>
-</section>
-<section id="what-is-reproduciblity" class="slide level2">
-<h2>What is Reproduciblity?</h2>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Figure from Bochynska, A., Keeble, L., Halfacre, C., et al.&nbsp;(2023). Reproducible research practices and transparency across linguistics. <em>Glossa Psycholinguistics</em>, <em>2</em>(1). <a href="https://doi.org/10.5070/G6011239" class="uri">https://doi.org/10.5070/G6011239</a></p></li></ol></aside></section>
+<section id="what-is-reproducibility" class="slide level2">
+<h2>What is Reproducibility?</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -280,8 +279,30 @@ Jason Geller, PH.D.(he/him)
 </tr>
 </tbody>
 </table>
-<div class="line-block">Computational Reproducubility</div>
-<p>▎ “Someone else, on another computer, years later, can rerun my code on my data and get my results.”</p>
+<ul>
+<li class="fragment"><p>Computational Reproducibility</p>
+<ul>
+<li class="fragment">“Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and conditions of analysis”<sup>1</sup></li>
+</ul></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Schultze, A., Saul, L., Roesch, E., et al.&nbsp;(2026). <em>Computational reproducibility: A primer from UKRN</em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.19232891" class="uri">https://doi.org/10.5281/zenodo.19232891</a></p></li></ol></aside></section>
+<section id="sec-spectrum" class="slide level2">
+<h2>Reproducibility Spectrum</h2>
+
+<img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
+<p>The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard.</p>
+<p>Keep this ladder in mind: each study coming up breaks at a different step.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="sec-demo-video" class="slide level2">
 <h2>Demo</h2>
@@ -301,39 +322,69 @@ Jason Geller, PH.D.(he/him)
       }</style></aside>
 </section>
 <section id="sec-howdoing" class="slide level2">
-<h2>How are we doing?</h2>
-<div class="columns">
-<div class="column" style="width:32%;">
+<h2>Psychology: about half reproduce<sup>1</sup></h2>
 <ul>
-<li class="fragment"><p>SCORE reproduciibiliy project</p>
-<ul>
-<li class="fragment">600 papers across 62 journals from several different fields examined between 2009-2018</li>
-</ul></li>
+<li>SCORE: 600 papers, 62 journals, several fields (2009-2018)</li>
 </ul>
-</div><div class="column" style="width:68%;">
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/41586_2026_10203_Fig2_psych.png" class="bigfig"></p>
-<figcaption>Miske, O., Abatayo, A.L., Daley, M. <em>et al.</em> Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em> <strong>652</strong>, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5</figcaption>
+<p><img data-src="images/psych_repro_box.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
-</div></div>
-</section>
-<section id="how-are-we-doing" class="slide level2">
-<h2>How are we doing?</h2>
-
-<img data-src="images/41586_2026_10203_Fig3_HTML.webp" class="r-stretch quarto-figure-center"><p class="caption">Miske, O., Abatayo, A.L., Daley, M. <em>et al.</em> Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em> <strong>652</strong>, 126–134 (2026). https://doi.org/10.1038/s41586-026-10203-5</p></section>
+<aside class="notes">
+<p>Transition from the demo: that failure isn’t just me. Here’s the data.</p>
+<p>Panel b: of the psychology papers the teams could attempt, roughly half were precisely reproduced. Mid-pack across fields.</p>
+<p>But note panel a: that ~50% is only out of the papers that could be <em>attempted</em>. Which raises the question: how many could be?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>Miske, O., Abatayo, A. L., Daley, M., et al.&nbsp;(2026). Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em>, <em>652</em>, 126–134. <a href="https://doi.org/10.1038/s41586-026-10203-5" class="uri">https://doi.org/10.1038/s41586-026-10203-5</a></p></li></ol></aside></section>
+<section id="sec-howdoing-avail" class="slide level2">
+<h2>Few papers can be checked<sup>1</sup></h2>
+<ul>
+<li>Few psychology papers shared both data and code</li>
+</ul>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/41586_2026_10203_Fig2_psych.png" class="quarto-figure quarto-figure-center" width="740"></p>
+</figure>
+</div>
+</div>
+<aside class="notes">
+<p>Psychology row: only around a quarter of papers had data available in any form, and only a small slice had open data plus code. The rest can’t be checked at all.</p>
+<p>So the ~50% is a best case, among the papers that shared. Hand-off: and when materials are shared, are they actually usable? -&gt; Quintana</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>Miske, O., Abatayo, A. L., Daley, M., et al.&nbsp;(2026). Investigating the reproducibility of the social and behavioural sciences. <em>Nature</em>, <em>652</em>, 126–134. <a href="https://doi.org/10.1038/s41586-026-10203-5" class="uri">https://doi.org/10.1038/s41586-026-10203-5</a></p></li></ol></aside></section>
 <section id="sec-osf-repro" class="slide level2">
-<h2>How are we doing?</h2>
+<h2>Shared ≠ usable</h2>
 <div class="columns">
 <div class="column" style="width:32%;">
 <ul>
-<li class="fragment"><p>Quintana (2026)</p></li>
+<li class="fragment"><p>Quintana (2026)<sup>1</sup></p></li>
 <li class="fragment"><p>Downloaded materials from OSF repos (334 papers)</p>
 <ul>
-<li class="fragment"><p><em>Pysch Sci</em>, <em>JML</em>, and <em>ESP</em></p></li>
+<li class="fragment"><p><em>Psych Sci</em>, <em>JML</em>, and <em>ESP</em></p></li>
 <li class="fragment"><p>When materials are shared, are they usable?</p></li>
 </ul></li>
 </ul>
@@ -341,27 +392,92 @@ Jason Geller, PH.D.(he/him)
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/osf_repro.png"></p>
-<figcaption>Quintana, D. S. (2026, September 19). Shared research materials in psychology are widely downloaded but often difficult to reuse. Retrieved from osf.io/preprints/psyarxiv/yswku_v3</figcaption>
+<p><img data-src="images/osf_repro.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
 </div></div>
+<aside><ol class="aside-footnotes"><li id="fn6"><p>Quintana, D. S. (2026, September 19). Shared research materials in psychology are widely downloaded but often difficult to reuse. PsyArXiv. <a href="https://osf.io/preprints/psyarxiv/yswku_v3" class="uri">https://osf.io/preprints/psyarxiv/yswku_v3</a></p></li></ol></aside></section>
+<section id="sec-readme-repro" class="slide level2">
+<h2>READMEs help, but only so far</h2>
+<ul>
+<li>Institute for Replication<sup>1</sup>: 67 <em>Psych Science</em> papers (2024-2025)</li>
+</ul>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/readme_repro.png" class="quarto-figure quarto-figure-center" width="820"></p>
+</figure>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Clear README: <strong>88%</strong> from analysis data, only <strong>31%</strong> from raw data</li>
+</ul>
+</div>
+<aside class="notes">
+<p>Brodeur et al.: 67 teams each reproduced one of 67 Psych Sci articles (2024-2025). Overall, 58.2% fully reproducible from the final analysis data, but only 28.4% from raw data.</p>
+<p>Point to panel B, bottom row: a clear README takes “reproducible from analysis data” from 50% to 88%. Documentation fixes “what do I run?”</p>
+<p>Then panel B, second-to-last row: from raw data, a clear README gets 31%, about the same as no README (27%). Documentation doesn’t fix “it won’t run on my machine.”</p>
+<p>Hand-off: so where does that leave us? Back to the spectrum. -&gt; Psychology: not so good</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn7"><p>Brodeur, A., Abdul Baki, G., &amp; Fazio, L. (2026). Mass reproducibility in psychological science.</p></li></ol></aside></section>
+<section id="sec-spectrum-recap" class="slide level2">
+<h2>Psychology: not so good 😟</h2>
+<ul>
+<li>Back to the spectrum: where do these studies leave us?</li>
+</ul>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center" width="820"></p>
+</figure>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li class="fragment">Code, data, and a README get you partway. The <strong>environment</strong> is the missing step.</li>
+</ul>
+</div>
+<aside class="notes">
+<p>Bring the spectrum back and place the studies on it: - SCORE: most papers never get past “code + data”: nothing shared, nothing to check. - Quintana: materials are shared, but hard to reuse. - Brodeur / I4R: a clear README gets you to 88% from analysis data, but from raw data it’s 31%, no better than no README.</p>
+<p>What’s left is the last box: the computational environment. That’s the rest of this talk.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section>
-<section id="psychology-not-so-good" class="title-slide slide level1 center">
-<h1>Psychology not so good 😟</h1>
+<section id="the-computational-environment" class="title-slide slide level1 center">
+<h1>The Computational Environment</h1>
 
 </section>
-<section id="sec-spectrum" class="slide level2">
-<h2>Reproducibility Spectrum</h2>
-
-<img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="sec-repro-blocks" class="slide level2">
-<h2>Which “reproducible”?</h2>
-
-<img data-src="images/env-grid.svg" class="hex r-stretch quarto-figure-center"><p class="caption">Adapted from [ADD SOURCE]</p><aside class="notes">
-<p>Transition: last slide, the final step to the gold standard was the environment. But what does “my environment is reproducible” actually mean?</p>
+<h2>Which “reproducible”?<sup>1</sup></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/env-grid.svg" class="hex quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+<aside class="notes">
+<p>Transition: we just landed on the last box of the spectrum, the environment. But what does “my environment is reproducible” actually mean?</p>
 <p>Grid (don’t read every cell): two directions, across space (another machine/OS, today) and across time (years from now). Three levels: the build succeeds, the result is the same, the bytes are the same (strictest; numbers later on the Malka et al.&nbsp;slide).</p>
 <p>Punchline: most tools cover only one or two of these six boxes. The question isn’t “is it reproducible?” but “WHICH BOXES?” When we get to specific tools later, we’ll come back to this grid.</p>
 <p>Hand-off: “Let’s start with how the environment breaks.” -&gt; Environment Fragility</p>
@@ -376,9 +492,9 @@ Jason Geller, PH.D.(he/him)
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="enviorment-fragility" class="slide level2">
-<h2>Enviorment Fragility</h2>
+<aside><ol class="aside-footnotes"><li id="fn8"><p>Adapted from [ADD SOURCE]</p></li></ol></aside></section>
+<section id="environment-fragility" class="slide level2">
+<h2>Environment Fragility</h2>
 <p>Setting bitwise reproducibility aside, even error-free R code sits on top of four layers, each of which may drift over space and time:</p>
 <ol type="1">
 <li class="fragment"><strong>R version</strong></li>
@@ -396,16 +512,16 @@ Jason Geller, PH.D.(he/him)
 <div class="fragment">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>))</span>
 <span id="cb1-2"><a href="" aria-label="2"></a><span class="fu">class</span>(df<span class="sc">$</span>group); <span class="fu">as.numeric</span>(df<span class="sc">$</span>group)</span>
-<span id="cb1-3"><a href="" aria-label="3"></a><span class="co">#&gt; R 3.6.3:  "factor"      1  2       (stringsAsFactors = TRUE)</span></span>
-<span id="cb1-4"><a href="" aria-label="4"></a><span class="co">#&gt; R 4.0.0+: "character"  NA NA       (stringsAsFactors = FALSE)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="co">#&gt; R 3.6.3:  "factor"      1  2   (stringsAsFactors = TRUE)</span></span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="co">#&gt; R 4.0.0+: "character"  NA NA   (stringsAsFactors = FALSE)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li class="fragment"><strong>Random numbers</strong>: R 3.6.0 changed how <code>sample()</code> draws. Same seed, different draws:</li>
 </ul>
 <div class="fragment">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>); <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">3</span>)</span>
-<span id="cb2-2"><a href="" aria-label="2"></a><span class="co">#&gt; R 3.5.3:   3  8  4        (sample.kind = "Rounding")</span></span>
-<span id="cb2-3"><a href="" aria-label="3"></a><span class="co">#&gt; R 3.6.0+:  3 10  2        (sample.kind = "Rejection")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="" aria-label="2"></a><span class="co">#&gt; R 3.5.3:   3  8  4    (sample.kind = "Rounding")</span></span>
+<span id="cb2-3"><a href="" aria-label="3"></a><span class="co">#&gt; R 3.6.0+:  3 10  2    (sample.kind = "Rejection")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sec-env-pkgs" class="slide level2">
@@ -457,7 +573,7 @@ Jason Geller, PH.D.(he/him)
 <div class="fragment">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a><span class="im">import</span> random<span class="op">;</span> random.seed(<span class="dv">1</span>)<span class="op">;</span> random.sample({<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>}, <span class="dv">2</span>)</span>
 <span id="cb5-2"><a href="" aria-label="2"></a><span class="co">#&gt; Python 3.10:  ['a', 'b']   (or ['c', 'a'], ... depends on the run)</span></span>
-<span id="cb5-3"><a href="" aria-label="3"></a><span class="co">#&gt; Python 3.11+: TypeError: Population must be a sequence.  For dicts or sets, use sorted(d).</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-3"><a href="" aria-label="3"></a><span class="co">#&gt; Python 3.11+: TypeError: Population must be a sequence.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sec-py-pkgs" class="slide level2 smaller">
@@ -466,10 +582,11 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment"><strong>Changed defaults, loud</strong>: pandas 2.0 stopped silently dropping text columns:</li>
 </ul>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"group"</span>: [<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>], <span class="st">"subject"</span>: [<span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span>], <span class="st">"rt"</span>: [<span class="dv">500</span>, <span class="dv">520</span>, <span class="dv">610</span>]})</span>
-<span id="cb6-2"><a href="" aria-label="2"></a>df.groupby(<span class="st">"group"</span>).mean()</span>
-<span id="cb6-3"><a href="" aria-label="3"></a><span class="co">#&gt; pandas 1.5: mean rt per group    (subject column quietly dropped)</span></span>
-<span id="cb6-4"><a href="" aria-label="4"></a><span class="co">#&gt; pandas 2.0+: TypeError: agg function failed [how-&gt;mean,dtype-&gt;object]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"group"</span>: [<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>],</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>                   <span class="st">"subject"</span>: [<span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span>], <span class="st">"rt"</span>: [<span class="dv">500</span>, <span class="dv">520</span>, <span class="dv">610</span>]})</span>
+<span id="cb6-3"><a href="" aria-label="3"></a>df.groupby(<span class="st">"group"</span>).mean()</span>
+<span id="cb6-4"><a href="" aria-label="4"></a><span class="co">#&gt; pandas 1.5: mean rt per group    (subject column quietly dropped)</span></span>
+<span id="cb6-5"><a href="" aria-label="5"></a><span class="co">#&gt; pandas 2.0+: TypeError: agg function failed [how-&gt;mean,dtype-&gt;object]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li class="fragment"><strong>Changed defaults, silent</strong>: numpy 2.0 changed type promotion. No error, different number:</li>
@@ -493,7 +610,7 @@ Jason Geller, PH.D.(he/him)
 </ul>
 </section>
 <section id="sec-renv" class="slide level2">
-<h2><code>Renv</code></h2>
+<h2><code>{renv}</code></h2>
 <div class="columns">
 <div class="column" style="width:72%;">
 <ul>
@@ -514,7 +631,7 @@ Jason Geller, PH.D.(he/him)
 </div></div>
 </section>
 <section id="sec-renv-boxes" class="slide level2">
-<h2><code>Renv</code>: which boxes?</h2>
+<h2><code>{renv}</code>: which boxes?</h2>
 
 <img data-src="images/scorecard-renv.svg" class="hex quarto-figure quarto-figure-center r-stretch"><aside class="notes">
 <p>renv pins package versions, but not R itself or the system libraries underneath, so everything is “partly”. Bitwise isn’t addressed.</p>
@@ -534,7 +651,7 @@ Jason Geller, PH.D.(he/him)
 <h2>Docker: what a container does</h2>
 <div class="columns">
 <div class="column" style="width:86%;">
-<p><strong>Dockerfile</strong> (recipe) <span class="math inline">\(\rightarrow\)</span> <strong>image</strong> (the environment, frozen) <span class="math inline">\(\rightarrow\)</span> <strong>container</strong> (the image, running)</p>
+<p><strong>Dockerfile</strong> (recipe) <span class="math inline">\(\rightarrow\)</span> <strong>image</strong> (the environment, frozen) <span class="math inline">\(\rightarrow\)</span> <strong>container</strong> (the image, running)<sup>1</sup></p>
 </div><div class="column" style="width:14%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -544,11 +661,10 @@ Jason Geller, PH.D.(he/him)
 </div></div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/docker-container.svg"></p>
-<figcaption>Adapted from R-Ladies Rome (English): <em>Building Reproducible Pipelines with R, Docker and Nix</em>, Bruno Rodrigues.</figcaption>
+<p><img data-src="images/docker-container.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn9"><p>Figure adapted from Rodrigues, B. <em>Building reproducible pipelines with R, Docker and Nix</em>. R-Ladies Rome (English).</p></li></ol></aside></section>
 <section id="sec-docker-issues" class="slide level2 code-walk">
 <h2>Docker: rebuilding ≠ reproducing</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb8-1"><a href="" aria-label="1"></a><span class="kw">FROM</span> rocker/r-ver:latest                    <span class="co"># which R? whatever "latest" means today</span></span>
@@ -600,22 +716,56 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment">The “+ Environment” step of the gold standard</li>
 </ul>
 </section>
+<section id="sec-nix-appstore" class="slide level2">
+<h2>Nix is like an app store</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li class="fragment">Like an <strong>app store</strong> on your phone, but for research software</li>
+<li class="fragment">One catalog (<code>nixpkgs</code>): R, R packages, Quarto, CmdStan, system libraries</li>
+<li class="fragment">Your <code>default.nix</code> is the list of “apps” to install</li>
+<li class="fragment">The twist: the store is <strong>frozen on a date</strong>. No auto-updates, so everyone gets the exact same versions</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/nix-app-store.svg" class="quarto-figure quarto-figure-center" height="520"></p>
+</figure>
+</div>
+</div></div>
+<aside class="notes">
+<p>Everyone knows the phone version: open the store, pick your apps, they install. The problem is that your phone auto-updates, and so does CRAN. Install brms today and next year and you get different versions.</p>
+<p>Nix is the same idea with one change: you choose a snapshot date, and the whole store is frozen at that date. Anyone who installs from the 2026-08-24 store, on any machine, next month or in five years, gets exactly the same apps.</p>
+<p>Hand-off: how big is this store? -&gt; size slide</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="sec-nix-size" class="slide level2">
-<h2>Nix, the package manager: size</h2>
-
-<img data-src="images/repology.png" class="r-stretch quarto-figure-center"><p class="caption">Source: <a href="https://repology.org/repositories/graphs" class="uri">https://repology.org/repositories/graphs</a>, figure as reproduced in Rodrigues &amp; Baumann (2026).</p></section>
+<h2>Nix, the package manager: size<sup>1</sup></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/repology.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn10"><p>Source: <a href="https://repology.org/repositories/graphs" class="uri">https://repology.org/repositories/graphs</a>, as reproduced in Rodrigues &amp; Baumann (2026).</p></li></ol></aside></section>
 <section id="sec-nix-evidence" class="slide level2">
 <h2>Nix: the empirical evidence</h2>
-<p>Malka, Zacchiroli, &amp; Zimmermann (2025) rebuilt <strong>709,816 packages</strong> from <code>nixpkgs</code> snapshots taken every four months, 2017–2023:</p>
+<p>Malka, Zacchiroli, &amp; Zimmermann (2025)<sup>1</sup> rebuilt <strong>709,816 packages</strong> from <code>nixpkgs</code> snapshots taken every four months, 2017–2023:</p>
 <ul>
 <li class="fragment"><strong>Rebuildable</strong>: 99.7% to 99.9% still build from their description.</li>
 <li class="fragment"><strong>Bitwise reproducible</strong>: 69% in 2017, 91% in 2023, rising.</li>
 <li class="fragment"><strong>Functionally reproducible</strong>: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.</li>
 </ul>
-
-<aside><div>
-<p>Malka, Zacchiroli, &amp; Zimmermann (2025)</p>
-</div></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn11"><p>Malka, J., Zacchiroli, S., &amp; Zimmermann, T. (2025). Does functional package management enable reproducible builds at scale? Yes. <em>2025 IEEE/ACM 22nd International Conference on Mining Software Repositories (MSR)</em>. <a href="https://doi.org/10.1109/MSR66628.2025.00115" class="uri">https://doi.org/10.1109/MSR66628.2025.00115</a></p></li></ol></aside></section>
 <section id="sec-nix-boxes" class="slide level2">
 <h2>Nix: which boxes?</h2>
 
@@ -971,7 +1121,7 @@ Jason Geller, PH.D.(he/him)
 <section id="sec-rix-use" class="slide level2">
 <h2>Nix/<code>Rix</code>: using it</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="" aria-label="1"></a><span class="ex">Rscript</span> gen-env.R    <span class="co"># rix() writes default.nix</span></span>
-<span id="cb23-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build the environment (slow only the first time)</span></span>
+<span id="cb23-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build it (slow only the first time)</span></span>
 <span id="cb23-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span> <span class="at">--run</span> <span class="st">"quarto render nix_rix_example.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li class="fragment">Once, beforehand: install Nix (<a href="https://nixos.org/download/">nixos.org/download</a>, or the Determinate Systems installer)</li>
@@ -1016,14 +1166,13 @@ Jason Geller, PH.D.(he/him)
 </ul>
 </section>
 <section id="sec-ci-time" class="slide level2">
-<h2>CI: checking <em>across time</em></h2>
+<h2>CI: checking <em>across time</em><sup>1</sup></h2>
 <div class="columns">
 <div class="column" style="width:64%;">
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/env-grid-time.svg" class="hex"></p>
-<figcaption>Adapted from [ADD SOURCE]</figcaption>
+<p><img data-src="images/env-grid-time.svg" class="hex quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -1033,7 +1182,7 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment">Add a check that key estimates match saved values: <strong>same result, years later</strong></li>
 </ul>
 </div></div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn12"><p>Adapted from [ADD SOURCE]</p></li></ol></aside></section>
 <section id="sec-ci-why" class="slide level2">
 <h2>CI: why Nix + CI</h2>
 <ul>
@@ -1083,7 +1232,7 @@ Jason Geller, PH.D.(he/him)
 <h2>What a Lab Can Actually Do</h2>
 <p><strong>Not ready for Nix?</strong> Start smaller:</p>
 <ul>
-<li class="fragment"><code>renv</code> for R dependency snapshots</li>
+<li class="fragment"><code>{renv}</code> for R dependency snapshots</li>
 <li class="fragment">Docker for a shared environment</li>
 <li class="fragment">A basic GitHub Actions check that the analysis still runs</li>
 </ul>
@@ -1128,6 +1277,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 
 </section></section>
+
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="images/bc-logo.svg" class="slide-logo"></p>
