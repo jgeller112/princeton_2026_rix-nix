@@ -404,10 +404,14 @@ Jason Geller, PH.D.(he/him)
 <li>Institute for Replication<sup>1</sup>: 67 <em>Psych Science</em> papers (2024-2025)</li>
 </ul>
 <div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/readme_repro.png" class="quarto-figure quarto-figure-center" width="820"></p>
+<p><img data-src="repro-talk_files/figure-revealjs/readme-repro-1.png" class="quarto-figure quarto-figure-center" width="820"></p>
 </figure>
+</div>
+</div>
 </div>
 </div>
 <div class="fragment">
@@ -671,7 +675,7 @@ Jason Geller, PH.D.(he/him)
 <span id="cb8-2"><a href="" aria-label="2"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> libxml2-dev   <span class="co"># today's Ubuntu libraries</span></span>
 <span id="cb8-3"><a href="" aria-label="3"></a><span class="kw">RUN</span> <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'install.packages("brms")'</span>   <span class="co"># today's CRAN</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li class="fragment"><strong>The recipe drifts</strong>: every line fetches what’s current <em>on build day</em>. Only the saved image is frozen; Nix pins the recipe itself.</li>
+<li class="fragment"><strong>The recipe drifts</strong>: every line fetches what’s current <em>on build day</em>. Only the saved image is frozen</li>
 <li class="fragment"><strong>You must archive the image</strong>: often several GB, and tags on Docker Hub can move or vanish.</li>
 <li class="fragment"><strong>Same image, different CPU</strong>: containers run on the host’s processor, and OpenBLAS picks code per CPU. The last digits can still differ.</li>
 <li class="fragment"><strong>Practical costs</strong>: Linux know-how; Intel-only images are emulated on Apple Silicon; many university clusters don’t allow Docker; one company as a single point of failure.</li>
@@ -1494,6 +1498,44 @@ Jason Geller, PH.D.(he/him)
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
