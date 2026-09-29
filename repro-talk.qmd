@@ -1099,7 +1099,7 @@ Reproducibility is a *ladder*, not a cliff.
 
 ## Thanks!
 
-- Intertsed in learning more about Nix and {rix} check out my tutorial paper with Felipe Vieira and Burno Rodrigues:
+- Interested in learning more about Nix and {rix} check out my tutorial paper with Felipe Vieira and Bruno Rodrigues:
 
 ::: {.fragment}
 ::: callout-note
