@@ -1337,16 +1337,26 @@ Jason Geller, PH.D.(he/him)
 <section id="sec-takeaways" class="slide level2">
 <h2>Takeaways</h2>
 <ol type="1">
-<li class="fragment">“Reproducible” means many things: say which one you claim, and find your weakest layer</li>
-<li class="fragment">Declare the whole environment once (<code>{rix}</code>), and let CI rerun it from scratch</li>
-<li class="fragment">Small, boring habits (pinning, CI, version control) beat heroic one-off fixes</li>
-<li class="fragment">Plan for platform churn (OSF → elsewhere) before it forces your hand</li>
+<li class="fragment"><strong>Shared ≠ reproducible</strong>
+<ul>
+<li class="fragment">About half of psych papers reproduce, and few can even be checked</li>
+<li class="fragment">Share data <em>and</em> code, then check that someone else can run them</li>
+</ul></li>
+<li class="fragment"><strong>Document it</strong>
+<ul>
+<li class="fragment">A clear README: what to run, in what order, starting from raw data</li>
+</ul></li>
+<li class="fragment"><strong>Freeze the environment</strong>
+<ul>
+<li class="fragment"><code>{rix}</code> declares R, packages, and system tools in one file, pinned to a date</li>
+<li class="fragment">CI reruns it from scratch, so you find out before a reviewer does</li>
+</ul></li>
 </ol>
 </section>
 <section id="thanks" class="slide level2">
 <h2>Thanks!</h2>
 <ul>
-<li class="fragment">Intertsed in learning more about nix and rix check out my tutorial paper with Felipe Vieira and Burno Rodrigues:</li>
+<li class="fragment">Intertsed in learning more about Nix and {rix} check out my tutorial paper with Felipe Vieira and Burno Rodrigues:</li>
 </ul>
 <div class="fragment">
 <div class="callout callout-note callout-titled callout-style-default">

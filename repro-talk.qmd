@@ -1088,14 +1088,18 @@ Reproducibility is a *ladder*, not a cliff.
 
 ## Takeaways {#sec-takeaways}
 
-1.  "Reproducible" means many things: say which one you claim, and find your weakest layer
-2.  Declare the whole environment once (`{rix}`), and let CI rerun it from scratch
-3.  Small, boring habits (pinning, CI, version control) beat heroic one-off fixes
-4.  Plan for platform churn (OSF → elsewhere) before it forces your hand
+1.  **Shared ≠ reproducible**
+    - About half of psych papers reproduce, and few can even be checked
+    - Share data *and* code, then check that someone else can run them
+2.  **Document it**
+    - A clear README: what to run, in what order, starting from raw data
+3.  **Freeze the environment**
+    - `{rix}` declares R, packages, and system tools in one file, pinned to a date
+    - CI reruns it from scratch, so you find out before a reviewer does
 
 ## Thanks!
 
-- Intertsed in learning more about nix and rix check out my tutorial paper with Felipe Vieira and Burno Rodrigues:
+- Intertsed in learning more about Nix and {rix} check out my tutorial paper with Felipe Vieira and Burno Rodrigues:
 
 ::: {.fragment}
 ::: callout-note
