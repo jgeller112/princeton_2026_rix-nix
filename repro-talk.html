@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-09-28">
+  <meta name="dcterms.date" content="2026-09-29">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-704d8a7781c2b08a0fdc92c412a21ac4.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-fdef184dd7fdbaf5000d9364dd1db25f.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-09-28</p>
+  <p class="date">2026-09-29</p>
 </section>
 <section id="sec-disclaimer" class="slide level2">
 <h2>Disclaimer</h2>
@@ -220,7 +220,11 @@ Jason Geller, PH.D.(he/him)
 </section>
 <section id="the-replication-crisismunafo" class="slide level2">
 <h2>The Replication Crisis<sup>1</sup></h2>
-<p><img data-src="images/replication-crisis-cycle-v2.svg"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/replication-crisis-cycle-v2.svg" class="quarto-figure quarto-figure-center" height="430"></p>
+</figure>
+</div>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Munafò, M. R., Nosek, B. A., Bishop, D. V. M., et al.&nbsp;(2017). A manifesto for reproducible science. <em>Nature Human Behaviour</em>, <em>1</em>, 0021. <a href="https://doi.org/10.1038/s41562-016-0021" class="uri">https://doi.org/10.1038/s41562-016-0021</a></p></li></ol></aside></section>
 <section id="sec-cred" class="slide level2">
 <h2><del>Replication Crisis</del> Credibility Revolution!</h2>
@@ -230,15 +234,14 @@ Jason Geller, PH.D.(he/him)
 <h2>Open Science</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><br></p>
 <ul>
-<li class="fragment"><p>Being open and transparent across all stages of the research process<sup>1</sup></p>
+<li class="fragment">Being open and transparent across all stages of the research process<sup>1</sup>
 <ul>
-<li class="fragment"><p>Key components:</p>
+<li class="fragment">Key components:
 <ul>
-<li class="fragment"><p>Dissemnation</p></li>
-<li class="fragment"><p>Stance</p></li>
-<li class="fragment"><p><strong><em>Workflow</em></strong></p>
+<li class="fragment">Dissemination</li>
+<li class="fragment">Stance</li>
+<li class="fragment"><strong><em>Workflow</em></strong>
 <ul>
 <li class="fragment">Is your entire project pipeline reproducible?</li>
 </ul></li>
@@ -392,7 +395,7 @@ Jason Geller, PH.D.(he/him)
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/osf_repro.png" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="images/osf_repro.png" class="quarto-figure quarto-figure-center" height="420"></p>
 </figure>
 </div>
 </div>
@@ -506,6 +509,24 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment"><strong>Document tools</strong>: e.g., Pandoc, LaTeX, Quarto</li>
 <li class="fragment"><strong>System libraries and compilers</strong>: e.g., gcc, libpng, BLAS/LAPACK</li>
 </ol>
+<aside class="notes">
+<p>What the layer-4 examples are (none of them are R packages, so no R tool tracks them):</p>
+<ul>
+<li><strong>gcc</strong>: the C/C++/Fortran compiler. Many R packages (and every Stan model) ship as source code that gcc turns into machine code on your computer. A different gcc version can refuse to compile old code, or compile it slightly differently.</li>
+<li><strong>libpng</strong>: the operating system’s library for reading and writing PNG images. R’s <code>png()</code> device and packages like ragg call it to save plots.</li>
+<li><strong>BLAS/LAPACK</strong>: the linear-algebra libraries underneath R’s matrix math (<code>%*%</code>, <code>crossprod()</code>, <code>solve()</code>, <code>chol()</code>, <code>eigen()</code>, <code>svd()</code>). There are several interchangeable versions (reference BLAS, OpenBLAS, Apple Accelerate, Intel MKL); they add numbers in different orders, so results can differ in the last decimal places, or an eigenvector can flip sign (the example coming up).</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="sec-env-r" class="slide level2">
 <h2>1. R version</h2>
@@ -714,10 +735,15 @@ Jason Geller, PH.D.(he/him)
 <section id="sec-nix-intro" class="slide level2">
 <h2>Nix/{Rix}</h2>
 <ul>
-<li class="fragment"><strong>Nix</strong> is a package manager: it installs and manages <em>packages</em>, and a package is any piece of software, not just R packages</li>
+<li class="fragment"><strong>Nix</strong> is a package manager (+language +buid tool):
+<ul>
+<li class="fragment">it installs and manages R/Python packages and software/system dependeiences</li>
 <li class="fragment">Built for reproducible builds: R, R packages <em>and</em> system dependencies, all declared in one text file (a <em>Nix expression</em>)</li>
-<li class="fragment">Every input is pinned by hash: the same expression gives the same environment, on any machine</li>
+<li class="fragment">Every input is pinned by hash: the same expression gives the same environment, on any machine (everything lives in its own folder)
+<ul>
 <li class="fragment">The “+ Environment” step of the gold standard</li>
+</ul></li>
+</ul></li>
 </ul>
 </section>
 <section id="sec-nix-appstore" class="slide level2">
@@ -754,12 +780,34 @@ Jason Geller, PH.D.(he/him)
       }</style></aside>
 </section>
 <section id="sec-nix-size" class="slide level2">
-<h2>Nix, the package manager: size<sup>1</sup></h2>
+<h2>How big is <code>nixpkgs</code>?<sup>1</sup></h2>
+<ul>
+<li><code>nixpkgs</code> (top right): the biggest, freshest repository</li>
+</ul>
+<div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/repology.png" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="images/repology.png" class="quarto-figure quarto-figure-center" height="320"></p>
 </figure>
 </div>
+</div>
+<ul>
+<li class="fragment">Nearly all of CRAN and Bioconductor, prebuilt (<a href="https://search.nixos.org/packages">search.nixos.org</a>)</li>
+</ul>
+<aside class="notes">
+<p>Repology plots every package repository: x = how many packages, y = how many are up to date. nixpkgs (boxed, top right) beats everything, including CRAN itself (the small box).</p>
+<p>Prebuilt binaries come from a cache, so installs are fast enough for daily work. Nix also works without root access, e.g., on an HPC cluster.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn10"><p>Source: <a href="https://repology.org/repositories/graphs" class="uri">https://repology.org/repositories/graphs</a>, as reproduced in Rodrigues &amp; Baumann (2026).</p></li></ol></aside></section>
 <section id="sec-nix-evidence" class="slide level2">
 <h2>Nix: the empirical evidence</h2>
@@ -1145,6 +1193,55 @@ Jason Geller, PH.D.(he/him)
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section></section>
+<section>
+<section id="illustration" class="title-slide slide level1 center">
+<h1>Illustration</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-label="1"></a><span class="fu">rix</span>(</span>
+<span id="cb24-2"><a href="" aria-label="2"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
+<span id="cb24-3"><a href="" aria-label="3"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>, <span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>),</span>
+<span id="cb24-4"><a href="" aria-label="4"></a>  <span class="at">git_pkgs =</span> <span class="fu">list</span>(</span>
+<span id="cb24-5"><a href="" aria-label="5"></a>    <span class="at">package_name =</span> <span class="st">"cmdstanr"</span>,</span>
+<span id="cb24-6"><a href="" aria-label="6"></a>    <span class="at">repo_url     =</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span>,</span>
+<span id="cb24-7"><a href="" aria-label="7"></a>    <span class="at">commit       =</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span></span>
+<span id="cb24-8"><a href="" aria-label="8"></a>  ),</span>
+<span id="cb24-9"><a href="" aria-label="9"></a>  <span class="at">system_pkgs =</span> <span class="fu">c</span>(<span class="st">"quarto"</span>, <span class="st">"cmdstan"</span>),</span>
+<span id="cb24-10"><a href="" aria-label="10"></a>  <span class="at">shell_hook  =</span> <span class="fu">paste</span>(</span>
+<span id="cb24-11"><a href="" aria-label="11"></a>    <span class="st">"export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan"</span>,</span>
+<span id="cb24-12"><a href="" aria-label="12"></a>    <span class="st">"export PRECOMPILED_HEADERS=false"</span>,</span>
+<span id="cb24-13"><a href="" aria-label="13"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb24-14"><a href="" aria-label="14"></a>  ),</span>
+<span id="cb24-15"><a href="" aria-label="15"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
+<span id="cb24-16"><a href="" aria-label="16"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb24-17"><a href="" aria-label="17"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-18"><a href="" aria-label="18"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a>Rscript gen<span class="sc">-</span>env.R <span class="co"># writes default.nix (+ .Rprofile)</span></span>
+<span id="cb25-2"><a href="" aria-label="2"></a>nix<span class="sc">-</span>build <span class="co"># build the environment once</span></span>
+<span id="cb25-3"><a href="" aria-label="3"></a>nix<span class="sc">-</span>shell <span class="sc">--</span>pure <span class="co"># enter it</span></span>
+<span id="cb25-4"><a href="" aria-label="4"></a>quarto render analysis.qmd <span class="co"># render inside it (HTML + PDF)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sec-rix-use-video" class="slide level2">
+<h2>Nix/<code>Rix</code>: using it (recording)</h2>
+<video src="media/nix-build-demo.mp4#t=0.5" controls="" preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
+<aside class="notes">
+<p>Real recording of the three commands on the previous slide, run on a copy of the demo repo (github.com/jgeller112/Rix-Nix_Test). Idle time is compressed: the brms model compile takes about two minutes live.</p>
+<p>What to point at: gen-env.R writes default.nix; nix-build prints a /nix/store path (the environment, already cached here); nix-shell –pure renders both the HTML and the Typst PDF with no R, packages, or CmdStan from my own machine.</p>
+<p>The “evaluation warning” lines are a harmless Nixpkgs deprecation notice about the generated default.nix. The GITHUB_PAT message is rix asking GitHub for the cmdstanr commit date without a token.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="rix-not-perfect" class="slide level2">
 <h2>{Rix} not perfect</h2>
@@ -1201,7 +1298,7 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment">A green badge in your README: <strong>“this analysis reran from scratch on a clean machine”</strong></li>
 </ul>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="" aria-label="1"></a><span class="al">![render](https://github.com/USER/REPO/actions/workflows/render.yml/badge.svg)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="" aria-label="1"></a><span class="al">![render](https://github.com/USER/REPO/actions/workflows/render.yml/badge.svg)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li class="fragment">A claim reviewers (and future you) can check with one click</li>
@@ -1218,19 +1315,6 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment">GitHub and Zenodo</li>
 </ul></li>
 </ul>
-<aside class="notes">
-<p>Modeling example to mention: the ex-Gaussian parameterization pitfall (what changed, what it cost). Also: parameterized Quarto reports for new datasets; Registered Reports as a structural incentive, not just preregistration.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="what-a-lab-can-actually-do" class="slide level2">
 <h2>What a Lab Can Actually Do</h2>

@@ -53,7 +53,7 @@
 
     <rect x="276" y="490" width="84" height="84" rx="20" fill="#D9D9D9"/>
     <text x="318" y="544" font-size="28" font-weight="bold" fill="#1A1A1A">+</text>
-    <text x="318" y="602">120k more</text>
+    <text x="318" y="602">100k+ more</text>
   </g>
 
   <!-- footer: no auto-updates -->

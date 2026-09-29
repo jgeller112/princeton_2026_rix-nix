@@ -12,6 +12,7 @@ format:
     incremental: true
 resources:
   - media/rix-demo.mp4
+  - media/nix-build-demo.mp4
 ---
 
 ## Disclaimer {#sec-disclaimer}
@@ -23,7 +24,7 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 
 ## The Replication Crisis[^munafo]
 
-![](images/replication-crisis-cycle-v2.svg)
+![](images/replication-crisis-cycle-v2.svg){fig-align="center" height="430"}
 
 [^munafo]: Munafò, M. R., Nosek, B. A., Bishop, D. V. M., et al. (2017). A manifesto for reproducible science. *Nature Human Behaviour*, *1*, 0021. <https://doi.org/10.1038/s41562-016-0021>
 
@@ -35,18 +36,11 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 
 ::::: columns
 ::: {.column width="50%"}
-<br>
-
 - Being open and transparent across all stages of the research process[^bochynska]
-
   - Key components:
-
-    - Dissemnation
-
+    - Dissemination
     - Stance
-
     - ***Workflow***
-
       - Is your entire project pipeline reproducible?
 :::
 
@@ -151,7 +145,7 @@ So the ~50% is a best case, among the papers that shared. Hand-off: and when mat
 
 ::: {.column width="68%"}
 ::: {.fragment}
-![](images/osf_repro.png){fig-align="center"}
+![](images/osf_repro.png){fig-align="center" height="420"}
 :::
 :::
 :::::
@@ -335,6 +329,14 @@ Setting bitwise reproducibility aside, even error-free R code sits on top of fou
 3.  **Document tools**: e.g., Pandoc, LaTeX, Quarto
 4.  **System libraries and compilers**: e.g., gcc, libpng, BLAS/LAPACK
 
+::: notes
+What the layer-4 examples are (none of them are R packages, so no R tool tracks them):
+
+- **gcc**: the C/C++/Fortran compiler. Many R packages (and every Stan model) ship as source code that gcc turns into machine code on your computer. A different gcc version can refuse to compile old code, or compile it slightly differently.
+- **libpng**: the operating system's library for reading and writing PNG images. R's `png()` device and packages like ragg call it to save plots.
+- **BLAS/LAPACK**: the linear-algebra libraries underneath R's matrix math (`%*%`, `crossprod()`, `solve()`, `chol()`, `eigen()`, `svd()`). There are several interchangeable versions (reference BLAS, OpenBLAS, Apple Accelerate, Intel MKL); they add numbers in different orders, so results can differ in the last decimal places, or an eigenvector can flip sign (the example coming up).
+:::
+
 ## 1. R version {#sec-env-r}
 
 - **Syntax**: the native pipe `|>` exists only since R 4.1.0.
@@ -513,10 +515,11 @@ Strong across space: pull the saved image anywhere. Weak across time: rebuilding
 
 ## Nix/{Rix} {#sec-nix-intro}
 
-- **Nix** is a package manager: it installs and manages *packages*, and a package is any piece of software, not just R packages
-- Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
-- Every input is pinned by hash: the same expression gives the same environment, on any machine
-- The "+ Environment" step of the gold standard
+- **Nix** is a package manager (+language +buid tool): 
+    - it installs and manages R/Python packages and software/system dependeiences
+    - Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
+    - Every input is pinned by hash: the same expression gives the same environment, on any machine (everything lives in its own folder)
+      - The "+ Environment" step of the gold standard
 
 ## Nix is like an app store {#sec-nix-appstore}
 
@@ -541,9 +544,23 @@ Nix is the same idea with one change: you choose a snapshot date, and the whole 
 Hand-off: how big is this store? -> size slide
 :::
 
-## Nix, the package manager: size[^repology] {#sec-nix-size}
+## How big is `nixpkgs`?[^repology] {#sec-nix-size}
 
-![](images/repology.png){fig-align="center"}
+::: {.nonincremental}
+- `nixpkgs` (top right): the biggest, freshest repository
+:::
+
+::: {.fragment}
+![](images/repology.png){fig-align="center" height="320"}
+:::
+
+- Nearly all of CRAN and Bioconductor, prebuilt ([search.nixos.org](https://search.nixos.org/packages))
+
+::: notes
+Repology plots every package repository: x = how many packages, y = how many are up to date. nixpkgs (boxed, top right) beats everything, including CRAN itself (the small box).
+
+Prebuilt binaries come from a cache, so installs are fast enough for daily work. Nix also works without root access, e.g., on an HPC cluster.
+:::
 
 [^repology]: Source: <https://repology.org/repositories/graphs>, as reproduced in Rodrigues & Baumann (2026).
 
@@ -937,6 +954,55 @@ nix-shell --pure --run "quarto render nix_rix_example.qmd"
 Live demo here: same repo that failed earlier, now rendering inside the environment. Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.
 :::
 
+# Illustration
+
+```{r}
+#| eval: false
+#| echo: true
+rix(
+  date   = "2026-08-24",
+  r_pkgs = c("brms", "palmerpenguins", "knitr", "rmarkdown"),
+  git_pkgs = list(
+    package_name = "cmdstanr",
+    repo_url     = "https://github.com/stan-dev/cmdstanr",
+    commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
+  ),
+  system_pkgs = c("quarto", "cmdstan"),
+  shell_hook  = paste(
+    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
+    "export PRECOMPILED_HEADERS=false",
+    sep = "\n"
+  ),
+  ide          = "none",
+  project_path = ".",
+  overwrite    = TRUE
+)
+```
+
+```{r}
+#| eval: false
+#| echo: true
+#| 
+Rscript gen-env.R # writes default.nix (+ .Rprofile)
+nix-build # build the environment once
+nix-shell --pure # enter it
+quarto render analysis.qmd # render inside it (HTML + PDF)
+```
+
+## Nix/`Rix`: using it (recording) {#sec-rix-use-video}
+
+```{=html}
+<video src="media/nix-build-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
+```
+
+::: notes
+Real recording of the three commands on the previous slide, run on a copy of the demo repo (github.com/jgeller112/Rix-Nix_Test). Idle time is compressed: the brms model compile takes about two minutes live.
+
+What to point at: gen-env.R writes default.nix; nix-build prints a /nix/store path (the environment, already cached here); nix-shell --pure renders both the HTML and the Typst PDF with no R, packages, or CmdStan from my own machine.
+
+The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about the generated default.nix. The GITHUB_PAT message is rix asking GitHub for the cmdstanr commit date without a token.
+:::
+
 ## {Rix} not perfect
 
 - Misdeclared dependencies: an R package wrongly listed a dependency under 
@@ -1003,9 +1069,6 @@ Live demo here: same repo that failed earlier, now rendering inside the environm
 - **Materials & data hosting**: OSF Projects are being phased out; don't bet your archive on one platform
   - GitHub and Zenodo
 
-::: notes
-Modeling example to mention: the ex-Gaussian parameterization pitfall (what changed, what it cost). Also: parameterized Quarto reports for new datasets; Registered Reports as a structural incentive, not just preregistration.
-:::
 
 ## What a Lab Can Actually Do
 

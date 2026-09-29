@@ -5,7 +5,7 @@ $bc-maroon-dark: #5C001C;
 $bc-gold: #BC9B6A;
 
 $presentation-font-size-root: 36px;
-$code-block-font-size: 0.72em;
+$code-block-font-size: 0.67em;
 
 /*-- scss:rules --*/
 
@@ -156,7 +156,7 @@ $code-block-font-size: 0.72em;
 .reveal section.code-walk pre.sourceCode code,
 .reveal section.code-walk div.sourceCode pre code,
 .reveal section.code-walk pre code {
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.2;
   max-height: none;
   overflow: visible;
