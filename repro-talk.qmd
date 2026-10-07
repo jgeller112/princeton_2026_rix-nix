@@ -1005,29 +1005,20 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 ## {Rix} not perfect
 
-- Misdeclared dependencies: an R package wrongly listed a dependency under 
-  Imports when it belonged in Suggests.
+- Misdeclared dependencies: an R package wrongly listed a dependency under Imports when it belonged in Suggests.
 
 -  Parsing bug: a dependency written as R(\>= x) with no space and a package
    whose name ends in R. Fixed already in the GitHub development version.
 
 - macOS: the description stays valid, but an OS update can break today’s build.
-  Recommendation: build inside a dockerfile.
+  -  Recommendation: build inside a dockerfile.
 
 - Isolation: use nix-shell --pure, so the shell sees only the declared
   environment and not software installed on the host.
 
-# Continuous Integration
+- Getting {rix} to work on Windows can be cumbersome
 
-## CI: what it is {#sec-ci}
-
-- Every time you push to GitHub, **GitHub Actions** starts a fresh computer and reruns your pipeline from scratch
-- Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
-- Free for public repositories (a monthly allowance for private ones)
-- "Works on my laptop" becomes **"works on a clean machine, every push"**
-
-## CI: checking *across time*[^grid2] {#sec-ci-time}
-
+## Continuous Integration (CI)
 ::::: columns
 ::: {.column width="64%"}
 ::: {.fragment}
@@ -1041,7 +1032,12 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 :::
 :::::
 
-[^grid2]: Adapted from \[ADD SOURCE\]
+## CI: what it is {#sec-ci}
+
+- Every time you push to GitHub, **GitHub Actions** starts a fresh computer and reruns your pipeline from scratch
+- Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
+- Free for public repositories (a monthly allowance for private ones)
+- "Works on my laptop" becomes **"works on a clean machine, every push"**
 
 ## CI: why Nix + CI {#sec-ci-why}
 
@@ -1074,7 +1070,8 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 **Not ready for Nix?** Start smaller:
 
-- `{renv}` for R dependency snapshots
+- {renv} and {rig} for R dependency snapshots and R version management
+  - {groundhog}  
 - Docker for a shared environment
 - A basic GitHub Actions check that the analysis still runs
 
@@ -1096,6 +1093,7 @@ Reproducibility is a *ladder*, not a cliff.
 3.  **Freeze the environment**
     - `{rix}` declares R, packages, and system tools in one file, pinned to a date
     - CI reruns it from scratch, so you find out before a reviewer does
+
 
 ## Thanks!
 
