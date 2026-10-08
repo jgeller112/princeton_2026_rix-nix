@@ -443,6 +443,7 @@ x = np.float32(0.1) + 0.2
 - Issue: combining incomplete tools (i.e., stabilize parts of it), which may require diverse expertise (e.g., `{renv}`, `{groundhog}`, `{rang}`, `{rig}`, and Docker).
 
 - More complicated with other programming languages (e.g., Julia and Python).
+  - uv in python seems to work well
 
 ## `{renv}` {#sec-renv}
 
@@ -454,7 +455,7 @@ x = np.float32(0.1) + 0.2
 
   - `renv::restore()` reinstalls them
 
-- **But** it records, and does not restore, the version of R
+- **But** it records, and does not restore, the version of R (can use {rig})
 
 - **But** installing old packages can fail (missing OS dependencies)
 :::
@@ -1061,7 +1062,7 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 ## Beyond the environment {#sec-beyond}
 
 - **Workflow (Quarto)**: code, prose and output in one document, one source of truth from raw data to manuscript
-- **Statistical modeling**: pinned `cmdstanr`, explicit seeds, documented parameterization
+
 - **Materials & data hosting**: OSF Projects are being phased out; don't bet your archive on one platform
   - GitHub and Zenodo
 
