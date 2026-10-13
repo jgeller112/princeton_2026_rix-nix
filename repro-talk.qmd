@@ -32,7 +32,7 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 
 ![](images/sv-crown.png){.hex fig-align="center" width="320"}
 
-## Open Science
+## Open Science {#sec-open-science}
 
 ::::: columns
 ::: {.column width="50%"}
@@ -53,6 +53,18 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 :::
 :::::
 
+```{=html}
+<script>
+// Show the figure together with "Dissemination" instead of before the bullets
+(function () {
+  var slide = document.getElementById("sec-open-science");
+  var items = slide.querySelectorAll("li.fragment");
+  items.forEach(function (li, i) { li.setAttribute("data-fragment-index", i); });
+  slide.querySelector(".column + .column .fragment").setAttribute("data-fragment-index", 2);
+})();
+</script>
+```
+
 [^bochynska]: Figure from Bochynska, A., Keeble, L., Halfacre, C., et al. (2023). Reproducible research practices and transparency across linguistics. *Glossa Psycholinguistics*, *2*(1). <https://doi.org/10.5070/G6011239>
 
 ## What is Reproducibility?
@@ -67,6 +79,12 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 
   - "Ability to obtain consistent computational results using the same input data, computational steps, methods,
 code, and conditions of analysis"[^schultze]
+
+::: notes
+Hand-off: Notice how much is packed into that definition: the data, the code, the steps, and the *conditions* the analysis ran under. In practice, reproducibility isn't yes-or-no. You can share some of those pieces and not others, and every piece you add gets you closer. So it helps to think of it as a spectrum. -> spectrum slide
+
+(Lean on "conditions of analysis": that's the computational environment, the top of the spectrum and the theme of the rest of the talk.)
+:::
 
 
 [^schultze]: Schultze, A., Saul, L., Roesch, E., et al. (2026). *Computational reproducibility: A primer from UKRN*. Zenodo. <https://doi.org/10.5281/zenodo.19232891>
@@ -533,7 +551,9 @@ Strong across space: pull the saved image anywhere. Weak across time: rebuilding
 :::
 
 ::: {.column width="40%"}
+::: {.fragment}
 ![](images/nix-app-store.svg){fig-align="center" height="520"}
+:::
 :::
 :::::
 
@@ -1021,15 +1041,15 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 ## Continuous Integration (CI)
 ::::: columns
+::: {.column width="36%"}
+-   Every week, a fresh machine rebuilds from `default.nix`: **the same description still builds**
+-   Add a check that key estimates match saved values: **same result, years later**
+:::
+
 ::: {.column width="64%"}
 ::: {.fragment}
 ![](images/env-grid-time.svg){.hex fig-align="center"}
 :::
-:::
-
-::: {.column width="36%"}
--   Every week, a fresh machine rebuilds from `default.nix`: **the same description still builds**
--   Add a check that key estimates match saved values: **same result, years later**
 :::
 :::::
 
@@ -1069,19 +1089,22 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 ## What a Lab Can Actually Do
 
-**Not ready for Nix?** Start smaller:
+**Not ready for Nix/{Rix}?** Start smaller:
 
 - {renv} and {rig} for R dependency snapshots and R version management
   - {groundhog}  
 - Docker for a shared environment
-- A basic GitHub Actions check that the analysis still runs
+- {targets} for analytic pipelines
 
 Reproducibility is a *ladder*, not a cliff.
 
 ## Culture, Not Just Tools
 
-- Train RAs on environment capture from day one
+- Train RAs 
 - Make "can a stranger rerun this?" a lab norm
+- Include tools/discussion in courses
+
+
 - Incentives matter more than any single tool
 
 ## Takeaways {#sec-takeaways}
