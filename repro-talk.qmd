@@ -114,6 +114,7 @@ Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Thr
 
 ::: {.nonincremental}
 - SCORE: 600 papers, 62 journals, several fields (2009-2018)
+- Out of 600 papers, 144 made data available; 44 they obtained source data
 :::
 
 ::: {.fragment}
@@ -1039,6 +1040,13 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 - Getting {rix} to work on Windows can be cumbersome
 
+## CI: what it is {#sec-ci}
+
+- Every time you push, a CI service (e.g., **GitHub Actions**, GitLab CI) starts a fresh computer and reruns your pipeline from scratch
+- Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
+- Free for public repositories (a monthly allowance for private ones)
+- "Works on my laptop" becomes **"works on a clean machine, every push"**
+
 ## Continuous Integration (CI)
 ::::: columns
 ::: {.column width="36%"}
@@ -1053,12 +1061,6 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 :::
 :::::
 
-## CI: what it is {#sec-ci}
-
-- Every time you push to GitHub, **GitHub Actions** starts a fresh computer and reruns your pipeline from scratch
-- Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed
-- Free for public repositories (a monthly allowance for private ones)
-- "Works on my laptop" becomes **"works on a clean machine, every push"**
 
 ## CI: why Nix + CI {#sec-ci-why}
 
@@ -1083,8 +1085,17 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 - **Workflow (Quarto)**: code, prose and output in one document, one source of truth from raw data to manuscript
 
+- **Pipelines (`{targets}`)**: the README made executable. Declare the steps once; `tar_make()` runs them from raw data to manuscript, in order
+  - Already on `{rix}`? `{rixpress}`: the same idea built on Nix, every step runs inside the frozen environment
+
 - **Materials & data hosting**: OSF Projects are being phased out; don't bet your archive on one platform
   - GitHub and Zenodo
+
+::: notes
+Call back to the README slide: from raw data, even a clear README only got to 31%. {targets} turns that README into a pipeline you can run, and it skips steps that haven't changed.
+
+{rixpress} (Bruno Rodrigues, same author as {rix}): each step is its own Nix build, so every step runs in the pinned environment, and steps can mix languages (e.g., clean in Python, model in R).
+:::
 
 
 ## What a Lab Can Actually Do
