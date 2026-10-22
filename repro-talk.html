@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-09-29">
+  <meta name="dcterms.date" content="2026-10-22">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-09-29</p>
+  <p class="date">2026-10-22</p>
 </section>
 <section id="sec-disclaimer" class="slide level2">
 <h2>Disclaimer</h2>
@@ -230,7 +230,7 @@ Jason Geller, PH.D.(he/him)
 <h2><del>Replication Crisis</del> Credibility Revolution!</h2>
 
 <img data-src="images/sv-crown.png" class="hex quarto-figure quarto-figure-center r-stretch" width="320"></section>
-<section id="open-science" class="slide level2">
+<section id="sec-open-science" class="slide level2">
 <h2>Open Science</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -258,6 +258,15 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 </div></div>
+<script>
+// Show the figure together with "Dissemination" instead of before the bullets
+(function () {
+  var slide = document.getElementById("sec-open-science");
+  var items = slide.querySelectorAll("li.fragment");
+  items.forEach(function (li, i) { li.setAttribute("data-fragment-index", i); });
+  slide.querySelector(".column + .column .fragment").setAttribute("data-fragment-index", 2);
+})();
+</script>
 <aside><ol class="aside-footnotes"><li id="fn2"><p>Figure from Bochynska, A., Keeble, L., Halfacre, C., et al.&nbsp;(2023). Reproducible research practices and transparency across linguistics. <em>Glossa Psycholinguistics</em>, <em>2</em>(1). <a href="https://doi.org/10.5070/G6011239" class="uri">https://doi.org/10.5070/G6011239</a></p></li></ol></aside></section>
 <section id="what-is-reproducibility" class="slide level2">
 <h2>What is Reproducibility?</h2>
@@ -288,6 +297,20 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment">“Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and conditions of analysis”<sup>1</sup></li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p>Hand-off: Notice how much is packed into that definition: the data, the code, the steps, and the <em>conditions</em> the analysis ran under. In practice, reproducibility isn’t yes-or-no. You can share some of those pieces and not others, and every piece you add gets you closer. So it helps to think of it as a spectrum. -&gt; spectrum slide</p>
+<p>(Lean on “conditions of analysis”: that’s the computational environment, the top of the spectrum and the theme of the rest of the talk.)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn3"><p>Schultze, A., Saul, L., Roesch, E., et al.&nbsp;(2026). <em>Computational reproducibility: A primer from UKRN</em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.19232891" class="uri">https://doi.org/10.5281/zenodo.19232891</a></p></li></ol></aside></section>
 <section id="sec-spectrum" class="slide level2">
 <h2>Reproducibility Spectrum</h2>
@@ -328,6 +351,7 @@ Jason Geller, PH.D.(he/him)
 <h2>Psychology: about half reproduce<sup>1</sup></h2>
 <ul>
 <li>SCORE: 600 papers, 62 journals, several fields (2009-2018)</li>
+<li>Out of 600 papers, 144 made data available; 44 they obtained source data</li>
 </ul>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
@@ -631,7 +655,10 @@ Jason Geller, PH.D.(he/him)
 <h2>Managing the environment</h2>
 <ul>
 <li class="fragment"><p>Issue: combining incomplete tools (i.e., stabilize parts of it), which may require diverse expertise (e.g., <code>{renv}</code>, <code>{groundhog}</code>, <code>{rang}</code>, <code>{rig}</code>, and Docker).</p></li>
-<li class="fragment"><p>More complicated with other programming languages (e.g., Julia and Python).</p></li>
+<li class="fragment"><p>More complicated with other programming languages (e.g., Julia and Python).</p>
+<ul>
+<li class="fragment">uv in python seems to work well</li>
+</ul></li>
 </ul>
 </section>
 <section id="sec-renv" class="slide level2">
@@ -644,7 +671,7 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment"><p><code>renv::init()</code> snapshots the packages used (and their versions) into <code>renv.lock</code></p></li>
 <li class="fragment"><p><code>renv::restore()</code> reinstalls them</p></li>
 </ul></li>
-<li class="fragment"><p><strong>But</strong> it records, and does not restore, the version of R</p></li>
+<li class="fragment"><p><strong>But</strong> it records, and does not restore, the version of R (can use {rig})</p></li>
 <li class="fragment"><p><strong>But</strong> installing old packages can fail (missing OS dependencies)</p></li>
 </ul>
 </div><div class="column" style="width:28%;">
@@ -757,10 +784,12 @@ Jason Geller, PH.D.(he/him)
 <li class="fragment">The twist: the store is <strong>frozen on a date</strong>. No auto-updates, so everyone gets the exact same versions</li>
 </ul>
 </div><div class="column" style="width:40%;">
+<div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/nix-app-store.svg" class="quarto-figure quarto-figure-center" height="520"></p>
 </figure>
+</div>
 </div>
 </div></div>
 <aside class="notes">
@@ -1248,28 +1277,32 @@ Jason Geller, PH.D.(he/him)
 <ul>
 <li class="fragment"><p>Misdeclared dependencies: an R package wrongly listed a dependency under Imports when it belonged in Suggests.</p></li>
 <li class="fragment"><p>Parsing bug: a dependency written as R(&gt;= x) with no space and a package whose name ends in R. Fixed already in the GitHub development version.</p></li>
-<li class="fragment"><p>macOS: the description stays valid, but an OS update can break today’s build. Recommendation: build inside a dockerfile.</p></li>
+<li class="fragment"><p>macOS: the description stays valid, but an OS update can break today’s build.</p>
+<ul>
+<li class="fragment">Recommendation: build inside a dockerfile.</li>
+</ul></li>
 <li class="fragment"><p>Isolation: use nix-shell –pure, so the shell sees only the declared environment and not software installed on the host.</p></li>
+<li class="fragment"><p>Getting {rix} to work on Windows can be cumbersome</p></li>
 </ul>
-</section></section>
-<section>
-<section id="continuous-integration" class="title-slide slide level1 center">
-<h1>Continuous Integration</h1>
-
 </section>
 <section id="sec-ci" class="slide level2">
 <h2>CI: what it is</h2>
 <ul>
-<li class="fragment">Every time you push to GitHub, <strong>GitHub Actions</strong> starts a fresh computer and reruns your pipeline from scratch</li>
+<li class="fragment">Every time you push, a CI service (e.g., <strong>GitHub Actions</strong>, GitLab CI) starts a fresh computer and reruns your pipeline from scratch</li>
 <li class="fragment">Result: ✅ it ran, or ❌ it broke, and an email telling you which step failed</li>
 <li class="fragment">Free for public repositories (a monthly allowance for private ones)</li>
 <li class="fragment">“Works on my laptop” becomes <strong>“works on a clean machine, every push”</strong></li>
 </ul>
 </section>
-<section id="sec-ci-time" class="slide level2">
-<h2>CI: checking <em>across time</em><sup>1</sup></h2>
+<section id="continuous-integration-ci" class="slide level2">
+<h2>Continuous Integration (CI)</h2>
 <div class="columns">
-<div class="column" style="width:64%;">
+<div class="column" style="width:36%;">
+<ul>
+<li class="fragment">Every week, a fresh machine rebuilds from <code>default.nix</code>: <strong>the same description still builds</strong></li>
+<li class="fragment">Add a check that key estimates match saved values: <strong>same result, years later</strong></li>
+</ul>
+</div><div class="column" style="width:64%;">
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1277,13 +1310,8 @@ Jason Geller, PH.D.(he/him)
 </figure>
 </div>
 </div>
-</div><div class="column" style="width:36%;">
-<ul>
-<li class="fragment">Every week, a fresh machine rebuilds from <code>default.nix</code>: <strong>the same description still builds</strong></li>
-<li class="fragment">Add a check that key estimates match saved values: <strong>same result, years later</strong></li>
-</ul>
 </div></div>
-<aside><ol class="aside-footnotes"><li id="fn12"><p>Adapted from [ADD SOURCE]</p></li></ol></aside></section>
+</section>
 <section id="sec-ci-why" class="slide level2">
 <h2>CI: why Nix + CI</h2>
 <ul>
@@ -1308,30 +1336,52 @@ Jason Geller, PH.D.(he/him)
 <section id="sec-beyond" class="slide level2">
 <h2>Beyond the environment</h2>
 <ul>
-<li class="fragment"><strong>Workflow (Quarto)</strong>: code, prose and output in one document, one source of truth from raw data to manuscript</li>
-<li class="fragment"><strong>Statistical modeling</strong>: pinned <code>cmdstanr</code>, explicit seeds, documented parameterization</li>
-<li class="fragment"><strong>Materials &amp; data hosting</strong>: OSF Projects are being phased out; don’t bet your archive on one platform
+<li class="fragment"><p><strong>Workflow (Quarto)</strong>: code, prose and output in one document, one source of truth from raw data to manuscript</p></li>
+<li class="fragment"><p><strong>Pipelines (<code>{targets}</code>)</strong>: the README made executable. Declare the steps once; <code>tar_make()</code> runs them from raw data to manuscript, in order</p>
+<ul>
+<li class="fragment">Already on <code>{rix}</code>? <code>{rixpress}</code>: the same idea built on Nix, every step runs inside the frozen environment</li>
+</ul></li>
+<li class="fragment"><p><strong>Materials &amp; data hosting</strong>: OSF Projects are being phased out; don’t bet your archive on one platform</p>
 <ul>
 <li class="fragment">GitHub and Zenodo</li>
 </ul></li>
 </ul>
+<aside class="notes">
+<p>Call back to the README slide: from raw data, even a clear README only got to 31%. {targets} turns that README into a pipeline you can run, and it skips steps that haven’t changed.</p>
+<p>{rixpress} (Bruno Rodrigues, same author as {rix}): each step is its own Nix build, so every step runs in the pinned environment, and steps can mix languages (e.g., clean in Python, model in R).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="what-a-lab-can-actually-do" class="slide level2">
 <h2>What a Lab Can Actually Do</h2>
-<p><strong>Not ready for Nix?</strong> Start smaller:</p>
+<p><strong>Not ready for Nix/{Rix}?</strong> Start smaller:</p>
 <ul>
-<li class="fragment"><code>{renv}</code> for R dependency snapshots</li>
+<li class="fragment">{renv} and {rig} for R dependency snapshots and R version management
+<ul>
+<li class="fragment">{groundhog}<br>
+</li>
+</ul></li>
 <li class="fragment">Docker for a shared environment</li>
-<li class="fragment">A basic GitHub Actions check that the analysis still runs</li>
+<li class="fragment">{targets} for analytic pipelines</li>
 </ul>
 <p>Reproducibility is a <em>ladder</em>, not a cliff.</p>
 </section>
 <section id="culture-not-just-tools" class="slide level2">
 <h2>Culture, Not Just Tools</h2>
 <ul>
-<li class="fragment">Train RAs on environment capture from day one</li>
-<li class="fragment">Make “can a stranger rerun this?” a lab norm</li>
-<li class="fragment">Incentives matter more than any single tool</li>
+<li class="fragment"><p>Train RAs</p></li>
+<li class="fragment"><p>Make “can a stranger rerun this?” a lab norm</p></li>
+<li class="fragment"><p>Include tools/discussion in courses</p></li>
+<li class="fragment"><p>Incentives matter more than any single tool</p></li>
 </ul>
 </section>
 <section id="sec-takeaways" class="slide level2">
