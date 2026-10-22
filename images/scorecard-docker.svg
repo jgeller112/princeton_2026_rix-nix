@@ -1,0 +1,46 @@
+<svg width="1400" height="840" viewBox="0 0 1400 840" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+<rect width="1400" height="840" fill="#FFFFFF"/>
+<rect x="9.5" y="9.5" width="1381" height="821" rx="22" fill="#F6EFE2" stroke="#D9B98C" stroke-width="3"/>
+<text x="700.0" y="72" text-anchor="middle" font-style="italic" font-size="34" fill="#3A4556">“Docker guarantees full computational reproducibility”</text>
+<text x="635.0" y="138" text-anchor="middle" font-size="30" font-weight="bold" fill="#1F2937">across space</text>
+<text x="635.0" y="168" text-anchor="middle" font-size="21" fill="#4A5568">(spatial reproducibility)</text>
+<text x="1135.0" y="138" text-anchor="middle" font-size="30" font-weight="bold" fill="#1F2937">across time</text>
+<text x="1135.0" y="168" text-anchor="middle" font-size="21" fill="#4A5568">(temporal reproducibility)</text>
+<text x="200" y="269.0" text-anchor="middle" font-size="27" font-weight="bold" fill="#1F2937">the environment builds</text>
+<text x="200" y="301.0" text-anchor="middle" font-size="20" fill="#4A5568">(rebuildability)</text>
+<rect x="400" y="190" width="470" height="170" rx="14" fill="#E3F4EA" stroke="#2E8B57" stroke-width="3"/>
+<text x="462" y="301.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#2E8B57">✓</text>
+<text x="520" y="268.0" font-size="27" fill="#1F2937">pull the saved image</text>
+<text x="520" y="302.0" font-size="27" fill="#1F2937">anywhere</text>
+<rect x="900" y="190" width="470" height="170" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="962" y="301.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#C0392B">✗</text>
+<text x="1020" y="268.0" font-size="27" fill="#1F2937">rebuilding the Dockerfile</text>
+<text x="1020" y="302.0" font-size="27" fill="#1F2937">drifts</text>
+<text x="200" y="459.0" text-anchor="middle" font-size="27" font-weight="bold" fill="#1F2937">the results are the same</text>
+<text x="200" y="491.0" text-anchor="middle" font-size="20" fill="#4A5568">(functional reproducibility)</text>
+<rect x="400" y="380" width="470" height="170" rx="14" fill="#E3F4EA" stroke="#2E8B57" stroke-width="3"/>
+<text x="462" y="491.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#2E8B57">✓</text>
+<text x="520" y="475.0" font-size="27" fill="#1F2937">same image, same versions</text>
+<rect x="900" y="380" width="470" height="170" rx="14" fill="#FDF3DC" stroke="#B7791F" stroke-width="3"/>
+<text x="962" y="491.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#B7791F">~</text>
+<text x="1020" y="458.0" font-size="27" fill="#1F2937">only if you archived the</text>
+<text x="1020" y="492.0" font-size="27" fill="#1F2937">image</text>
+<text x="200" y="649.0" text-anchor="middle" font-size="27" font-weight="bold" fill="#1F2937">the bytes are the same</text>
+<text x="200" y="681.0" text-anchor="middle" font-size="20" fill="#4A5568">(bitwise reproducibility)</text>
+<rect x="400" y="570" width="470" height="170" rx="14" fill="#FDF3DC" stroke="#B7791F" stroke-width="3"/>
+<text x="462" y="681.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#B7791F">~</text>
+<text x="520" y="648.0" font-size="27" fill="#1F2937">CPU-dependent BLAS can</text>
+<text x="520" y="682.0" font-size="27" fill="#1F2937">differ</text>
+<rect x="900" y="570" width="470" height="170" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="962" y="681.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#C0392B">✗</text>
+<text x="1020" y="665.0" font-size="27" fill="#1F2937">not addressed</text>
+<rect x="330" y="770" width="38" height="34" rx="8" fill="#E3F4EA" stroke="#2E8B57" stroke-width="2"/>
+<text x="349" y="796" text-anchor="middle" font-size="26" font-weight="bold" fill="#2E8B57">✓</text>
+<text x="380" y="796" font-size="24" fill="#333333">covered</text>
+<rect x="590" y="770" width="38" height="34" rx="8" fill="#FDF3DC" stroke="#B7791F" stroke-width="2"/>
+<text x="609" y="796" text-anchor="middle" font-size="26" font-weight="bold" fill="#B7791F">~</text>
+<text x="640" y="796" font-size="24" fill="#333333">partly</text>
+<rect x="850" y="770" width="38" height="34" rx="8" fill="#FBE4E1" stroke="#C0392B" stroke-width="2"/>
+<text x="869" y="796" text-anchor="middle" font-size="26" font-weight="bold" fill="#C0392B">✗</text>
+<text x="900" y="796" font-size="24" fill="#333333">not covered</text>
+</svg>
