@@ -10,6 +10,13 @@ format:
     logo: images/bc-logo.svg
     transition: fade
     incremental: true
+  clean-typst:
+    output-file: repro-talk.pdf
+    incremental: false
+    handout: true
+    font-paths: fonts
+    filters:
+      - typst-pdf.lua
 resources:
   - media/rix-demo.mp4
   - media/nix-build-demo.mp4
