@@ -108,6 +108,11 @@ Keep this ladder in mind: each study coming up breaks at a different step.
 
 ## Demo {#sec-demo-video}
 
+  - <https://github.com/jgeller112/Rix-Nix_Test>
+
+
+## Demo {#sec-demo-video}
+
 ```{=html}
 <video src="media/rix-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
 ```
