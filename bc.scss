@@ -165,6 +165,16 @@ $code-block-font-size: 0.67em;
 .reveal section#sec-env-sys2 pre code {
   font-size: 16px;
 }
+// Open Science: bump the bullet text so it reads from the back of the room
+.reveal section#sec-open-science .column:first-child {
+  font-size: 1.1em;
+}
+.reveal section#sec-open-science .column:first-child li {
+  margin: 0.1em 0;
+}
+.reveal section#sec-open-science .column:first-child ul ul {
+  font-size: 1em;
+}
 // Two code blocks + bullets: shrink the bullets so the bigger code still clears the footer
 .reveal section#sec-env-r > ul {
   font-size: 0.85em;
