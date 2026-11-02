@@ -42,7 +42,7 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 ## Open Science {#sec-open-science}
 
 ::::: columns
-::: {.column width="50%"}
+::: {.column width="58%"}
 - Being open and transparent across all stages of the research process[^bochynska]
   - Key components:
     - Dissemination
@@ -51,11 +51,73 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
       - Is your entire project pipeline reproducible?
 :::
 
-::: {.column width="50%"}
+::: {.column width="42%"}
 <br>
 
 ::: {.fragment}
-![](images/os.jpg){fig-align="center" width="432"}
+```{r}
+#| label: open-science-map
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 6.4
+#| fig-height: 5.2
+#| fig-align: center
+#| out-width: 100%
+#| dpi: 300
+#| dev: ragg_png
+# Open science mind map, redrawn from Bochynska et al. (2023), Fig. 1
+library(ggplot2)
+
+hubs <- data.frame(
+  branch = c("Dissemination", "Stance", "Workflow"),
+  x = c(-1.3, 1.7, -0.5),
+  y = c(1.35, 0, -1.4)
+)
+leaves <- data.frame(
+  branch = rep(hubs$branch, each = 3),
+  label = c(
+    "Preregistration", "Registered\nreports", "Preprints",
+    "Positionality\nstatements", "Conflict of\ninterest\ndeclarations", "Open data\nand materials",
+    "Shareable\nenvironments", "Literate\nprogramming", "Reproducible\ncode/projects"
+  ),
+  x = c(-2.85, -1.75, 0.5,  2.4, 3.4, 2.4,  -2.75, -2.1, 1.05),
+  y = c(2.05, 2.75, 2.6,   1.6, 0,    -1.6,  -0.5, -2.7, -2.7)
+)
+leaves$hx <- hubs$x[match(leaves$branch, hubs$branch)]
+leaves$hy <- hubs$y[match(leaves$branch, hubs$branch)]
+hubs$focus <- hubs$branch == "Workflow"
+leaves$focus <- leaves$branch == "Workflow"
+
+maroon <- "#98002E"; grey <- "#B5B5B5"; ink <- "#1A1A1A"
+
+ggplot() +
+  # center -> hubs, hubs -> leaves
+  geom_segment(data = hubs, aes(0, 0, xend = x, yend = y, color = focus,
+                                linewidth = focus), lineend = "round") +
+  geom_segment(data = leaves, aes(hx, hy, xend = x, yend = y, color = focus,
+                                  linewidth = focus), lineend = "round") +
+  geom_label(data = leaves, aes(x, y, label = label, fill = focus,
+                                color = focus), family = "Source Sans Pro",
+             size = 6.4, lineheight = 0.88, label.r = unit(6, "pt"),
+             label.padding = unit(5, "pt"), linewidth = 0.4,
+             text.colour = ink) +
+  geom_label(data = hubs, aes(x, y, label = branch,
+                              fill = I(ifelse(focus, maroon, "#6B6B6B"))),
+             text.colour = "white",
+             family = "Source Sans Pro", fontface = "bold", size = 7.2,
+             label.r = unit(3, "pt"), label.padding = unit(6, "pt"),
+             linewidth = 0) +
+  annotate("point", 0, 0, size = 38, shape = 21, fill = "white",
+           color = maroon, stroke = 1.6) +
+  annotate("text", 0, 0, label = "Open\nscience", family = "Merriweather",
+           fontface = "bold", size = 6.2, color = maroon, lineheight = 0.9) +
+  scale_color_manual(values = c(`FALSE` = grey, `TRUE` = maroon), guide = "none") +
+  scale_fill_manual(values = c(`FALSE` = "white", `TRUE` = "#F6E6EA"), guide = "none") +
+  scale_linewidth_manual(values = c(`FALSE` = 1, `TRUE` = 2.2), guide = "none") +
+  coord_fixed(clip = "off", xlim = c(-4, 4.3), ylim = c(-3.05, 3.05)) +
+  theme_void()
+```
 :::
 :::
 :::::
@@ -72,7 +134,7 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 </script>
 ```
 
-[^bochynska]: Figure from Bochynska, A., Keeble, L., Halfacre, C., et al. (2023). Reproducible research practices and transparency across linguistics. *Glossa Psycholinguistics*, *2*(1). <https://doi.org/10.5070/G6011239>
+[^bochynska]: Figure adapted from Bochynska, A., Keeble, L., Halfacre, C., et al. (2023). Reproducible research practices and transparency across linguistics. *Glossa Psycholinguistics*, *2*(1). <https://doi.org/10.5070/G6011239>
 
 ## What is Reproducibility?
 
@@ -208,48 +270,51 @@ suppressMessages(library(dplyr))
 
 # Conditional percentages within each README group (rows sum to 100)
 tab9 <- tribble(
-  ~readme,   ~outcome,                           ~Fully, ~Partially, ~No,
-  "none",    "Raw data",                         36.364, 22.727, 40.909,
-  "none",    "Analysis data",                    72.727, 22.727,  4.545,
-  "none",    "Cleaning code",                    36.364, 22.727, 40.909,
-  "none",    "Analysis code",                    59.091, 31.818,  9.091,
-  "none",    "Reproducible from raw data",       27.273, 27.273, 45.455,
-  "none",    "Reproducible from analysis data",  50.000, 45.455,  4.545,
-  "clear",   "Raw data",                         56.250, 18.750, 25.000,
-  "clear",   "Analysis data",                    81.250, 12.500,  6.250,
-  "clear",   "Cleaning code",                    50.000, 18.750, 31.250,
-  "clear",   "Analysis code",                    81.250, 12.500,  6.250,
-  "clear",   "Reproducible from raw data",       31.250, 37.500, 31.250,
-  "clear",   "Reproducible from analysis data",  87.500,  6.250,  6.250,
-  "unclear", "Raw data",                         48.276, 31.034, 20.690,
-  "unclear", "Analysis data",                    72.414, 17.241, 10.345,
-  "unclear", "Cleaning code",                    51.724, 27.586, 20.690,
-  "unclear", "Analysis code",                    72.414, 27.586,  0.000,
-  "unclear", "Reproducible from raw data",       27.586, 37.931, 34.483,
-  "unclear", "Reproducible from analysis data",  48.276, 37.931, 13.793
+  ~readme   , ~outcome                          , ~Fully , ~Partially , ~No    ,
+  "none"    , "Raw data"                        , 36.364 , 22.727     , 40.909 ,
+  "none"    , "Analysis data"                   , 72.727 , 22.727     ,  4.545 ,
+  "none"    , "Cleaning code"                   , 36.364 , 22.727     , 40.909 ,
+  "none"    , "Analysis code"                   , 59.091 , 31.818     ,  9.091 ,
+  "none"    , "Reproducible from raw data"      , 27.273 , 27.273     , 45.455 ,
+  "none"    , "Reproducible from analysis data" , 50.000 , 45.455     ,  4.545 ,
+  "clear"   , "Raw data"                        , 56.250 , 18.750     , 25.000 ,
+  "clear"   , "Analysis data"                   , 81.250 , 12.500     ,  6.250 ,
+  "clear"   , "Cleaning code"                   , 50.000 , 18.750     , 31.250 ,
+  "clear"   , "Analysis code"                   , 81.250 , 12.500     ,  6.250 ,
+  "clear"   , "Reproducible from raw data"      , 31.250 , 37.500     , 31.250 ,
+  "clear"   , "Reproducible from analysis data" , 87.500 ,  6.250     ,  6.250 ,
+  "unclear" , "Raw data"                        , 48.276 , 31.034     , 20.690 ,
+  "unclear" , "Analysis data"                   , 72.414 , 17.241     , 10.345 ,
+  "unclear" , "Cleaning code"                   , 51.724 , 27.586     , 20.690 ,
+  "unclear" , "Analysis code"                   , 72.414 , 27.586     ,  0.000 ,
+  "unclear" , "Reproducible from raw data"      , 27.586 , 37.931     , 34.483 ,
+  "unclear" , "Reproducible from analysis data" , 48.276 , 37.931     , 13.793
 )
 
 readme_labels <- c(
-  none    = "A: No README (n = 22)",
-  clear   = "B: Clear README (n = 16)",
+  none = "A: No README (n = 22)",
+  clear = "B: Clear README (n = 16)",
   unclear = "C: Unclear README (n = 29)"
 )
 
 plot_df <- tab9 |>
   pivot_longer(Fully:No, names_to = "status", values_to = "pct") |>
   mutate(
-    status  = factor(status, levels = c("Fully", "Partially", "No")),
-    readme  = factor(readme_labels[readme], levels = readme_labels),
+    status = factor(status, levels = c("Fully", "Partially", "No")),
+    readme = factor(readme_labels[readme], levels = readme_labels),
     # first level plots at the bottom, so reverse to read top-down
     outcome = factor(outcome, levels = rev(unique(tab9$outcome))),
-    label   = ifelse(pct >= 10, paste0(floor(pct + 0.5), "%"), "")
+    label = ifelse(pct >= 10, paste0(floor(pct + 0.5), "%"), "")
   )
 
 # Box the two reproducibility rows in Panel B (clear README):
 # 88% from analysis data vs. 31% from raw data
 highlight_box <- tibble(
   readme = factor(readme_labels["clear"], levels = readme_labels),
-  xmin = -1.5, xmax = 101.5, ymin = 0.5, ymax = 2.5
+  xmin = -1.5,
+  xmax = 101.5,
+  ymin = 0.5,
+  ymax = 2.5
 )
 
 bc_colors <- c(Fully = "#98002E", Partially = "#BC9B6A", No = "#D9D9D9")
@@ -258,17 +323,24 @@ label_ink <- c(Fully = "white", Partially = "#1A1A1A", No = "#1A1A1A")
 p <- ggplot(plot_df, aes(x = pct, y = outcome, fill = status)) +
   geom_col(
     position = position_stack(reverse = TRUE),
-    width = 0.72, color = "white", linewidth = 0.6
+    width = 0.72,
+    color = "white",
+    linewidth = 0.6
   ) +
   geom_text(
     aes(label = label, color = status),
     position = position_stack(vjust = 0.5, reverse = TRUE),
-    size = 3.6, fontface = "bold", show.legend = FALSE
+    size = 3.6,
+    fontface = "bold",
+    show.legend = FALSE
   ) +
   geom_rect(
-    data = highlight_box, inherit.aes = FALSE,
+    data = highlight_box,
+    inherit.aes = FALSE,
     aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
-    fill = NA, color = "#dc1428", linewidth = 1.6
+    fill = NA,
+    color = "#dc1428",
+    linewidth = 1.6
   ) +
   facet_wrap(~readme, ncol = 3) +
   coord_cartesian(clip = "off") +
@@ -279,15 +351,15 @@ p <- ggplot(plot_df, aes(x = pct, y = outcome, fill = status)) +
   labs(x = NULL, y = NULL) +
   theme_minimal(base_size = 16, base_family = "Helvetica") +
   theme(
-    legend.position    = "top",
+    legend.position = "top",
     legend.justification = "left",
-    legend.key.size    = unit(0.5, "cm"),
-    strip.text         = element_text(face = "bold", hjust = 0, size = 15),
-    axis.text.y        = element_text(color = "#1A1A1A"),
-    panel.grid         = element_blank(),
-    panel.spacing.x    = unit(0.8, "cm"),
-    plot.margin        = margin(10, 30, 10, 10),
-    plot.background    = element_rect(fill = "white", color = NA)
+    legend.key.size = unit(0.5, "cm"),
+    strip.text = element_text(face = "bold", hjust = 0, size = 15),
+    axis.text.y = element_text(color = "#1A1A1A"),
+    panel.grid = element_blank(),
+    panel.spacing.x = unit(0.8, "cm"),
+    plot.margin = margin(10, 30, 10, 10),
+    plot.background = element_rect(fill = "white", color = NA)
   )
 
 p
@@ -765,7 +837,7 @@ in { inherit pkgs shell; }
 
 ::::: columns
 ::: {.column width="78%"}
-- `{rix}` ([website](https://docs.ropensci.org/rix/)) makes writing Nix expressions easy: one R function, `rix()`
+- `{rix}`, by Bruno Rodrigues ([website](https://docs.ropensci.org/rix/)), makes writing Nix expressions easy: one R function, `rix()`
 :::
 
 ::: {.column width="22%"}
@@ -775,6 +847,10 @@ in { inherit pkgs shell; }
 
 ::: {.fragment}
 ``` r
+# From CRAN
+install.packages("rix")
+
+# Development version, from r-universe
 install.packages("rix", repos = "https://ropensci.r-universe.dev")
 ```
 :::
@@ -994,22 +1070,22 @@ Live demo here: same repo that failed earlier, now rendering inside the environm
 #| eval: false
 #| echo: true
 rix(
-  date   = "2026-08-24",
+  date = "2026-08-24",
   r_pkgs = c("brms", "palmerpenguins", "knitr", "rmarkdown"),
   git_pkgs = list(
     package_name = "cmdstanr",
-    repo_url     = "https://github.com/stan-dev/cmdstanr",
-    commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
+    repo_url = "https://github.com/stan-dev/cmdstanr",
+    commit = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
   ),
   system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
+  shell_hook = paste(
     "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
     "export PRECOMPILED_HEADERS=false",
     sep = "\n"
   ),
-  ide          = "none",
+  ide = "none",
   project_path = ".",
-  overwrite    = TRUE
+  overwrite = TRUE
 )
 ```
 
@@ -1017,10 +1093,13 @@ rix(
 #| eval: false
 #| echo: true
 #| 
-Rscript gen-env.R # writes default.nix (+ .Rprofile)
-nix-build # build the environment once
-nix-shell --pure # enter it
-quarto render analysis.qmd # render inside it (HTML + PDF)
+Rscript
+gen - env.R # writes default.nix (+ .Rprofile)
+nix - build # build the environment once
+nix - shell - -pure # enter it
+quarto
+render
+analysis.qmd # render inside it (HTML + PDF)
 ```
 
 ## Nix/`Rix`: using it (recording) {#sec-rix-use-video}
@@ -1118,6 +1197,7 @@ Call back to the README slide: from raw data, even a clear README only got to 31
   - {groundhog}  
 - Docker for a shared environment
 - {targets} for analytic pipelines
+- Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check
 
 Reproducibility is a *ladder*, not a cliff.
 
@@ -1126,8 +1206,6 @@ Reproducibility is a *ladder*, not a cliff.
 - Train RAs 
 - Make "can a stranger rerun this?" a lab norm
 - Include tools/discussion in courses
-
-
 - Incentives matter more than any single tool
 
 ## Takeaways {#sec-takeaways}
