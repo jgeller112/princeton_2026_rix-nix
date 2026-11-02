@@ -77,44 +77,95 @@ hubs <- data.frame(
 leaves <- data.frame(
   branch = rep(hubs$branch, each = 3),
   label = c(
-    "Preregistration", "Registered\nreports", "Preprints",
-    "Positionality\nstatements", "Conflict of\ninterest\ndeclarations", "Open data\nand materials",
-    "Shareable\nenvironments", "Literate\nprogramming", "Reproducible\ncode/projects"
+    "Preregistration",
+    "Registered\nreports",
+    "Preprints",
+    "Positionality\nstatements",
+    "Conflict of\ninterest\ndeclarations",
+    "Open data\nand materials",
+    "Shareable\nenvironments",
+    "Literate\nprogramming",
+    "Reproducible\ncode/projects"
   ),
-  x = c(-2.85, -1.75, 0.5,  2.4, 3.4, 2.4,  -2.75, -2.1, 1.05),
-  y = c(2.05, 2.75, 2.6,   1.6, 0,    -1.6,  -0.5, -2.7, -2.7)
+  x = c(-2.85, -1.75, 0.5, 2.4, 3.4, 2.4, -2.75, -2.1, 1.05),
+  y = c(2.05, 2.75, 2.6, 1.6, 0, -1.6, -0.5, -2.7, -2.7)
 )
 leaves$hx <- hubs$x[match(leaves$branch, hubs$branch)]
 leaves$hy <- hubs$y[match(leaves$branch, hubs$branch)]
 hubs$focus <- hubs$branch == "Workflow"
 leaves$focus <- leaves$branch == "Workflow"
 
-maroon <- "#98002E"; grey <- "#B5B5B5"; ink <- "#1A1A1A"
+maroon <- "#98002E"
+grey <- "#B5B5B5"
+ink <- "#1A1A1A"
 
 ggplot() +
   # center -> hubs, hubs -> leaves
-  geom_segment(data = hubs, aes(0, 0, xend = x, yend = y, color = focus,
-                                linewidth = focus), lineend = "round") +
-  geom_segment(data = leaves, aes(hx, hy, xend = x, yend = y, color = focus,
-                                  linewidth = focus), lineend = "round") +
-  geom_label(data = leaves, aes(x, y, label = label, fill = focus,
-                                color = focus), family = "Source Sans Pro",
-             size = 6.4, lineheight = 0.88, label.r = unit(6, "pt"),
-             label.padding = unit(5, "pt"), linewidth = 0.4,
-             text.colour = ink) +
-  geom_label(data = hubs, aes(x, y, label = branch,
-                              fill = I(ifelse(focus, maroon, "#6B6B6B"))),
-             text.colour = "white",
-             family = "Source Sans Pro", fontface = "bold", size = 7.2,
-             label.r = unit(3, "pt"), label.padding = unit(6, "pt"),
-             linewidth = 0) +
-  annotate("point", 0, 0, size = 38, shape = 21, fill = "white",
-           color = maroon, stroke = 1.6) +
-  annotate("text", 0, 0, label = "Open\nscience", family = "Merriweather",
-           fontface = "bold", size = 6.2, color = maroon, lineheight = 0.9) +
-  scale_color_manual(values = c(`FALSE` = grey, `TRUE` = maroon), guide = "none") +
-  scale_fill_manual(values = c(`FALSE` = "white", `TRUE` = "#F6E6EA"), guide = "none") +
-  scale_linewidth_manual(values = c(`FALSE` = 1, `TRUE` = 2.2), guide = "none") +
+  geom_segment(
+    data = hubs,
+    aes(0, 0, xend = x, yend = y, color = focus, linewidth = focus),
+    lineend = "round"
+  ) +
+  geom_segment(
+    data = leaves,
+    aes(hx, hy, xend = x, yend = y, color = focus, linewidth = focus),
+    lineend = "round"
+  ) +
+  geom_label(
+    data = leaves,
+    aes(x, y, label = label, fill = focus, color = focus),
+    family = "Source Sans Pro",
+    size = 6.4,
+    lineheight = 0.88,
+    label.r = unit(6, "pt"),
+    label.padding = unit(5, "pt"),
+    linewidth = 0.4,
+    text.colour = ink
+  ) +
+  geom_label(
+    data = hubs,
+    aes(x, y, label = branch, fill = I(ifelse(focus, maroon, "#6B6B6B"))),
+    text.colour = "white",
+    family = "Source Sans Pro",
+    fontface = "bold",
+    size = 7.2,
+    label.r = unit(3, "pt"),
+    label.padding = unit(6, "pt"),
+    linewidth = 0
+  ) +
+  annotate(
+    "point",
+    0,
+    0,
+    size = 38,
+    shape = 21,
+    fill = "white",
+    color = maroon,
+    stroke = 1.6
+  ) +
+  annotate(
+    "text",
+    0,
+    0,
+    label = "Open\nscience",
+    family = "Merriweather",
+    fontface = "bold",
+    size = 6.2,
+    color = maroon,
+    lineheight = 0.9
+  ) +
+  scale_color_manual(
+    values = c(`FALSE` = grey, `TRUE` = maroon),
+    guide = "none"
+  ) +
+  scale_fill_manual(
+    values = c(`FALSE` = "white", `TRUE` = "#F6E6EA"),
+    guide = "none"
+  ) +
+  scale_linewidth_manual(
+    values = c(`FALSE` = 1, `TRUE` = 2.2),
+    guide = "none"
+  ) +
   coord_fixed(clip = "off", xlim = c(-4, 4.3), ylim = c(-3.05, 3.05)) +
   theme_void()
 ```
@@ -847,10 +898,6 @@ in { inherit pkgs shell; }
 
 ::: {.fragment}
 ``` r
-# From CRAN
-install.packages("rix")
-
-# Development version, from r-universe
 install.packages("rix", repos = "https://ropensci.r-universe.dev")
 ```
 :::
@@ -1116,7 +1163,7 @@ What to point at: gen-env.R writes default.nix; nix-build prints a /nix/store pa
 The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about the generated default.nix. The GITHUB_PAT message is rix asking GitHub for the cmdstanr commit date without a token.
 :::
 
-## {Rix} not perfect
+## nix not perfect
 
 - Misdeclared dependencies: an R package wrongly listed a dependency under Imports when it belonged in Suggests.
 
@@ -1126,8 +1173,7 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 - macOS: the description stays valid, but an OS update can break today’s build.
   -  Recommendation: build inside a dockerfile.
 
-- Isolation: use nix-shell --pure, so the shell sees only the declared
-  environment and not software installed on the host.
+- Isolation: use nix-shell --pure, so the shell sees only the declare environment and not software installed on the host.
 
 - Getting {rix} to work on Windows can be cumbersome
 
