@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-11-02">
+  <meta name="dcterms.date" content="2026-11-03">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-11-02</p>
+  <p class="date">2026-11-03</p>
 </section>
 <section id="sec-disclaimer" class="slide level2">
 <h2>Disclaimer</h2>
@@ -235,17 +235,12 @@ Jason Geller, PH.D.(he/him)
 <div class="columns">
 <div class="column" style="width:58%;">
 <ul>
-<li class="fragment">Being open and transparent across all stages of the research process<sup>1</sup>
-<ul>
-<li class="fragment">Key components:
+<li class="fragment"><strong>Open science:</strong> being open and transparent at every stage of research<sup>1</sup></li>
+<li class="fragment">Three parts:
 <ul>
 <li class="fragment">Dissemination</li>
 <li class="fragment">Stance</li>
-<li class="fragment"><strong><em>Workflow</em></strong>
-<ul>
-<li class="fragment">Is your entire project pipeline reproducible?</li>
-</ul></li>
-</ul></li>
+<li class="fragment"><strong><em>Workflow</em></strong>: <em>Could someone else rerun your whole pipeline and get your results?</em></li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:42%;">
@@ -271,7 +266,7 @@ Jason Geller, PH.D.(he/him)
   slide.querySelector(".column + .column .fragment").setAttribute("data-fragment-index", 2);
 })();
 </script>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>Figure adapted from Bochynska, A., Keeble, L., Halfacre, C., et al.&nbsp;(2023). Reproducible research practices and transparency across linguistics. <em>Glossa Psycholinguistics</em>, <em>2</em>(1). <a href="https://doi.org/10.5070/G6011239" class="uri">https://doi.org/10.5070/G6011239</a></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Figure adapted from Casillas, J. V., Constantin-Dureci, G., Andreu Rascón, I., et al.&nbsp;(2025). Opening open science to all: Demystifying reproducibility and transparency practices in linguistic research. <em>Linguistics</em>, <em>63</em>(6), 1547–1575. <a href="https://doi.org/10.1515/ling-2023-0249" class="uri">https://doi.org/10.1515/ling-2023-0249</a></p></li></ol></aside></section>
 <section id="what-is-reproducibility" class="slide level2">
 <h2>What is Reproducibility?</h2>
 <table class="caption-top">
@@ -1019,11 +1014,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div></div>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="co"># From CRAN</span></span>
-<span id="cb14-2"><a href="" aria-label="2"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>)</span>
-<span id="cb14-3"><a href="" aria-label="3"></a></span>
-<span id="cb14-4"><a href="" aria-label="4"></a><span class="co"># Development version, from r-universe</span></span>
-<span id="cb14-5"><a href="" aria-label="5"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>, <span class="at">repos =</span> <span class="st">"https://ropensci.r-universe.dev"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>, <span class="at">repos =</span> <span class="st">"https://ropensci.r-universe.dev"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sec-rix-call" class="slide level2 code-walk">
@@ -1289,8 +1280,8 @@ Jason Geller, PH.D.(he/him)
           display:block!important;
       }</style></aside>
 </section>
-<section id="rix-not-perfect" class="slide level2">
-<h2>{Rix} not perfect</h2>
+<section id="nix-not-perfect" class="slide level2">
+<h2>nix not perfect</h2>
 <ul>
 <li class="fragment"><p>Misdeclared dependencies: an R package wrongly listed a dependency under Imports when it belonged in Suggests.</p></li>
 <li class="fragment"><p>Parsing bug: a dependency written as R(&gt;= x) with no space and a package whose name ends in R. Fixed already in the GitHub development version.</p></li>
@@ -1298,7 +1289,7 @@ Jason Geller, PH.D.(he/him)
 <ul>
 <li class="fragment">Recommendation: build inside a dockerfile.</li>
 </ul></li>
-<li class="fragment"><p>Isolation: use nix-shell –pure, so the shell sees only the declared environment and not software installed on the host.</p></li>
+<li class="fragment"><p>Isolation: use nix-shell –pure, so the shell sees only the declare environment and not software installed on the host.</p></li>
 <li class="fragment"><p>Getting {rix} to work on Windows can be cumbersome</p></li>
 </ul>
 </section>

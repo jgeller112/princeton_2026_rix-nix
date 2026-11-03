@@ -43,12 +43,11 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 
 ::::: columns
 ::: {.column width="58%"}
-- Being open and transparent across all stages of the research process[^bochynska]
-  - Key components:
-    - Dissemination
-    - Stance
-    - ***Workflow***
-      - Is your entire project pipeline reproducible?
+- **Open science:** being open and transparent at every stage of research[^casillas]
+- Three parts:
+  - Dissemination
+  - Stance
+  - ***Workflow***: *Could someone else rerun your whole pipeline and get your results?*
 :::
 
 ::: {.column width="42%"}
@@ -66,7 +65,7 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 #| out-width: 100%
 #| dpi: 300
 #| dev: ragg_png
-# Open science mind map, redrawn from Bochynska et al. (2023), Fig. 1
+# Open science mind map, adapted from Casillas et al. (2025)
 library(ggplot2)
 
 hubs <- data.frame(
@@ -185,7 +184,7 @@ ggplot() +
 </script>
 ```
 
-[^bochynska]: Figure adapted from Bochynska, A., Keeble, L., Halfacre, C., et al. (2023). Reproducible research practices and transparency across linguistics. *Glossa Psycholinguistics*, *2*(1). <https://doi.org/10.5070/G6011239>
+[^casillas]: Figure adapted from Casillas, J. V., Constantin-Dureci, G., Andreu Rascón, I., et al. (2025). Opening open science to all: Demystifying reproducibility and transparency practices in linguistic research. *Linguistics*, *63*(6), 1547–1575. <https://doi.org/10.1515/ling-2023-0249>
 
 ## What is Reproducibility?
 
