@@ -1388,15 +1388,15 @@ Reproducibility is a *ladder*, not a cliff.
 
 ## Takeaways {#sec-takeaways}
 
-1.  **Shared ≠ reproducible**
-    - About half of psych papers reproduce, and few can even be checked
-    - Share data *and* code, then check that someone else can run them
-2.  **Document it**
-    - A clear README: what to run, in what order, starting from raw data
-3.  **Freeze the environment**
-    - `{rix}` declares R, packages, and system tools in one file, pinned to a date
-    - CI reruns it from scratch, so you find out before a reviewer does
+1.  **Reproducibility is a ladder, not a cliff**
+    - Every step you add makes your pipeline more reproducible
 
+1.  **Document it**
+    - A clear README: what to run, in what order, starting from raw data
+
+1.  **Freeze the environment**
+    - Nix/`{rix}` declares R, packages, and system tools in one file, pinned to a date
+    - Continuous integration reruns it from scratch, so you find out before a reviewer does
 
 ## Thanks!
 
