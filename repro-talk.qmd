@@ -1297,17 +1297,19 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about t
 
 ## nix not perfect
 
-- Misdeclared dependencies: an R package wrongly listed a dependency under Imports when it belonged in Suggests.
+ Misdeclared dependencies
+  - An R package wrongly listed a dependency under Imports when it belonged in Suggests.
 
--  Parsing bug: a dependency written as R(\>= x) with no space and a package
-   whose name ends in R. Fixed already in the GitHub development version.
+- macOS
+  - the description stays valid, but an OS update can break today’s build.
+    -  Recommendation: build inside a dockerfile.
 
-- macOS: the description stays valid, but an OS update can break today’s build.
-  -  Recommendation: build inside a dockerfile.
+- Isolation
+  - use nix-shell --pure, so the shell sees only the declare environment and not software installed on the host.
 
-- Isolation: use nix-shell --pure, so the shell sees only the declare environment and not software installed on the host.
-
-- Getting {rix} to work on Windows can be cumbersome
+- Windows
+  - Getting {rix} to work on Windows can be cumbersome
+    - Have to use WSL
 
 ## CI: what it is {#sec-ci}
 
@@ -1389,7 +1391,7 @@ Reproducibility is a *ladder*, not a cliff.
 ## Takeaways {#sec-takeaways}
 
 1.  **Reproducibility is a ladder, not a cliff**
-    - Every step you add makes your pipeline more reproducible
+    - Every step you take makes your pipeline more reproducible
 
 1.  **Document it**
     - A clear README: what to run, in what order, starting from raw data
