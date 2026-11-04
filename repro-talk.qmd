@@ -286,47 +286,61 @@ round(quantile(boot, c(.025, .975)), 2)
 ```
 
 ::: {.fragment}
-Paper: *d* = 0.45, 95% bootstrap CI [0.01, 0.91]
+Paper (2019): *d* = 0.45, 95% bootstrap confidence interval (CI) [0.01, 0.91], which excludes zero
 :::
 
-## Demo: same data, same code {#sec-demo-path2 .smaller}
-
-:::::: columns
-::: {.column width="50%"}
-**Author's laptop (R 3.5.3)**
-
-```
-[1] 0.45
- 2.5% 97.5%
- 0.01  0.91
-```
-:::
-
-::: {.column .fragment width="50%"}
-**My laptop (R 4.6.1)**
-
-```
-[1] 0.45
- 2.5% 97.5%
--0.02  0.88
-```
-:::
-::::::
-
-::: {.fragment}
-The CI now includes zero. Why? R 3.6.0 changed how `sample()` draws:
+## Demo: the reanalysis {#sec-demo-reanalysis .smaller}
 
 ```r
-set.seed(42); sample(1:80, 6)
-#> R 3.5:  74 75 23 64 49 39
-#> R 3.6+: 49 65 25 74 18 80
+# reanalysis.R: same data, same cohens_d(), same seed;
+# only the sampler changes
+boot_ci <- function(kind) {
+  RNGkind(sample.kind = kind)  # "Rounding" = R < 3.6, "Rejection" = R >= 3.6
+  set.seed(2018)
+  boot <- replicate(2000, cohens_d(dat[sample(nrow(dat), replace = TRUE), ]))
+  round(quantile(boot, c(.025, .975)), 2)
+}
+
+ci <- rbind("2019 (R 3.5.3)" = boot_ci("Rounding"),
+            "2026 (R 4.6.1)" = boot_ci("Rejection"))
+data.frame(d = round(cohens_d(dat), 2), lower = ci[, 1], upper = ci[, 2],
+           includes_0 = ci[, 1] < 0)
+```
+
+::: {.fragment}
+```
+                  d lower upper includes_0
+2019 (R 3.5.3) 0.45  0.01  0.91      FALSE
+2026 (R 4.6.1) 0.45 -0.02  0.88       TRUE
+```
+:::
+
+## Demo: same code, different year {#sec-demo-path2 .smaller}
+
+|                  | 2019: author (R 3.5.3) | 2026: me (R 4.6.1)        |
+|------------------|------------------------|---------------------------|
+| *d*              | 0.45                   | 0.45                      |
+| 95% CI           | [0.01, 0.91]           | [[−0.02]{style="color:#98002E; font-weight:bold"}, 0.88]         |
+| CI includes 0?   | No                     | [Yes]{style="color:#98002E; font-weight:bold"}                  |
+
+::: {.fragment}
+Why? R 3.6.0 changed how `sample()` draws, so the same seed gives different bootstrap samples.
+:::
+
+::: {.fragment}
+Fix: make the R version part of the project, with Nix/`{rix}`:
+
+```r
+rix::rix(r_ver = "3.5.3", project_path = ".")
 ```
 :::
 
 ::: notes
 Simulated data; dataset picked so the CI flips. Outputs are real: the R 3.5 column was produced with RNGkind(sample.kind = "Rounding"), which reproduces pre-3.6 sample() exactly. Files in demo/sample-demo/.
 
-Walk through: everything is shared, relative path, seed set. Paper says CI excludes zero. Run it on my machine: same d, but the CI now crosses zero. Nothing in the data or code changed; R did.
+Walk through: everything is shared, relative path, seed set. Paper (2019) says the 95% confidence interval excludes zero. Run it on my machine in 2026: same d, but the CI now crosses zero. Nothing in the data or code changed; R did (R 3.6.0, April 2019, changed sample()).
+
+Nix teaser: rix() writes a default.nix that pins R 3.5.3 (and packages); more on how that works later. (Note: R 3.5.3 via Nix does not build on Apple Silicon; the 2019 package set predates it.)
 
 Punchline: data and code were both shared, and it still did not reproduce. It is not as simple as having the data and the code. -> computational reproducibility
 :::
@@ -355,7 +369,7 @@ Keep this ladder in mind: each study coming up breaks at a different step.
 
 ::: {.nonincremental}
 - SCORE: 600 papers, 62 journals, several fields (2009-2018)
-- Out of 600 papers, 144 made data available; 44 they obtained source data
+- Out of 600 papers, 144 made data available; for 38 more, they obtained source data
 :::
 
 ::: {.fragment}
@@ -369,10 +383,12 @@ Transition from the demo: that failure isn't just me. Here's the data.
 
 Panel b: of the psychology papers the teams could attempt, roughly half were precisely reproduced. Mid-pack across fields.
 
-But note panel a: that ~50% is only out of the papers that could be *attempted*. Which raises the question: how many could be?
+Bridge (point at panel a): "About half reproduced, but half of *what*? Look at panel a: that dark sliver is the only part of psychology anyone could even try. Everything grey is papers nobody could check. Why so few? You can't attempt a reproduction without data." -> next slide
+
+(An "attempt" = an analyst actually tried to reanalyse the paper, which needed author data, author data + code, or reconstructable source data. Panel a: attempted out of all sampled papers. Panel b: outcomes out of attempted papers only.)
 :::
 
-## Few papers can be checked[^miske2] {#sec-howdoing-avail}
+## Why so few attempts? No data[^miske2] {#sec-howdoing-avail}
 
 ::: {.nonincremental}
 - Few psychology papers shared both data and code
