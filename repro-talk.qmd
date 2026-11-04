@@ -18,7 +18,6 @@ format:
     filters:
       - typst-pdf.lua
 resources:
-  - media/rix-demo.mp4
   - media/nix-build-demo.mp4
 ---
 
@@ -29,9 +28,67 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 :::
 
 
-## The Replication Crisis[^munafo]
+## The Replication Crisis[^munafo] {#sec-replication-crisis}
 
-![](images/replication-crisis-cycle-v2.svg){fig-align="center" height="430"}
+```{dot}
+//| label: replication-crisis-cycle
+//| echo: false
+//| fig-align: center
+//| fig-width: 9.5
+//| fig-height: 3.7
+digraph replication {
+  layout=neato
+  splines=true
+  outputorder=edgesfirst
+  bgcolor="transparent"
+  pad=0.2
+  node [shape=box style="rounded,filled" fillcolor="#EAF1FA" color="#3B6FA6" penwidth=1.5
+        fontname="Helvetica-Bold" fontsize=20 fontcolor="#1A1A1A" margin="0.3,0.12"]
+  edge [color="#3B6FA6" penwidth=4 arrowsize=0.9]
+
+  publish   [pos="-1.15,1.9!" label="Publish\nexperiment"]
+  specify   [pos="1.15,1.9!" label="Specify\nhypotheses"]
+  design    [pos="2.3,0!" label="Design\nstudy"]
+  collect   [pos="1.15,-1.9!" label="Collect\ndata"]
+  analyze   [pos="-1.15,-1.9!" label="Analyze\ndata"]
+  interpret [pos="-2.3,0!" label="Interpret\ndata"]
+
+  publish -> specify -> design -> collect -> analyze -> interpret -> publish
+
+  // Problem callouts: class "fragment fN" = appears on click N
+  node [shape=box style="rounded,filled" fillcolor="white" color="#D9D9D9" fontname="Helvetica" fontsize=17 margin="0.28,0.14"]
+  edge [color="#9A9A9A" penwidth=1.5 style=dashed arrowhead=none]
+
+  power [pos="5.6,-1.6!" class="fragment f1" label=<<font face="Helvetica-Bold" point-size="22" color="#B23A3A">Low statistical power</font><br align="left"/>~50% chance of detecting<br align="left"/>a medium-sized effect<br align="left"/><font point-size="13" color="#767676">Cohen (1962); Sedlmeier &amp; Gigerenzer (1989)</font><br align="left"/>>]
+  design -> power [class="fragment f1"]
+
+  phack [pos="-5.3,-1.9!" class="fragment f2" label=<<font face="Helvetica-Bold" point-size="22" color="#B23A3A">P-hacking</font><br align="left"/>~50–100% prevalence<br align="left"/><font point-size="13" color="#767676">John et al. (2012)</font><br align="left"/>>]
+  analyze -> phack [class="fragment f2"]
+
+  interpret -> specify [class="fragment f3" color="#B23A3A" penwidth=3.5 style=solid arrowhead=normal
+    label=<<font face="Helvetica-Bold" point-size="22" color="#B23A3A">HARKing</font><br/>~50–90% prevalence<br/><font point-size="13" color="#767676">Kerr (1998); John et al. (2012)</font>> fontname="Helvetica" fontsize=17]
+
+  bias [pos="-5.1,2.3!" class="fragment f4" label=<<font face="Helvetica-Bold" point-size="22" color="#B23A3A">Publication bias &amp;<br align="left"/>lack of data sharing</font><br align="left"/>~92% positive results;<br align="left"/>~70% data unavailable<br align="left"/><font point-size="13" color="#767676">Fanelli (2010); Wicherts et al. (2006)</font><br align="left"/>>]
+  publish -> bias [class="fragment f4"]
+
+  replic [pos="5.3,2.3!" margin="0.45,0.14" class="fragment f0" label=<<font face="Helvetica-Bold" point-size="22" color="#B23A3A">Lack of replication</font><br align="left"/>About 1 in 1000 papers<br align="left"/>is a close replication<br align="left"/><font point-size="13" color="#767676">Makel et al. (2012)</font><br align="left"/>>]
+  specify -> replic [class="fragment f0"]
+}
+```
+
+```{=html}
+<style>
+#sec-replication-crisis svg { width: 100%; height: auto; max-height: 560px; }
+</style>
+<script>
+// Graphviz tags each problem's box and its connector as "fragment fN";
+// give both the same index so they appear together on click N
+document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(function (el) {
+  var m = el.getAttribute("class").match(/\bf(\d+)\b/);
+  if (m) el.setAttribute("data-fragment-index", m[1]);
+});
+</script>
+```
 
 [^munafo]: Munafò, M. R., Nosek, B. A., Bishop, D. V. M., et al. (2017). A manifesto for reproducible science. *Nature Human Behaviour*, *1*, 0021. <https://doi.org/10.1038/s41562-016-0021>
 
@@ -193,18 +250,94 @@ ggplot() +
 | Same Analysis      | **Reproducible** | **Replicable**    |
 | Different Analysis | **Robust**       | **Generalisable** |
 
-
-- Computational Reproducibility
-
-  - "Ability to obtain consistent computational results using the same input data, computational steps, methods,
-code, and conditions of analysis"[^schultze]
-
 ::: notes
-Hand-off: Notice how much is packed into that definition: the data, the code, the steps, and the *conditions* the analysis ran under. In practice, reproducibility isn't yes-or-no. You can share some of those pieces and not others, and every piece you add gets you closer. So it helps to think of it as a spectrum. -> spectrum slide
-
-(Lean on "conditions of analysis": that's the computational environment, the top of the spectrum and the theme of the rest of the talk.)
+Hand-off: Top-left cell is today's topic. Same data, same code: that should be the easy one, right? Let me show you. -> demo
 :::
 
+## Demo {#sec-demo}
+
+  - <https://github.com/jgeller112/Rix-Nix_Test>
+
+
+## Demo: everything is shared {#sec-demo-path .smaller}
+
+```
+study1/
+├── analysis.R
+└── data/
+    └── data_final.csv
+```
+
+```r
+# analysis.R
+dat <- read.csv("data/data_final.csv")
+
+cohens_d <- function(x) {
+  m <- tapply(x$recall, x$condition, mean)
+  s <- sqrt(mean(tapply(x$recall, x$condition, var)))
+  unname((m["retrieval"] - m["control"]) / s)
+}
+
+set.seed(2018)
+boot <- replicate(2000, cohens_d(dat[sample(nrow(dat), replace = TRUE), ]))
+
+round(cohens_d(dat), 2)
+round(quantile(boot, c(.025, .975)), 2)
+```
+
+::: {.fragment}
+Paper: *d* = 0.45, 95% bootstrap CI [0.01, 0.91]
+:::
+
+## Demo: same data, same code {#sec-demo-path2 .smaller}
+
+:::::: columns
+::: {.column width="50%"}
+**Author's laptop (R 3.5.3)**
+
+```
+[1] 0.45
+ 2.5% 97.5%
+ 0.01  0.91
+```
+:::
+
+::: {.column .fragment width="50%"}
+**My laptop (R 4.6.1)**
+
+```
+[1] 0.45
+ 2.5% 97.5%
+-0.02  0.88
+```
+:::
+::::::
+
+::: {.fragment}
+The CI now includes zero. Why? R 3.6.0 changed how `sample()` draws:
+
+```r
+set.seed(42); sample(1:80, 6)
+#> R 3.5:  74 75 23 64 49 39
+#> R 3.6+: 49 65 25 74 18 80
+```
+:::
+
+::: notes
+Simulated data; dataset picked so the CI flips. Outputs are real: the R 3.5 column was produced with RNGkind(sample.kind = "Rounding"), which reproduces pre-3.6 sample() exactly. Files in demo/sample-demo/.
+
+Walk through: everything is shared, relative path, seed set. Paper says CI excludes zero. Run it on my machine: same d, but the CI now crosses zero. Nothing in the data or code changed; R did.
+
+Punchline: data and code were both shared, and it still did not reproduce. It is not as simple as having the data and the code. -> computational reproducibility
+:::
+
+## Computational Reproducibility {#sec-comp-repro}
+
+> "Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and **conditions of analysis**"[^schultze]
+
+::: notes
+Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same **conditions of analysis**, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. -> spectrum slide
+:::
 
 [^schultze]: Schultze, A., Saul, L., Roesch, E., et al. (2026). *Computational reproducibility: A primer from UKRN*. Zenodo. <https://doi.org/10.5281/zenodo.19232891>
 
@@ -217,22 +350,6 @@ The vocabulary for the rest of the talk: code, then data, then documentation, th
 
 Keep this ladder in mind: each study coming up breaks at a different step.
 :::
-
-## Demo {#sec-demo-video}
-
-  - <https://github.com/jgeller112/Rix-Nix_Test>
-
-
-## Demo {#sec-demo-video}
-
-```{=html}
-<video src="media/rix-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
-```
-
-::: notes
-Backup recording: a "stranger's laptop" (empty home folder, old Quarto 1.3). Three failures: Typst needs Quarto 1.4+, palmerpenguins missing, CmdStan missing.
-:::
-
 
 ## Psychology: about half reproduce[^miske1] {#sec-howdoing}
 

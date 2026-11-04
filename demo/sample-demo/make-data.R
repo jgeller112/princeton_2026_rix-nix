@@ -1,0 +1,5 @@
+# Simulated data for the talk demo (seed found by searching for a CI that flips across R versions)
+set.seed(28)
+dat <- data.frame(id = 1:80, condition = rep(c("control", "retrieval"), each = 40))
+dat$recall <- round(pmin(pmax(rnorm(80, ifelse(dat$condition == "retrieval", .60, .53), .15), 0), 1), 2)
+write.csv(dat, "data/data_final.csv", row.names = FALSE)
