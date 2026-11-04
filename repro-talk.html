@@ -1656,10 +1656,9 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <section id="sec-takeaways" class="slide level2">
 <h2>Takeaways</h2>
 <ol type="1">
-<li class="fragment"><strong>Shared ≠ reproducible</strong>
+<li class="fragment"><strong>Reproducibility is a ladder, not a cliff</strong>
 <ul>
-<li class="fragment">About half of psych papers reproduce, and few can even be checked</li>
-<li class="fragment">Share data <em>and</em> code, then check that someone else can run them</li>
+<li class="fragment">Every step you add makes your pipeline more reproducible</li>
 </ul></li>
 <li class="fragment"><strong>Document it</strong>
 <ul>
@@ -1667,8 +1666,8 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 </ul></li>
 <li class="fragment"><strong>Freeze the environment</strong>
 <ul>
-<li class="fragment"><code>{rix}</code> declares R, packages, and system tools in one file, pinned to a date</li>
-<li class="fragment">CI reruns it from scratch, so you find out before a reviewer does</li>
+<li class="fragment">Nix/<code>{rix}</code> declares R, packages, and system tools in one file, pinned to a date</li>
+<li class="fragment">Continuous integration reruns it from scratch, so you find out before a reviewer does</li>
 </ul></li>
 </ol>
 </section>
