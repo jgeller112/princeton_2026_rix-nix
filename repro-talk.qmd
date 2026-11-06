@@ -850,8 +850,8 @@ Strong across space: pull the saved image anywhere. Weak across time: rebuilding
 
 :::::: {.columns}
 ::: {.column width="80%"}
-- **Nix** is a package manager (+language +buid tool):
-    - it installs and manages R/Python packages and software/system dependeiences
+- **Nix** is a package manager (+language +build tool):
+    - it installs and manages R/Python packages and software/system dependencies
     - Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
     - Every input is pinned by hash: the same expression gives the same environment, on any machine (everything lives in its own folder)
       - The "+ Environment" step of the gold standard
@@ -859,6 +859,8 @@ Strong across space: pull the saved image anywhere. Weak across time: rebuilding
 
 ::: {.column width="20%"}
 ![](images/nix-snowflake.svg){.hex fig-align="center" width="160" fig-alt="Nix snowflake logo"}
+
+[Logo: NixOS artwork ([CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/))]{style="display:block; text-align:center; font-size:0.4em;"}
 :::
 ::::::
 
@@ -1324,17 +1326,11 @@ rix(
 )
 ```
 
-```{r}
-#| eval: false
-#| echo: true
-#| 
-Rscript
-gen - env.R # writes default.nix (+ .Rprofile)
-nix - build # build the environment once
-nix - shell - -pure # enter it
-quarto
-render
-analysis.qmd # render inside it (HTML + PDF)
+``` bash
+Rscript gen-env.R          # writes default.nix (+ .Rprofile)
+nix-build                  # build the environment once
+nix-shell --pure           # enter it
+quarto render analysis.qmd # render inside it (HTML + PDF)
 ```
 
 ## Nix/`Rix`: using it (recording) {#sec-rix-use-video}
