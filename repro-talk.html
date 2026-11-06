@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-425efd377b3813f0c037d65f6539afe5.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-4017c55e145ee378c9020bc38c09f82b.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -820,20 +820,14 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <pre><code>LaTeX Error: File `lualatex-math.sty' not found.</code></pre>
 </div>
 </section>
-<section id="sec-env-sys" class="slide level2">
+<section id="sec-env-sys" class="slide level2 code-walk">
 <h2>4. System libraries and compilers</h2>
 <ul>
 <li class="fragment">Many R packages are compiled code (C, C++, Fortran) and use libraries from the OS (e.g., libpng, BLAS/LAPACK).
 <ul>
 <li class="fragment">Today: CRAN hands you a binary. However, years later: only the source. Your machine compiles it, with today’s compiler and today’s libraries.</li>
 </ul></li>
-<li class="fragment">Same script, different BLAS (illustration in next slides).</li>
-</ul>
-</section>
-<section id="sec-env-sys2" class="slide level2 code-walk">
-<h2>4. System libraries and compilers (continued)</h2>
-<ul>
-<li class="fragment">Based on an illustration by Danielle Navarro; eigenvector sign flip in the system’s BLAS/LAPACK (<code>MASS::mvrnorm()</code> is not invariant, <code>mvtnorm::rmvnorm()</code> fine).</li>
+<li class="fragment">Same script, different BLAS: an eigenvector sign flip in the system’s BLAS/LAPACK changes <code>MASS::mvrnorm()</code> draws (<code>mvtnorm::rmvnorm()</code> is fine). Based on an illustration by Danielle Navarro.</li>
 </ul>
 <div class="fragment">
 <pre><code>== MASS (native R) ==
@@ -887,7 +881,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <li class="fragment"><p>Issue: combining incomplete tools (i.e., stabilize parts of it), which may require diverse expertise (e.g., <code>{renv}</code>, <code>{groundhog}</code>, <code>{rang}</code>, <code>{rig}</code>, and Docker).</p></li>
 <li class="fragment"><p>More complicated with other programming languages (e.g., Julia and Python).</p>
 <ul>
-<li class="fragment">uv in python seems to work well</li>
+<li class="fragment">Python: uv (packages and Python version); conda/pixi also pins compiled, non-Python libraries</li>
 </ul></li>
 </ul>
 </section>
@@ -1001,6 +995,24 @@ will be updated:
 </figure>
 </div>
 <aside><ol class="aside-footnotes"><li id="fn9"><p>Figure adapted from Rodrigues, B. <em>Building reproducible pipelines with R, Docker and Nix</em>. R-Ladies Rome (English).</p></li></ol></aside></section>
+<section id="sec-docker-images" class="slide level2">
+<h2>Docker images</h2>
+<div class="columns">
+<div class="column" style="width:86%;">
+<p>Docker images:</p>
+<ul>
+<li class="fragment">contain all the software and code needed for your project</li>
+<li class="fragment">are immutable (cannot be changed at run-time)</li>
+<li class="fragment">can be shared on- and offline</li>
+</ul>
+</div><div class="column" style="width:14%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/docker-logo.svg" class="hex quarto-figure quarto-figure-center" width="90"></p>
+</figure>
+</div>
+</div></div>
+</section>
 <section id="sec-docker-issues" class="slide level2 code-walk">
 <h2>Docker: built for shipping</h2>
 <ul>
@@ -1075,6 +1087,8 @@ will be updated:
 </section>
 <section id="sec-nix-intro" class="slide level2">
 <h2>Nix/{Rix}</h2>
+<div class="columns">
+<div class="column" style="width:80%;">
 <ul>
 <li class="fragment"><strong>Nix</strong> is a package manager (+language +buid tool):
 <ul>
@@ -1086,6 +1100,13 @@ will be updated:
 </ul></li>
 </ul></li>
 </ul>
+</div><div class="column" style="width:20%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/nix-snowflake.svg" class="hex quarto-figure quarto-figure-center" alt="Nix snowflake logo" width="160"></p>
+</figure>
+</div>
+</div></div>
 </section>
 <section id="sec-nix-appstore" class="slide level2">
 <h2>Nix is like an app store</h2>

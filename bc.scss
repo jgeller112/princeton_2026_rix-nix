@@ -162,7 +162,7 @@ $code-block-font-size: 0.67em;
   overflow: visible;
 }
 // Wide numeric output (BLAS sign-flip rows) needs the smaller size to stay on one line
-.reveal section#sec-env-sys2 pre code {
+.reveal section#sec-env-sys pre code {
   font-size: 16px;
 }
 // Open Science: bump the bullet text so it reads from the back of the room

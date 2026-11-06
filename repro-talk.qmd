@@ -625,15 +625,11 @@ LaTeX Error: File `lualatex-math.sty' not found.
 ```
 :::
 
-## 4. System libraries and compilers {#sec-env-sys}
+## 4. System libraries and compilers {#sec-env-sys .code-walk}
 
 - Many R packages are compiled code (C, C++, Fortran) and use libraries from the OS (e.g., libpng, BLAS/LAPACK).
   - Today: CRAN hands you a binary. However, years later: only the source. Your machine compiles it, with today's compiler and today's libraries.
-- Same script, different BLAS (illustration in next slides).
-
-## 4. System libraries and compilers (continued) {#sec-env-sys2 .code-walk}
-
-- Based on an illustration by Danielle Navarro; eigenvector sign flip in the system's BLAS/LAPACK (`MASS::mvrnorm()` is not invariant, `mvtnorm::rmvnorm()` fine).
+- Same script, different BLAS: an eigenvector sign flip in the system's BLAS/LAPACK changes `MASS::mvrnorm()` draws (`mvtnorm::rmvnorm()` is fine). Based on an illustration by Danielle Navarro.
 
 ::: {.fragment}
 ```         
@@ -691,7 +687,7 @@ x = np.float32(0.1) + 0.2
 - Issue: combining incomplete tools (i.e., stabilize parts of it), which may require diverse expertise (e.g., `{renv}`, `{groundhog}`, `{rang}`, `{rig}`, and Docker).
 
 - More complicated with other programming languages (e.g., Julia and Python).
-  - uv in python seems to work well
+  - Python: uv (packages and Python version); conda/pixi also pins compiled, non-Python libraries
 
 ## `{renv}` {#sec-renv}
 
@@ -793,6 +789,22 @@ renv pins package versions, but not R itself or the system libraries underneath,
 
 [^rladies]: Figure adapted from Rodrigues, B. *Building reproducible pipelines with R, Docker and Nix*. R-Ladies Rome (English).
 
+## Docker images {#sec-docker-images}
+
+::::: columns
+::: {.column width="86%"}
+Docker images:
+
+- contain all the software and code needed for your project
+- are immutable (cannot be changed at run-time)
+- can be shared on- and offline
+:::
+
+::: {.column width="14%"}
+![](images/docker-logo.svg){.hex fig-align="center" width="90"}
+:::
+:::::
+
 ## Docker: built for shipping {#sec-docker-issues .code-walk}
 
 - Docker's job: make software run the same on a laptop and a server **today**. Reproducing a result **years later** was never the goal.
@@ -836,11 +848,19 @@ Strong across space: pull the saved image anywhere. Weak across time: rebuilding
 
 ## Nix/{Rix} {#sec-nix-intro}
 
-- **Nix** is a package manager (+language +buid tool): 
+:::::: {.columns}
+::: {.column width="80%"}
+- **Nix** is a package manager (+language +buid tool):
     - it installs and manages R/Python packages and software/system dependeiences
     - Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
     - Every input is pinned by hash: the same expression gives the same environment, on any machine (everything lives in its own folder)
       - The "+ Environment" step of the gold standard
+:::
+
+::: {.column width="20%"}
+![](images/nix-snowflake.svg){.hex fig-align="center" width="160" fig-alt="Nix snowflake logo"}
+:::
+::::::
 
 ## Nix is like an app store {#sec-nix-appstore}
 
