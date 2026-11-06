@@ -18,7 +18,7 @@ format:
     filters:
       - typst-pdf.lua
 resources:
-  - media/nix-build-demo.mp4
+  - media/nix-rix-isolation-demo.mp4
 ---
 
 ## Disclaimer {#sec-disclaimer}
@@ -315,21 +315,17 @@ Punchline: data and code were both shared, and it still did not reproduce. It is
 
 > "Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and **conditions of analysis**"[^schultze]
 
+::: {.fragment}
+![](images/spectrum-parts.svg){fig-align="center" width="820"}
+:::
+
 ::: notes
-Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same **conditions of analysis**, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. -> spectrum slide
+Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same **conditions of analysis**, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. [click: spectrum]
+
+The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard. Keep this ladder in mind: each study coming up breaks at a different step.
 :::
 
 [^schultze]: Schultze, A., Saul, L., Roesch, E., et al. (2026). *Computational reproducibility: A primer from UKRN*. Zenodo. <https://doi.org/10.5281/zenodo.19232891>
-
-## Reproducibility Spectrum {#sec-spectrum}
-
-![](images/spectrum-parts.svg){fig-align="center"}
-
-::: notes
-The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard.
-
-Keep this ladder in mind: each study coming up breaks at a different step.
-:::
 
 ## Psychology: about half reproduce[^miske1] {#sec-howdoing}
 
@@ -876,11 +872,11 @@ Hand-off: how big is this store? -> size slide
 :::
 
 ::: {.fragment}
-![](images/repology-fresh.svg){fig-align="center" height="400"}
+![](images/repology-big.svg){fig-align="center" height="440"}
 :::
 
 ::: notes
-Repology plots every package repository: x = how many packages, y = how many are up to date. nixpkgs (the light-blue dots, top right: unstable plus each stable release) beats everything, including CRAN itself (labelled, lower left).
+Repology plots every package repository: x = how many packages, y = how many are up to date. nixpkgs (the maroon dots, top right: the latest branch plus each stable release) beats everything, including CRAN itself (labelled, lower left).
 
 Nearly all of CRAN and Bioconductor is in there, prebuilt. Prebuilt binaries come from a cache, so installs are fast enough for daily work. Nix also works without root access, e.g., on an HPC cluster.
 :::
@@ -1324,15 +1320,18 @@ analysis.qmd # render inside it (HTML + PDF)
 ## Nix/`Rix`: using it (recording) {#sec-rix-use-video}
 
 ```{=html}
-<video src="media/nix-build-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
+<video src="media/nix-rix-isolation-demo.mp4#t=0.5" controls preload="metadata" style="display:block; width:100%; max-height:72vh; margin:0 auto; border:1px solid #ddd; border-radius:6px;"></video>
 ```
 
 ::: notes
-Real recording of the three commands on the previous slide, run on a copy of the demo repo (github.com/jgeller112/Rix-Nix_Test). Idle time is compressed: the brms model compile takes about two minutes live.
+Backup recording (97 s) in case the live demo fails, made in the demo repo (github.com/jgeller112/Rix-Nix_Test). Pause it at each comment line to talk.
 
-What to point at: gen-env.R writes default.nix; nix-build prints a /nix/store path (the environment, already cached here); nix-shell --pure renders both the HTML and the Typst PDF with no R, packages, or CmdStan from my own machine.
+1. The analysis: cat nix_rix_example.qmd. Walk through it: palmerpenguins for data, brms for the model, cmdstanr as the backend; one brm() call.
+2. Outside Nix: which R is /usr/local/bin/R; R.home() and .libPaths() point at /Library/Frameworks/R.framework, the R that Positron (or RStudio) uses; positron is on the PATH.
+3. nix-build: builds the environment in default.nix (written by gen-env.R) and prints its /nix/store path. Fast here because it is cached; a first build downloads from the binary cache and takes minutes.
+4. nix-shell --pure, same commands: R is now /nix/store/...-R-4.6.1; 101 library paths, one per package, all in /nix/store (no ~/Library, no system R); positron is not found; the PATH is only /nix/store. Then quarto render builds the brms model with the pinned R, brms, cmdstanr, CmdStan and Quarto.
 
-The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about the generated default.nix. The GITHUB_PAT message is rix asking GitHub for the cmdstanr commit date without a token.
+The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about how rix 0.18.2 writes default.nix.
 :::
 
 ## Nix not perfect

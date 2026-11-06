@@ -17,6 +17,34 @@ Your machine has CmdStan in `~/.cmdstan`. Running with an empty home folder
 (`HOME=$HOME_STRANGER`) plays a stranger's laptop: your R packages still load,
 but CmdStan disappears.
 
+## Part 0: it runs, but gives a different answer (path demo)
+
+Folder: `~/Rix-Nix_Test/path-demo` (simulated data, see `make-data.R`)
+
+- `analysis.R` reads `/Users/jasongeller/Dropbox/study1/data_final_v2.csv` (hard-coded path)
+- `data/data_final.csv`: everyone, including attention-check failures
+- `data/data_final_v2.csv`: failures removed (the file the "paper" used)
+
+Live, or play `media/path-demo.mp4`:
+
+```bash
+cd ~/Rix-Nix_Test/path-demo
+cat analysis.R              # paper reports t(62) = 2.91, p = .005, d = 0.73
+R --quiet --no-save
+```
+
+```r
+dat <- read.csv("/Users/jasongeller/Dropbox/study1/data_final_v2.csv")  # error: my Dropbox
+list.files("data")                     # data_final.csv, data_final_v2.csv
+dat <- read.csv("data/data_final.csv") # the wrong one
+head(dat)                              # note the attn_check column
+t.test(recall ~ condition, data = dat, var.equal = TRUE)   # p = .17
+```
+
+Re-record: `python3 R/record-r-session.py out.cast media/path-demo-steps.txt`
+(run from a copy of `path-demo`, without `make-data.R`), then `agg` + `ffmpeg` as in
+`R/record-r-session.py`.
+
 ## Part 1: it breaks (start of Layer 1)
 
 > "Here's a repo. One Quarto file. Let's render it."

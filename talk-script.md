@@ -22,7 +22,19 @@ One quick disclaimer. Most of my examples will be in R, because that's what I us
 
 **[Slide: The Replication Crisis]**
 
-Let's start with where we've been. About a decade ago, psychology ran into what we now call the replication crisis. This figure, from Munafò and colleagues' manifesto for reproducible science, shows the cycle of research and all the places it can go wrong: low statistical power, p-hacking, HARKing, publication bias, and a lack of replication. Each threat compounds the others, and the result was a literature where many findings didn't hold up.
+Let's start with where we've been. About a decade ago, psychology ran into what we now call the replication crisis. This figure, adapted from Munafò and colleagues' manifesto for reproducible science, shows the cycle of research. Now let's look at all the places it can go wrong.
+
+**[click]** A lack of replication: only about 1 in 1000 papers is a close replication.
+
+**[click]** Low statistical power.
+
+**[click]** P-hacking.
+
+**[click]** HARKing: hypothesizing after the results are known.
+
+**[click]** And publication bias, and not sharing data.
+
+Each threat compounds the others, and the result was a literature where many findings didn't hold up.
 
 **[Slide: Credibility Revolution]**
 
@@ -50,11 +62,39 @@ First, some vocabulary, because these words get used loosely. This table crosses
 
 Same data, same analysis: that's *reproducible*. Different data, same analysis: *replicable*, which is what the replication crisis was about. Same data, different analysis: *robust*. And different data, different analysis: *generalisable*.
 
-Today I'm in the top-left cell: reproducibility.
+Today I'm in the top-left cell: reproducibility. Same data, same code. That sounds like the easy one: you have the data, you have the code, you press run. So let me show you what happens when you actually try.
 
-**[click]** More specifically, *computational* reproducibility. The UK Reproducibility Network primer defines it as the "ability to obtain consistent computational results using the same input data, computational steps, methods, code, and conditions of analysis."
+**[Slide: Demo]**
 
-That might sound like the easy one. You have the data, you have the code, you press run. But notice how much is packed into that definition: the data, the code, the steps, and the *conditions* the analysis ran under. Hold on to that phrase, "conditions of analysis", because it's what the second half of this talk is about.
+Here's a project on GitHub: the data, the code, everything you'd normally share.
+
+**[Slide: Demo: it runs, but...]** **[Play video; pause as needed]**
+
+The data here are simulated, but the setup will be familiar. First, here's the whole analysis script. At the top: the paper reports t(62) = 2.91, p = .005, d = 0.73. Then it reads the data, runs a t-test, and computes Cohen's d.
+
+Now I'm a stranger who downloaded this repo. I open R and run the first line: read the data. It fails, because it reads from */Users/jasongeller/Dropbox*. That's my laptop. Nobody else has that folder.
+
+So I do what all of us would do: look in the data folder. Two files: *data_final.csv* and *data_final_v2.csv*. "Final" sounds right, so I load that one.
+
+Look at the first few rows. There's an *attn_check* column, and some people failed it. Keep that in mind.
+
+Now the t-test. It runs. No error, no warning. t = 1.39, p = .17. And Cohen's d is 0.31, not 0.73. Not significant.
+
+What happened? *data_final_v2* is the file with the attention-check failures removed. Nothing in the repo said so. Same code, same repo, different conclusion, and nobody would ever know.
+
+**[Slide: Demo: it breaks]** **[Play video]**
+
+Now say I fixed all of that: relative paths, one clearly named data file, a README. Here's a different project, on what I call the stranger's laptop: a clean machine with an empty home folder and an older version of Quarto.
+
+It fails three times. First, the PDF format needs Quarto 1.4 or later, and this machine has 1.3. Second, the palmerpenguins package isn't installed. Third, CmdStan, which brms needs to fit the model, isn't there either.
+
+None of these is a bug in my code. The code is fine, and the data is fine. What's different is the *environment* around it. So sharing data and code is not enough. This is the everyday version of "I swear it worked on my computer."
+
+**[Slide: Computational Reproducibility]**
+
+That's why I want to be more specific and talk about *computational* reproducibility. The UK Reproducibility Network primer defines it as the "ability to obtain consistent computational results using the same input data, computational steps, methods, code, and conditions of analysis."
+
+Notice how much is packed into that definition: the data, the code, the steps, and the *conditions* the analysis ran under. "Conditions of analysis" is exactly what broke in the second demo. Hold on to that phrase, because it's what the second half of this talk is about.
 
 In practice, reproducibility isn't yes-or-no. You can share some of those pieces and not others, and every piece you add gets you closer. So it helps to think of it as a spectrum.
 
@@ -63,16 +103,6 @@ In practice, reproducibility isn't yes-or-no. You can share some of those pieces
 Here's the spectrum, and it's the vocabulary for the rest of the talk. On the left is "not reproducible". You start with code. Then you add the data. Then documentation, so someone knows what to run and in what order. Then the article itself, linked to the code and data. And on the right is the gold standard, where you also capture the environment: the software the analysis actually ran on.
 
 Each step gets you closer. Keep this ladder in mind, because each study I'm about to show you breaks at a different rung.
-
-**[Slide: Demo]**
-
-But first, let me show you what this looks like in practice. **[Play video]**
-
-This is what I call the stranger's laptop: a clean machine with an empty home folder and an older version of Quarto. I take a project that renders perfectly on my computer and try to run it here.
-
-It fails three times. First, the PDF format needs Quarto 1.4 or later, and this machine has 1.3. Second, the palmerpenguins package isn't installed. Third, CmdStan, which brms needs to fit the model, isn't there either.
-
-None of these is a bug in my code. The code is fine. What's different is the *environment* around it. And this is the everyday version of "I swear it worked on my computer."
 
 ## 3. How psychology is doing
 

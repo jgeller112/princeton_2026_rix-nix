@@ -1,0 +1,18 @@
+cat analysis.R
+#pause 4
+R --quiet --no-save
+dat <- read.csv("/Users/jasongeller/Dropbox/study1/data_final_v2.csv")
+#pause 3
+list.files("data")
+#pause 2
+dat <- read.csv("data/data_final.csv")
+head(dat)
+#pause 2
+res <- t.test(recall ~ condition, data = dat, var.equal = TRUE)
+res
+#pause 3
+m   <- tapply(dat$recall, dat$condition, mean)
+sdp <- sqrt(mean(tapply(dat$recall, dat$condition, var)))
+(m["retrieval"] - m["control"]) / sdp
+#pause 4
+q()
