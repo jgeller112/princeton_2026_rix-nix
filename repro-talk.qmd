@@ -1303,6 +1303,8 @@ Live demo here: same repo that failed earlier, now rendering inside the environm
 
 # Illustration
 
+## Illustration: the setup {#sec-illustration-setup .code-walk}
+
 ```{r}
 #| eval: false
 #| echo: true
