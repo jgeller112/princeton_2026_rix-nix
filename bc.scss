@@ -180,6 +180,14 @@ $code-block-font-size: 0.67em;
   font-size: 0.85em;
 }
 
+// QR code to the slides (Disclaimer slide)
+.reveal section .qr-block {
+  text-align: center;
+  margin-top: 1em;
+  p { margin: 0.2em 0; font-size: 0.6em; }
+  img { margin: 0 auto; }
+}
+
 // Stepped code walkthroughs (Nix/rix section): whole block visible, no scrolling
 .reveal section.code-walk div.sourceCode {
   margin-top: 0.3em;

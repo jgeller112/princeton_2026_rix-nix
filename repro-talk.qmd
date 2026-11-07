@@ -27,6 +27,12 @@ resources:
 I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 :::
 
+::: {.qr-block}
+![](images/qr-slides.svg){.hex width="260"}
+
+Slides: [jgeller112.github.io/princeton_2026_rix-nix](https://jgeller112.github.io/princeton_2026_rix-nix/repro-talk.html)
+:::
+
 
 ## The Replication Crisis[^munafo] {#sec-replication-crisis}
 
@@ -1326,9 +1332,9 @@ Rscript gen-env.R    # rix() writes default.nix
 nix-build            # build it (slow only the first time)
 nix-shell --pure --run "quarto render nix_rix_example.qmd"
 ```
-
-- `--pure`: nothing from your own machine leaks in: not your R, not your packages, not `~/.cmdstan`
 - Plain `nix-shell` drops you into the environment to work interactively
+- `--pure`: nothing from your own machine leaks in: not your R, not your packages, not `~/.cmdstan`
+
 
 ::: notes
 Live demo here: same repo that failed earlier, now rendering inside the environment. Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.
@@ -1355,21 +1361,26 @@ Backup recording (97 s) in case the live demo fails, made in the demo repo (gith
 The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about how rix 0.18.2 writes default.nix.
 :::
 
-## Nix not perfect
+## Nix not perfect {.smaller}
 
-- Misdeclared dependencies
-  - An R package wrongly listed a dependency under Imports when it belonged in Suggests.
+:::: {.columns}
+::: {.column width="50%"}
+- **Misdeclared dependencies**
+  - A package lists a dependency under Imports that belongs in Suggests
 
-- macOS
-  - the description stays valid, but an OS update can break today’s build.
-    -  Recommendation: build inside a dockerfile.
+- **macOS**
+  - The recipe stays valid, but an OS update can break today's build
+  - Recommendation: build inside Docker
+:::
 
-- Isolation
-  - use nix-shell --pure, so the shell sees only the declare environment and not software installed on the host.
+::: {.column width="50%"}
+- **Isolation**
+  - Use `nix-shell --pure`: only the declared environment, nothing from the host
 
-- Windows
-  - Getting {rix} to work on Windows can be cumbersome
-    - Have to use WSL
+- **Windows**
+  - {rix} can be cumbersome on Windows: you need WSL
+:::
+::::
 
 ## What a Lab Can Actually Do
 
