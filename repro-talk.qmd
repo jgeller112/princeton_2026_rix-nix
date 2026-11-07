@@ -254,11 +254,6 @@ ggplot() +
 Hand-off: Top-left cell is today's topic. Same data, same code: that should be the easy one, right? Let me show you. -> demo
 :::
 
-## Demo {#sec-demo}
-
-  - <https://github.com/jgeller112/Rix-Nix_Test>
-
-
 ## Demo: everything is shared {#sec-demo-path .smaller}
 
 ```
@@ -684,10 +679,48 @@ x = np.float32(0.1) + 0.2
 
 ## Managing the environment {#sec-env-tools}
 
-- Issue: combining incomplete tools (i.e., stabilize parts of it), which may require diverse expertise (e.g., `{renv}`, `{groundhog}`, `{rang}`, `{rig}`, and Docker).
+:::::: {.tool-grid}
+::: {.tool-cell}
+![](images/renv.png){.hex}
 
-- More complicated with other programming languages (e.g., Julia and Python).
-  - Python: uv (packages and Python version); conda/pixi also pins compiled, non-Python libraries
+**`{renv}`** R packages
+:::
+
+::: {.tool-cell}
+![](images/Rlogo.svg){.hex}
+
+**`{rig}`** R version
+:::
+
+::: {.row-break}
+:::
+
+::: {.tool-cell}
+![](images/uv-logo.svg){.hex}
+
+**uv** Python + packages
+:::
+
+::: {.tool-cell}
+![](images/conda-logo.svg){.hex}
+
+**conda** + compiled libraries
+:::
+
+::: {.tool-cell}
+![](images/docker-logo.svg){.hex}
+
+**Docker** the OS
+:::
+::::::
+
+::: {.fragment .tool-grid-caption}
+Each tool pins one piece: many tools, many skill sets.
+:::
+
+::: notes
+Issue: combining incomplete tools, each stabilizing one part, which takes diverse expertise (also `{groundhog}`, `{rang}`). Top row is R; bottom row is Python plus Docker, which works for any language. uv pins packages and the Python version; conda (and pixi) also pin compiled, non-Python libraries.
+:::
 
 ## `{renv}` {#sec-renv}
 
@@ -843,7 +876,7 @@ Lower-effort alternatives people ask about: Code Ocean (https://codeocean.com/, 
 ![](images/scorecard-docker.svg){.hex fig-align="center"}
 
 ::: notes
-Strong across space: pull the saved image anywhere. Weak across time: rebuilding the Dockerfile drifts; results only survive if you archived the image.
+Strong across space: pull the saved image anywhere. Partly across time: a plain Dockerfile rebuild drifts (apt-get update, latest packages), but you can pin the base image by digest and use renv or Nix inside the image to pin the rest. Otherwise results only survive if you archived the image.
 :::
 
 ## Nix/{Rix} {#sec-nix-intro}
@@ -1303,37 +1336,7 @@ Live demo here: same repo that failed earlier, now rendering inside the environm
 
 # Illustration
 
-## Illustration: the setup {#sec-illustration-setup .code-walk}
-
-```{r}
-#| eval: false
-#| echo: true
-rix(
-  date = "2026-08-24",
-  r_pkgs = c("brms", "palmerpenguins", "knitr", "rmarkdown"),
-  git_pkgs = list(
-    package_name = "cmdstanr",
-    repo_url = "https://github.com/stan-dev/cmdstanr",
-    commit = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
-  ),
-  system_pkgs = c("quarto", "cmdstan"),
-  shell_hook = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
-  ide = "none",
-  project_path = ".",
-  overwrite = TRUE
-)
-```
-
-``` bash
-Rscript gen-env.R          # writes default.nix (+ .Rprofile)
-nix-build                  # build the environment once
-nix-shell --pure           # enter it
-quarto render analysis.qmd # render inside it (HTML + PDF)
-```
+  - <https://github.com/jgeller112/Rix-Nix_Test>
 
 ## Nix/`Rix`: using it (recording) {#sec-rix-use-video}
 

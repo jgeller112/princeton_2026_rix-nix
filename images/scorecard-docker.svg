@@ -12,10 +12,11 @@
 <text x="462" y="301.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#2E8B57">✓</text>
 <text x="520" y="268.0" font-size="27" fill="#1F2937">pull the saved image</text>
 <text x="520" y="302.0" font-size="27" fill="#1F2937">anywhere</text>
-<rect x="900" y="190" width="470" height="170" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
-<text x="962" y="301.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#C0392B">✗</text>
-<text x="1020" y="268.0" font-size="27" fill="#1F2937">rebuilding the Dockerfile</text>
-<text x="1020" y="302.0" font-size="27" fill="#1F2937">drifts</text>
+<rect x="900" y="190" width="470" height="170" rx="14" fill="#FDF3DC" stroke="#B7791F" stroke-width="3"/>
+<text x="962" y="301.0" text-anchor="middle" font-size="76" font-weight="bold" fill="#B7791F">~</text>
+<text x="1020" y="251.0" font-size="27" fill="#1F2937">drifts unless you pin the</text>
+<text x="1020" y="285.0" font-size="27" fill="#1F2937">base image + use renv</text>
+<text x="1020" y="319.0" font-size="27" fill="#1F2937">or Nix inside</text>
 <text x="200" y="459.0" text-anchor="middle" font-size="27" font-weight="bold" fill="#1F2937">the results are the same</text>
 <text x="200" y="491.0" text-anchor="middle" font-size="20" fill="#4A5568">(functional reproducibility)</text>
 <rect x="400" y="380" width="470" height="170" rx="14" fill="#E3F4EA" stroke="#2E8B57" stroke-width="3"/>
