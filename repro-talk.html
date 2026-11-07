@@ -466,12 +466,6 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
           display:block!important;
       }</style></aside>
 </section>
-<section id="sec-demo" class="slide level2">
-<h2>Demo</h2>
-<ul>
-<li class="fragment"><a href="https://github.com/jgeller112/Rix-Nix_Test" class="uri">https://github.com/jgeller112/Rix-Nix_Test</a></li>
-</ul>
-</section>
 <section id="sec-demo-path" class="slide level2 smaller">
 <h2>Demo: everything is shared</h2>
 <pre><code>study1/
@@ -1593,34 +1587,9 @@ will be updated:
 <section>
 <section id="illustration" class="title-slide slide level1 center">
 <h1>Illustration</h1>
-
-</section>
-<section id="sec-illustration-setup" class="slide level2 code-walk">
-<h2>Illustration: the setup</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-label="1"></a><span class="fu">rix</span>(</span>
-<span id="cb30-2"><a href="" aria-label="2"></a>  <span class="at">date =</span> <span class="st">"2026-08-24"</span>,</span>
-<span id="cb30-3"><a href="" aria-label="3"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>, <span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>),</span>
-<span id="cb30-4"><a href="" aria-label="4"></a>  <span class="at">git_pkgs =</span> <span class="fu">list</span>(</span>
-<span id="cb30-5"><a href="" aria-label="5"></a>    <span class="at">package_name =</span> <span class="st">"cmdstanr"</span>,</span>
-<span id="cb30-6"><a href="" aria-label="6"></a>    <span class="at">repo_url =</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span>,</span>
-<span id="cb30-7"><a href="" aria-label="7"></a>    <span class="at">commit =</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span></span>
-<span id="cb30-8"><a href="" aria-label="8"></a>  ),</span>
-<span id="cb30-9"><a href="" aria-label="9"></a>  <span class="at">system_pkgs =</span> <span class="fu">c</span>(<span class="st">"quarto"</span>, <span class="st">"cmdstan"</span>),</span>
-<span id="cb30-10"><a href="" aria-label="10"></a>  <span class="at">shell_hook =</span> <span class="fu">paste</span>(</span>
-<span id="cb30-11"><a href="" aria-label="11"></a>    <span class="st">"export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan"</span>,</span>
-<span id="cb30-12"><a href="" aria-label="12"></a>    <span class="st">"export PRECOMPILED_HEADERS=false"</span>,</span>
-<span id="cb30-13"><a href="" aria-label="13"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
-<span id="cb30-14"><a href="" aria-label="14"></a>  ),</span>
-<span id="cb30-15"><a href="" aria-label="15"></a>  <span class="at">ide =</span> <span class="st">"none"</span>,</span>
-<span id="cb30-16"><a href="" aria-label="16"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
-<span id="cb30-17"><a href="" aria-label="17"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
-<span id="cb30-18"><a href="" aria-label="18"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="" aria-label="1"></a><span class="ex">Rscript</span> gen-env.R          <span class="co"># writes default.nix (+ .Rprofile)</span></span>
-<span id="cb31-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>                  <span class="co"># build the environment once</span></span>
-<span id="cb31-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span>           <span class="co"># enter it</span></span>
-<span id="cb31-4"><a href="" aria-label="4"></a><span class="ex">quarto</span> render analysis.qmd <span class="co"># render inside it (HTML + PDF)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li class="fragment"><a href="https://github.com/jgeller112/Rix-Nix_Test" class="uri">https://github.com/jgeller112/Rix-Nix_Test</a></li>
+</ul>
 </section>
 <section id="sec-rix-use-video" class="slide level2">
 <h2>Nix/<code>Rix</code>: using it (recording)</h2>
