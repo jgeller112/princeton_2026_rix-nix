@@ -21,11 +21,7 @@ resources:
   - media/nix-rix-isolation-demo.mp4
 ---
 
-## Disclaimer {#sec-disclaimer}
-
-::: {.larger}
-I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
-:::
+## Slides
 
 ::: {.qr-block}
 ![](images/qr-slides.svg){.hex width="260"}
@@ -33,6 +29,14 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 Slides: [jgeller112.github.io/princeton_2026_rix-nix](https://jgeller112.github.io/princeton_2026_rix-nix/repro-talk.html)
 :::
 
+
+## Disclaimer {#sec-disclaimer}
+<br> 
+<br> 
+
+::: {.larger}
+I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
+:::
 
 ## The Replication Crisis[^munafo] {#sec-replication-crisis}
 
