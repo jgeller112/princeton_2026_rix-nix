@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-11-07">
+  <meta name="dcterms.date" content="2026-11-08">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-9c05986562476db449b66d0618216067.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-f87a2ff9dd5bccf7f37dce962a946e0d.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,10 +210,18 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-11-07</p>
+  <p class="date">2026-11-08</p>
+</section>
+<section id="slides" class="slide level2">
+<h2>Slides</h2>
+<div class="qr-block">
+<p><img data-src="images/qr-slides.svg" class="hex" width="260"></p>
+<p>Slides: <a href="https://jgeller112.github.io/princeton_2026_rix-nix/repro-talk.html">jgeller112.github.io/princeton_2026_rix-nix</a></p>
+</div>
 </section>
 <section id="sec-disclaimer" class="slide level2">
 <h2>Disclaimer</h2>
+<p><br> <br></p>
 <div class="larger">
 <p>I will mostly be using <img data-src="images/Rlogo.svg" class="inline-logo" alt="R"> examples.</p>
 </div>
@@ -1567,8 +1575,8 @@ will be updated:
 <span id="cb29-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build it (slow only the first time)</span></span>
 <span id="cb29-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span> <span class="at">--run</span> <span class="st">"quarto render nix_rix_example.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li class="fragment"><code>--pure</code>: nothing from your own machine leaks in: not your R, not your packages, not <code>~/.cmdstan</code></li>
 <li class="fragment">Plain <code>nix-shell</code> drops you into the environment to work interactively</li>
+<li class="fragment"><code>--pure</code>: nothing from your own machine leaks in: not your R, not your packages, not <code>~/.cmdstan</code></li>
 </ul>
 <aside class="notes">
 <p>Live demo here: same repo that failed earlier, now rendering inside the environment. Real-world snags on macOS (Apple Silicon) + Determinate Nix: Quarto/pandoc version mismatches, rstudioWrapper segfaults, binary cache trust config.</p>
@@ -1615,32 +1623,33 @@ will be updated:
           display:block!important;
       }</style></aside>
 </section>
-<section id="nix-not-perfect" class="slide level2">
+<section id="nix-not-perfect" class="slide level2 smaller">
 <h2>Nix not perfect</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li class="fragment">Misdeclared dependencies
+<li class="fragment"><strong>Misdeclared dependencies</strong>
 <ul>
-<li class="fragment">An R package wrongly listed a dependency under Imports when it belonged in Suggests.</li>
+<li class="fragment">A package lists a dependency under Imports that belongs in Suggests</li>
 </ul></li>
-<li class="fragment">macOS
+<li class="fragment"><strong>macOS</strong>
 <ul>
-<li class="fragment">the description stays valid, but an OS update can break today’s build.
-<ul>
-<li class="fragment">Recommendation: build inside a dockerfile.</li>
-</ul></li>
-</ul></li>
-<li class="fragment">Isolation
-<ul>
-<li class="fragment">use nix-shell –pure, so the shell sees only the declare environment and not software installed on the host.</li>
-</ul></li>
-<li class="fragment">Windows
-<ul>
-<li class="fragment">Getting {rix} to work on Windows can be cumbersome
-<ul>
-<li class="fragment">Have to use WSL</li>
-</ul></li>
+<li class="fragment">The recipe stays valid, but an OS update can break today’s build</li>
+<li class="fragment">Recommendation: build inside Docker</li>
 </ul></li>
 </ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><strong>Isolation</strong>
+<ul>
+<li class="fragment">Use <code>nix-shell --pure</code>: only the declared environment, nothing from the host</li>
+</ul></li>
+<li class="fragment"><strong>Windows</strong>
+<ul>
+<li class="fragment">{rix} can be cumbersome on Windows: you need WSL</li>
+</ul></li>
+</ul>
+</div></div>
 </section>
 <section id="what-a-lab-can-actually-do" class="slide level2">
 <h2>What a Lab Can Actually Do</h2>
