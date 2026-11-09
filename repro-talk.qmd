@@ -110,11 +110,11 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 
 ::::: columns
 ::: {.column width="58%"}
-- **Open science:** being open and transparent at every stage of research[^casillas]
+- Open science: being open and transparent at every stage of research[^casillas]
 - Three parts:
   - Dissemination
   - Stance
-  - ***Workflow***: *Could someone else rerun your whole pipeline and get your results?*
+  - *Workflow*: *Could someone else rerun your whole pipeline and get your results?*
 :::
 
 ::: {.column width="42%"}
@@ -257,8 +257,8 @@ ggplot() +
 
 | Analysis / Data    | Same Data        | Different Data    |
 |--------------------|------------------|-------------------|
-| Same Analysis      | **Reproducible** | **Replicable**    |
-| Different Analysis | **Robust**       | **Generalisable** |
+| Same Analysis      | Reproducible | Replicable    |
+| Different Analysis | Robust       | Generalisable |
 
 ::: notes
 Hand-off: Top-left cell is today's topic. Same data, same code: that should be the easy one, right? Let me show you. -> demo
@@ -318,14 +318,14 @@ Punchline: data and code were both shared, and it still did not reproduce. It is
 
 ## Computational Reproducibility {#sec-comp-repro}
 
-> "Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and **conditions of analysis**"[^schultze]
+> "Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and conditions of analysis"[^schultze]
 
 ::: {.fragment}
 ![](images/spectrum-parts.svg){fig-align="center" width="820"}
 :::
 
 ::: notes
-Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same **conditions of analysis**, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. [click: spectrum]
+Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. [click: spectrum]
 
 The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard. Keep this ladder in mind: each study coming up breaks at a different step.
 :::
@@ -517,7 +517,7 @@ p
 :::
 
 ::: {.fragment}
-- Clear README: **88%** from analysis data, only **31%** from raw data
+- Clear README: 88% from analysis data, only 31% from raw data
 :::
 
 ::: notes
@@ -543,7 +543,7 @@ Hand-off: so where does that leave us? Back to the spectrum. -> Psychology: not 
 :::
 
 ::: {.fragment}
-- Code, data, and a README get you partway. The **environment** is the missing step.
+- Code, data, and a README get you partway. The environment is the missing step.
 :::
 
 ::: notes
@@ -577,23 +577,23 @@ Hand-off: "Let's start with how the environment breaks." -> Environment Fragilit
 
 Setting bitwise reproducibility aside, even error-free R code sits on top of four layers, each of which may drift over space and time:
 
-1.  **R version**
-2.  **R packages**
-3.  **Document tools**: e.g., Pandoc, LaTeX, Quarto
-4.  **System libraries and compilers**: e.g., gcc, libpng, BLAS/LAPACK
+1.  R version
+2.  R packages
+3.  Document tools: e.g., Pandoc, LaTeX, Quarto
+4.  System libraries and compilers: e.g., gcc, libpng, BLAS/LAPACK
 
 ::: notes
 What the layer-4 examples are (none of them are R packages, so no R tool tracks them):
 
-- **gcc**: the C/C++/Fortran compiler. Many R packages (and every Stan model) ship as source code that gcc turns into machine code on your computer. A different gcc version can refuse to compile old code, or compile it slightly differently.
-- **libpng**: the operating system's library for reading and writing PNG images. R's `png()` device and packages like ragg call it to save plots.
-- **BLAS/LAPACK**: the linear-algebra libraries underneath R's matrix math (`%*%`, `crossprod()`, `solve()`, `chol()`, `eigen()`, `svd()`). There are several interchangeable versions (reference BLAS, OpenBLAS, Apple Accelerate, Intel MKL); they add numbers in different orders, so results can differ in the last decimal places, or an eigenvector can flip sign (the example coming up).
+- gcc: the C/C++/Fortran compiler. Many R packages (and every Stan model) ship as source code that gcc turns into machine code on your computer. A different gcc version can refuse to compile old code, or compile it slightly differently.
+- libpng: the operating system's library for reading and writing PNG images. R's `png()` device and packages like ragg call it to save plots.
+- BLAS/LAPACK: the linear-algebra libraries underneath R's matrix math (`%*%`, `crossprod()`, `solve()`, `chol()`, `eigen()`, `svd()`). There are several interchangeable versions (reference BLAS, OpenBLAS, Apple Accelerate, Intel MKL); they add numbers in different orders, so results can differ in the last decimal places, or an eigenvector can flip sign (the example coming up).
 :::
 
 ## 1. R version {#sec-env-r}
 
-- **Syntax**: the native pipe `|>` exists only since R 4.1.0.
-- **Defaults**: R 4.0.0 stopped turning strings into factors. Same code, different object:
+- Syntax: the native pipe `|>` exists only since R 4.1.0.
+- Defaults: R 4.0.0 stopped turning strings into factors. Same code, different object:
 
 ::: {.fragment}
 ``` r
@@ -604,7 +604,7 @@ class(df$group); as.numeric(df$group)
 ```
 :::
 
-- **Random numbers**: R 3.6.0 changed how `sample()` draws. Same seed, different draws:
+- Random numbers: R 3.6.0 changed how `sample()` draws. Same seed, different draws:
 
 ::: {.fragment}
 ``` r
@@ -616,8 +616,8 @@ set.seed(123); sample(1:10, 3)
 
 ## 2. R packages {#sec-env-pkgs}
 
-- **Renamed or deprecated**: `dplyr::cur_data()`, but now `dplyr::pick()` (warning about the future).
-- **Internal functions** (discouraged, but used nonetheless):
+- Renamed or deprecated: `dplyr::cur_data()`, but now `dplyr::pick()` (warning about the future).
+- Internal functions (discouraged, but used nonetheless):
 
 ## 3. Document tools {#sec-env-docs}
 
@@ -648,8 +648,8 @@ LaTeX Error: File `lualatex-math.sty' not found.
 
 ## Python, too: language version {#sec-py-version .smaller}
 
-- **Syntax**: `match` statements exist only since Python 3.10, the walrus `:=` since 3.8.
-- **Random numbers**: sampling from a set works in 3.10, but the draws depend on set order, which changes *every run*. In 3.11+ it errors:
+- Syntax: `match` statements exist only since Python 3.10, the walrus `:=` since 3.8.
+- Random numbers: sampling from a set works in 3.10, but the draws depend on set order, which changes *every run*. In 3.11+ it errors:
 
 ::: {.fragment}
 ``` python
@@ -661,7 +661,7 @@ import random; random.seed(1); random.sample({"a", "b", "c"}, 2)
 
 ## Python, too: packages {#sec-py-pkgs .smaller}
 
-- **Changed defaults, loud**: pandas 2.0 stopped silently dropping text columns:
+- Changed defaults, loud: pandas 2.0 stopped silently dropping text columns:
 
 ::: {.fragment}
 ``` python
@@ -673,7 +673,7 @@ df.groupby("group").mean()
 ```
 :::
 
-- **Changed defaults, silent**: numpy 2.0 changed type promotion. No error, different number:
+- Changed defaults, silent: numpy 2.0 changed type promotion. No error, different number:
 
 ::: {.fragment}
 ``` python
@@ -683,9 +683,9 @@ x = np.float32(0.1) + 0.2
 ```
 :::
 
-- **Removed**: `np.float` was removed in numpy 1.24, `DataFrame.append()` in pandas 2.0.
-- **Models**: scikit-learn 0.22 changed `LogisticRegression`'s default solver (`liblinear` → `lbfgs`): same call, different coefficients.
-- **System libraries**: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.
+- Removed: `np.float` was removed in numpy 1.24, `DataFrame.append()` in pandas 2.0.
+- Models: scikit-learn 0.22 changed `LogisticRegression`'s default solver (`liblinear` → `lbfgs`): same call, different coefficients.
+- System libraries: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.
 
 ## Managing the environment {#sec-env-tools}
 
@@ -693,13 +693,13 @@ x = np.float32(0.1) + 0.2
 ::: {.tool-cell}
 ![](images/renv.png){.hex}
 
-**`{renv}`** R packages
+`{renv}` R packages
 :::
 
 ::: {.tool-cell}
 ![](images/Rlogo.svg){.hex}
 
-**`{rig}`** R version
+`{rig}` R version
 :::
 
 ::: {.row-break}
@@ -708,19 +708,19 @@ x = np.float32(0.1) + 0.2
 ::: {.tool-cell}
 ![](images/uv-logo.svg){.hex}
 
-**uv** Python + packages
+uv Python + packages
 :::
 
 ::: {.tool-cell}
 ![](images/conda-logo.svg){.hex}
 
-**conda** + compiled libraries
+conda + compiled libraries
 :::
 
 ::: {.tool-cell}
 ![](images/docker-logo.svg){.hex}
 
-**Docker** the OS
+Docker the OS
 :::
 ::::::
 
@@ -742,9 +742,9 @@ Issue: combining incomplete tools, each stabilizing one part, which takes divers
 
   - `renv::restore()` reinstalls them
 
-- **But** it records, and does not restore, the version of R (can use {rig})
+- But it records, and does not restore, the version of R (can use {rig})
 
-- **But** installing old packages can fail (missing OS dependencies)
+- But installing old packages can fail (missing OS dependencies)
 :::
 
 ::: {.column width="28%"}
@@ -800,7 +800,7 @@ will be updated:
     ...
 ```
 
-R 4.6.1 is **written down**, not installed. `renv::restore()` uses whatever R you have.
+R 4.6.1 is written down, not installed. `renv::restore()` uses whatever R you have.
 :::
 ::::::
 
@@ -820,7 +820,7 @@ renv pins package versions, but not R itself or the system libraries underneath,
 
 ::::: columns
 ::: {.column width="86%"}
-**Dockerfile** (recipe) $\rightarrow$ **image** (the environment, frozen) $\rightarrow$ **container** (the image, running)[^rladies]
+Dockerfile (recipe) $\rightarrow$ image (the environment, frozen) $\rightarrow$ container (the image, running)[^rladies]
 :::
 
 ::: {.column width="14%"}
@@ -850,10 +850,10 @@ Docker images:
 
 ## Docker: built for shipping {#sec-docker-issues .code-walk}
 
-- Docker's job: make software run the same on a laptop and a server **today**. Reproducing a result **years later** was never the goal.
+- Docker's job: make software run the same on a laptop and a server today. Reproducing a result years later was never the goal.
 
 ::: {.fragment}
-**The recipe drifts**: every line fetches what's current *on build day*
+The recipe drifts: every line fetches what's current *on build day*
 
 ``` dockerfile
 FROM rocker/r-ver:latest                    # which R? whatever "latest" means today
@@ -868,13 +868,13 @@ Docker was designed for deployment: ship an app so it runs identically across ma
 
 ## Docker: the catches {#sec-docker-image}
 
-1.  **Archive the image**
+1.  Archive the image
     - Often several GB; tags on Docker Hub can move or vanish
 
-1.  **Same image, different CPU**
+1.  Same image, different CPU
     - Runs on the host's processor; OpenBLAS picks code per CPU, so last digits can differ
 
-1.  **Costs**
+1.  Costs
     - Linux know-how, slow emulation on Apple Silicon, often banned on university clusters, one company in charge
 
 ::: notes
@@ -893,7 +893,7 @@ Strong across space: pull the saved image anywhere. Partly across time: a plain 
 
 :::::: {.columns}
 ::: {.column width="80%"}
-- **Nix** is a package manager (+language +build tool):
+- Nix is a package manager (+language +build tool):
     - it installs and manages R/Python packages and software/system dependencies
     - Built for reproducible builds: R, R packages *and* system dependencies, all declared in one text file (a *Nix expression*)
     - Every input is pinned by hash: the same expression gives the same environment, on any machine (everything lives in its own folder)
@@ -911,10 +911,10 @@ Strong across space: pull the saved image anywhere. Partly across time: a plain 
 
 ::::: columns
 ::: {.column width="60%"}
-- Like an **app store** on your phone, but for research software
+- Like an app store on your phone, but for research software
 - One catalog (`nixpkgs`): R, R packages, Quarto, CmdStan, system libraries
 - Your `default.nix` is the list of "apps" to install
-- The twist: the store is **frozen on a date**. No auto-updates, so everyone gets the exact same versions
+- The twist: the store is frozen on a date. No auto-updates, so everyone gets the exact same versions
 :::
 
 ::: {.column width="40%"}
@@ -950,11 +950,11 @@ Nearly all of CRAN and Bioconductor is in there, prebuilt. Prebuilt binaries com
 
 ## Nix: the empirical evidence {#sec-nix-evidence}
 
-Malka, Zacchiroli, & Zimmermann (2025)[^malka] rebuilt **709,816 packages** from `nixpkgs` snapshots taken every four months, 2017–2023:
+Malka, Zacchiroli, & Zimmermann (2025)[^malka] rebuilt 709,816 packages from `nixpkgs` snapshots taken every four months, 2017–2023:
 
-- **Rebuildable**: 99.7% to 99.9% still build from their description.
-- **Bitwise reproducible**: 69% in 2017, 91% in 2023, rising.
-- **Functionally reproducible**: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.
+- Rebuildable: 99.7% to 99.9% still build from their description.
+- Bitwise reproducible: 69% in 2017, 91% in 2023, rising.
+- Functionally reproducible: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.
 
 [^malka]: Malka, J., Zacchiroli, S., & Zimmermann, T. (2025). Does functional package management enable reproducible builds at scale? Yes. *2025 IEEE/ACM 22nd International Conference on Mining Software Repositories (MSR)*. <https://doi.org/10.1109/MSR66628.2025.00115>
 
@@ -993,7 +993,7 @@ let
 in { inherit pkgs shell; }
 ```
 
-**The snapshot**: every package definition comes from nixpkgs as it was on 2026-08-24.
+The snapshot: every package definition comes from nixpkgs as it was on 2026-08-24.
 
 ## Nix: a Nix expression (`default.nix`) {.code-walk}
 
@@ -1022,7 +1022,7 @@ let
 in { inherit pkgs shell; }
 ```
 
-**R packages** from that snapshot: exact versions, plus all of their dependencies.
+R packages from that snapshot: exact versions, plus all of their dependencies.
 
 ## Nix: a Nix expression (`default.nix`) {#sec-nix-cmdstanr .code-walk}
 
@@ -1051,7 +1051,7 @@ let
 in { inherit pkgs shell; }
 ```
 
-**cmdstanr from GitHub**: exact commit *and* content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.
+cmdstanr from GitHub: exact commit *and* content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.
 
 ## Nix: a Nix expression (`default.nix`) {.code-walk}
 
@@ -1080,7 +1080,7 @@ let
 in { inherit pkgs shell; }
 ```
 
-**System software**: R itself, Quarto, pandoc and CmdStan, from the same snapshot.
+System software: R itself, Quarto, pandoc and CmdStan, from the same snapshot.
 
 ## Nix: a Nix expression (`default.nix`) {#sec-nix-shell .code-walk}
 
@@ -1109,7 +1109,7 @@ let
 in { inherit pkgs shell; }
 ```
 
-**The shell**: everything above, bundled into what `nix-shell` opens. By hand, this means learning Nix. `{rix}` writes it for you, from R.
+The shell: everything above, bundled into what `nix-shell` opens. By hand, this means learning Nix. `{rix}` writes it for you, from R.
 
 ## Nix/`Rix` {#sec-rix-intro .code-walk}
 
@@ -1154,7 +1154,7 @@ rix(
 )
 ```
 
-**`date`**: becomes the snapshot line in `default.nix`, pinning *everything* to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.
+`date`: becomes the snapshot line in `default.nix`, pinning *everything* to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.
 
 ::: notes
 Never hand-edit the generated default.nix: all configuration flows through rix().
@@ -1185,7 +1185,7 @@ rix(
 )
 ```
 
-**`r_pkgs`**: CRAN packages, at their versions on that date. `knitr` and `rmarkdown` are here because Quarto needs them to run R code.
+`r_pkgs`: CRAN packages, at their versions on that date. `knitr` and `rmarkdown` are here because Quarto needs them to run R code.
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
@@ -1212,7 +1212,7 @@ rix(
 )
 ```
 
-**`git_pkgs`**: packages that aren't on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not "whatever is on GitHub today".
+`git_pkgs`: packages that aren't on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not "whatever is on GitHub today".
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
@@ -1239,7 +1239,7 @@ rix(
 )
 ```
 
-**`system_pkgs`**: software outside R. Quarto and CmdStan are the two things that broke in the demo; now they're part of the environment.
+`system_pkgs`: software outside R. Quarto and CmdStan are the two things that broke in the demo; now they're part of the environment.
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
@@ -1266,7 +1266,7 @@ rix(
 )
 ```
 
-**`shell_hook`**: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.
+`shell_hook`: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
@@ -1293,7 +1293,7 @@ rix(
 )
 ```
 
-**`ide`, `project_path`, `overwrite`**: no IDE (`\"rstudio\"`, `\"positron\"`, `\"code\"` also work); write `default.nix` into this folder.
+`ide`, `project_path`, `overwrite`: no IDE (`\"rstudio\"`, `\"positron\"`, `\"code\"` also work); write `default.nix` into this folder.
 
 ## Nix/`Rix`: Python too {#sec-rix-python .code-walk}
 
@@ -1316,7 +1316,7 @@ $ nix-shell --pure --run 'python --version'
 Python 3.12.14                  # pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot
 ```
 
-**`py_conf`**: one `default.nix` pins R, Python *and* both sets of packages. R reaches that exact Python through `reticulate`, never a system one.
+`py_conf`: one `default.nix` pins R, Python *and* both sets of packages. R reaches that exact Python through `reticulate`, never a system one.
 
 ::: notes
 Tested on macOS (Apple Silicon): builds and runs with --pure; reticulate calls the pinned numpy.
@@ -1324,7 +1324,7 @@ Tested on macOS (Apple Silicon): builds and runs with --pure; reticulate calls t
 
 ## Nix/`Rix`: using it {#sec-rix-use}
 
-Install Nix** (macOS, Linux, or Windows via WSL2), using the Determinate Systems installer:
+Install Nix (macOS, Linux, or Windows via WSL2), using the Determinate Systems installer:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
@@ -1369,26 +1369,26 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about h
 
 :::: {.columns}
 ::: {.column width="50%"}
-- **Misdeclared dependencies**
+- Misdeclared dependencies
   - A package lists a dependency under Imports that belongs in Suggests
 
-- **macOS**
+- macOS
   - The recipe stays valid, but an OS update can break today's build
   - Recommendation: build inside Docker
 :::
 
 ::: {.column width="50%"}
-- **Isolation**
+- Isolation
   - Use `nix-shell --pure`: only the declared environment, nothing from the host
 
-- **Windows**
+- Windows
   - {rix} can be cumbersome on Windows: you need WSL
 :::
 ::::
 
 ## What a Lab Can Actually Do
 
-**Not ready for Nix/{Rix}?** Start smaller:
+Not ready for Nix/{Rix}? Start smaller:
 
 - {renv} and {rig} for R dependency snapshots and R version management
   - {groundhog}  
@@ -1404,13 +1404,13 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about h
 
 ## Takeaways {#sec-takeaways}
 
-1.  **Reproducibility is a ladder, not a cliff**
+1.  Reproducibility is a ladder, not a cliff
     - Every step you take makes your pipeline more reproducible
 
-1.  **Document it**
+1.  Document it
     - A clear README: what to run, in what order, starting from raw data
 
-1.  **Freeze the environment**
+1.  Freeze the environment
     - Nix/`{rix}` declares R, packages, and system tools in one file, pinned to a date
 
 ## Thanks!
