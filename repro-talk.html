@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-11-09">
+  <meta name="dcterms.date" content="2026-11-10">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-11-09</p>
+  <p class="date">2026-11-10</p>
 </section>
 <section id="slides" class="slide level2">
 <h2>Slides</h2>
@@ -224,6 +224,7 @@ Jason Geller, PH.D.(he/him)
 <p><br> <br></p>
 <div class="larger">
 <p>I will mostly be using <img data-src="images/Rlogo.svg" class="inline-logo" alt="R"> examples.</p>
+<p>I have no connection to Nix or <code>{rix}</code>: just a happy user.</p>
 </div>
 </section>
 <section id="sec-replication-crisis" class="slide level2">
@@ -440,6 +441,11 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <section id="what-is-reproducibility" class="slide level2">
 <h2>What is Reproducibility?</h2>
 <table class="caption-top">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 31%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Analysis / Data</th>
@@ -450,13 +456,13 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <tbody>
 <tr class="odd">
 <td>Same Analysis</td>
-<td>Reproducible</td>
-<td>Replicable</td>
+<td><span class="fragment" data-fragment-index="1">Reproducible</span></td>
+<td><span class="fragment" data-fragment-index="2">Replicable</span></td>
 </tr>
 <tr class="even">
 <td>Different Analysis</td>
-<td>Robust</td>
-<td>Generalisable</td>
+<td><span class="fragment" data-fragment-index="3">Robust</span></td>
+<td><span class="fragment" data-fragment-index="4">Generalisable</span></td>
 </tr>
 </tbody>
 </table>
@@ -559,12 +565,12 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center" width="820"></p>
+<p><img data-src="images/ladder-parts.svg" class="quarto-figure quarto-figure-center" width="440"></p>
 </figure>
 </div>
 </div>
 <aside class="notes">
-<p>Hand-off: So it’s not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, <em>and</em> the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn’t yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. [click: spectrum]</p>
+<p>Hand-off: So it’s not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, <em>and</em> the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn’t yes-or-no; every piece you share gets you closer. So it helps to think of it as a ladder. [click: ladder]</p>
 <p>The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard. Keep this ladder in mind: each study coming up breaks at a different step.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -682,7 +688,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <p>Brodeur et al.: 67 teams each reproduced one of 67 Psych Sci articles (2024-2025). Overall, 58.2% fully reproducible from the final analysis data, but only 28.4% from raw data.</p>
 <p>Point to panel B, bottom row: a clear README takes “reproducible from analysis data” from 50% to 88%. Documentation fixes “what do I run?”</p>
 <p>Then panel B, second-to-last row: from raw data, a clear README gets 31%, about the same as no README (27%). Documentation doesn’t fix “it won’t run on my machine.”</p>
-<p>Hand-off: so where does that leave us? Back to the spectrum. -&gt; Psychology: not so good</p>
+<p>Hand-off: so where does that leave us? Back to the ladder. -&gt; Psychology: not so good</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -698,12 +704,12 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <section id="sec-spectrum-recap" class="slide level2">
 <h2>Psychology: not so good 😟</h2>
 <ul>
-<li>Back to the spectrum: where do these studies leave us?</li>
+<li>Back to the ladder: where do these studies leave us?</li>
 </ul>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center" width="820"></p>
+<p><img data-src="images/ladder-parts.svg" class="quarto-figure quarto-figure-center" width="500"></p>
 </figure>
 </div>
 </div>
@@ -713,8 +719,8 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 </ul>
 </div>
 <aside class="notes">
-<p>Bring the spectrum back and place the studies on it: - SCORE: most papers never get past “code + data”: nothing shared, nothing to check. - Quintana: materials are shared, but hard to reuse. - Brodeur / I4R: a clear README gets you to 88% from analysis data, but from raw data it’s 31%, no better than no README.</p>
-<p>What’s left is the last box: the computational environment. That’s the rest of this talk.</p>
+<p>Bring the ladder back and place the studies on it: - SCORE: most papers never get past “code + data”: nothing shared, nothing to check. - Quintana: materials are shared, but hard to reuse. - Brodeur / I4R: a clear README gets you to 88% from analysis data, but from raw data it’s 31%, no better than no README.</p>
+<p>What’s left is the top rung: the computational environment. That’s the rest of this talk.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -740,7 +746,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 </figure>
 </div>
 <aside class="notes">
-<p>Transition: we just landed on the last box of the spectrum, the environment. But what does “my environment is reproducible” actually mean?</p>
+<p>Transition: we just landed on the top rung of the ladder, the environment. But what does “my environment is reproducible” actually mean?</p>
 <p>Grid (don’t read every cell): two directions, across space (another machine/OS, today) and across time (years from now). Three levels: the build succeeds, the result is the same, the bytes are the same (strictest; numbers later on the Malka et al.&nbsp;slide).</p>
 <p>Punchline: most tools cover only one or two of these six boxes. The question isn’t “is it reproducible?” but “WHICH BOXES?” When we get to specific tools later, we’ll come back to this grid.</p>
 <p>Hand-off: “Let’s start with how the environment breaks.” -&gt; Environment Fragility</p>
@@ -811,6 +817,12 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <li class="fragment">Renamed or deprecated: <code>dplyr::cur_data()</code>, but now <code>dplyr::pick()</code> (warning about the future).</li>
 <li class="fragment">Internal functions (discouraged, but used nonetheless):</li>
 </ul>
+<div class="fragment">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a>mypkg<span class="sc">:::</span><span class="fu">fit_model</span>(df)   <span class="co"># internal helper</span></span>
+<span id="cb5-2"><a href="" aria-label="2"></a><span class="co">#&gt; mypkg 1.0: works</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a><span class="co">#&gt; mypkg 2.0: Error: object 'fit_model' not found</span></span>
+<span id="cb5-4"><a href="" aria-label="4"></a><span class="co">#&gt;            (renamed to fitModel(), no warning)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="sec-env-docs" class="slide level2">
 <h2>3. Document tools</h2>
@@ -846,9 +858,9 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <li class="fragment">Random numbers: sampling from a set works in 3.10, but the draws depend on set order, which changes <em>every run</em>. In 3.11+ it errors:</li>
 </ul>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a><span class="im">import</span> random<span class="op">;</span> random.seed(<span class="dv">1</span>)<span class="op">;</span> random.sample({<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>}, <span class="dv">2</span>)</span>
-<span id="cb7-2"><a href="" aria-label="2"></a><span class="co">#&gt; Python 3.10:  ['a', 'b']   (or ['c', 'a'], ... depends on the run)</span></span>
-<span id="cb7-3"><a href="" aria-label="3"></a><span class="co">#&gt; Python 3.11+: TypeError: Population must be a sequence.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a><span class="im">import</span> random<span class="op">;</span> random.seed(<span class="dv">1</span>)<span class="op">;</span> random.sample({<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>}, <span class="dv">2</span>)</span>
+<span id="cb8-2"><a href="" aria-label="2"></a><span class="co">#&gt; Python 3.10:  ['a', 'b']   (or ['c', 'a'], ... depends on the run)</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a><span class="co">#&gt; Python 3.11+: TypeError: Population must be a sequence.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sec-py-pkgs" class="slide level2 smaller">
@@ -857,19 +869,19 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <li class="fragment">Changed defaults, loud: pandas 2.0 stopped silently dropping text columns:</li>
 </ul>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"group"</span>: [<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>],</span>
-<span id="cb8-2"><a href="" aria-label="2"></a>                   <span class="st">"subject"</span>: [<span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span>], <span class="st">"rt"</span>: [<span class="dv">500</span>, <span class="dv">520</span>, <span class="dv">610</span>]})</span>
-<span id="cb8-3"><a href="" aria-label="3"></a>df.groupby(<span class="st">"group"</span>).mean()</span>
-<span id="cb8-4"><a href="" aria-label="4"></a><span class="co">#&gt; pandas 1.5: mean rt per group    (subject column quietly dropped)</span></span>
-<span id="cb8-5"><a href="" aria-label="5"></a><span class="co">#&gt; pandas 2.0+: TypeError: agg function failed [how-&gt;mean,dtype-&gt;object]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"group"</span>: [<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>],</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>                   <span class="st">"subject"</span>: [<span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span>], <span class="st">"rt"</span>: [<span class="dv">500</span>, <span class="dv">520</span>, <span class="dv">610</span>]})</span>
+<span id="cb9-3"><a href="" aria-label="3"></a>df.groupby(<span class="st">"group"</span>).mean()</span>
+<span id="cb9-4"><a href="" aria-label="4"></a><span class="co">#&gt; pandas 1.5: mean rt per group    (subject column quietly dropped)</span></span>
+<span id="cb9-5"><a href="" aria-label="5"></a><span class="co">#&gt; pandas 2.0+: TypeError: agg function failed [how-&gt;mean,dtype-&gt;object]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li class="fragment">Changed defaults, silent: numpy 2.0 changed type promotion. No error, different number:</li>
 </ul>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a>x <span class="op">=</span> np.float32(<span class="fl">0.1</span>) <span class="op">+</span> <span class="fl">0.2</span></span>
-<span id="cb9-2"><a href="" aria-label="2"></a><span class="co">#&gt; numpy 1.26: 0.30000000149011613   (float64)</span></span>
-<span id="cb9-3"><a href="" aria-label="3"></a><span class="co">#&gt; numpy 2.0+: 0.3                   (float32)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a>x <span class="op">=</span> np.float32(<span class="fl">0.1</span>) <span class="op">+</span> <span class="fl">0.2</span></span>
+<span id="cb10-2"><a href="" aria-label="2"></a><span class="co">#&gt; numpy 1.26: 0.30000000149011613   (float64)</span></span>
+<span id="cb10-3"><a href="" aria-label="3"></a><span class="co">#&gt; numpy 2.0+: 0.3                   (float32)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li class="fragment">Removed: <code>np.float</code> was removed in numpy 1.24, <code>DataFrame.append()</code> in pandas 2.0.</li>
@@ -946,8 +958,8 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <h2><code>{renv}</code> in action</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a><span class="co"># analysis.R uses palmerpenguins + ggplot2</span></span>
-<span id="cb10-2"><a href="" aria-label="2"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a><span class="co"># analysis.R uses palmerpenguins + ggplot2</span></span>
+<span id="cb11-2"><a href="" aria-label="2"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre><code>- Linking packages into the project
   library ... Done!
 The following package(s) will be
@@ -967,19 +979,19 @@ will be updated:
 - Lockfile written to "renv.lock".</code></pre>
 </div><div class="column fragment" style="width:50%;">
 <p><code>renv.lock</code> (excerpt)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="" aria-label="1"></a><span class="fu">{</span></span>
-<span id="cb12-2"><a href="" aria-label="2"></a>  <span class="dt">"R"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb12-3"><a href="" aria-label="3"></a>    <span class="dt">"Version"</span><span class="fu">:</span> <span class="st">"4.6.1"</span><span class="fu">,</span></span>
-<span id="cb12-4"><a href="" aria-label="4"></a>    <span class="dt">"Repositories"</span><span class="fu">:</span> <span class="ot">[</span> <span class="er">...</span> <span class="ot">]</span></span>
-<span id="cb12-5"><a href="" aria-label="5"></a>  <span class="fu">},</span></span>
-<span id="cb12-6"><a href="" aria-label="6"></a>  <span class="dt">"Packages"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb12-7"><a href="" aria-label="7"></a>    <span class="dt">"ggplot2"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb12-8"><a href="" aria-label="8"></a>      <span class="dt">"Package"</span><span class="fu">:</span> <span class="st">"ggplot2"</span><span class="fu">,</span></span>
-<span id="cb12-9"><a href="" aria-label="9"></a>      <span class="dt">"Version"</span><span class="fu">:</span> <span class="st">"4.0.3"</span><span class="fu">,</span></span>
-<span id="cb12-10"><a href="" aria-label="10"></a>      <span class="dt">"Source"</span><span class="fu">:</span> <span class="st">"Repository"</span><span class="fu">,</span></span>
-<span id="cb12-11"><a href="" aria-label="11"></a>      <span class="dt">"Repository"</span><span class="fu">:</span> <span class="st">"CRAN"</span></span>
-<span id="cb12-12"><a href="" aria-label="12"></a>    <span class="fu">},</span></span>
-<span id="cb12-13"><a href="" aria-label="13"></a>    <span class="er">...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="" aria-label="1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="" aria-label="2"></a>  <span class="dt">"R"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-3"><a href="" aria-label="3"></a>    <span class="dt">"Version"</span><span class="fu">:</span> <span class="st">"4.6.1"</span><span class="fu">,</span></span>
+<span id="cb13-4"><a href="" aria-label="4"></a>    <span class="dt">"Repositories"</span><span class="fu">:</span> <span class="ot">[</span> <span class="er">...</span> <span class="ot">]</span></span>
+<span id="cb13-5"><a href="" aria-label="5"></a>  <span class="fu">},</span></span>
+<span id="cb13-6"><a href="" aria-label="6"></a>  <span class="dt">"Packages"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-7"><a href="" aria-label="7"></a>    <span class="dt">"ggplot2"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-8"><a href="" aria-label="8"></a>      <span class="dt">"Package"</span><span class="fu">:</span> <span class="st">"ggplot2"</span><span class="fu">,</span></span>
+<span id="cb13-9"><a href="" aria-label="9"></a>      <span class="dt">"Version"</span><span class="fu">:</span> <span class="st">"4.0.3"</span><span class="fu">,</span></span>
+<span id="cb13-10"><a href="" aria-label="10"></a>      <span class="dt">"Source"</span><span class="fu">:</span> <span class="st">"Repository"</span><span class="fu">,</span></span>
+<span id="cb13-11"><a href="" aria-label="11"></a>      <span class="dt">"Repository"</span><span class="fu">:</span> <span class="st">"CRAN"</span></span>
+<span id="cb13-12"><a href="" aria-label="12"></a>    <span class="fu">},</span></span>
+<span id="cb13-13"><a href="" aria-label="13"></a>    <span class="er">...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>R 4.6.1 is written down, not installed. <code>renv::restore()</code> uses whatever R you have.</p>
 </div></div>
 <aside class="notes">
@@ -1056,9 +1068,9 @@ will be updated:
 </ul>
 <div class="fragment">
 <p>The recipe drifts: every line fetches what’s current <em>on build day</em></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb13-1"><a href="" aria-label="1"></a><span class="kw">FROM</span> rocker/r-ver:latest                    <span class="co"># which R? whatever "latest" means today</span></span>
-<span id="cb13-2"><a href="" aria-label="2"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> libxml2-dev   <span class="co"># today's Ubuntu libraries</span></span>
-<span id="cb13-3"><a href="" aria-label="3"></a><span class="kw">RUN</span> <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'install.packages("brms")'</span>   <span class="co"># today's CRAN</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb14-1"><a href="" aria-label="1"></a><span class="kw">FROM</span> rocker/r-ver:latest                    <span class="co"># which R? whatever "latest" means today</span></span>
+<span id="cb14-2"><a href="" aria-label="2"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> libxml2-dev   <span class="co"># today's Ubuntu libraries</span></span>
+<span id="cb14-3"><a href="" aria-label="3"></a><span class="kw">RUN</span> <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'install.packages("brms")'</span>   <span class="co"># today's CRAN</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <p>Docker was designed for deployment: ship an app so it runs identically across machines right now. Rebuild the same Dockerfile next year and you get a different R, different system libraries, different CRAN. Only the built image is frozen. -&gt; so you have to keep the image</p>
@@ -1205,6 +1217,136 @@ will be updated:
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn10"><p>Source: <a href="https://repology.org/repositories/graphs" class="uri">https://repology.org/repositories/graphs</a> (retrieved November 2026).</p></li></ol></aside></section>
+<section id="sec-rix-nix" class="slide level2 code-walk">
+<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-code-line-numbers="2-3"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb15-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<span id="cb15-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
+<span id="cb15-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb15-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb15-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
+<span id="cb15-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
+<span id="cb15-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
+<span id="cb15-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
+<span id="cb15-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
+<span id="cb15-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
+<span id="cb15-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
+<span id="cb15-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
+<span id="cb15-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
+<span id="cb15-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
+<span id="cb15-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb15-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb15-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
+<span id="cb15-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb15-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
+<span id="cb15-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
+<span id="cb15-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
+<span id="cb15-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The snapshot: every package definition comes from nixpkgs as it was on 2026-08-24.</p>
+</section>
+<section id="nix-a-nix-expression-default.nix" class="slide level2 code-walk">
+<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-code-line-numbers="4-6"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb16-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<span id="cb16-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
+<span id="cb16-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb16-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb16-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
+<span id="cb16-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
+<span id="cb16-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
+<span id="cb16-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
+<span id="cb16-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
+<span id="cb16-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
+<span id="cb16-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
+<span id="cb16-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
+<span id="cb16-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
+<span id="cb16-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
+<span id="cb16-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb16-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb16-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
+<span id="cb16-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb16-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
+<span id="cb16-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
+<span id="cb16-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
+<span id="cb16-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>R packages from that snapshot: exact versions, plus all of their dependencies.</p>
+</section>
+<section id="sec-nix-cmdstanr" class="slide level2 code-walk">
+<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-code-line-numbers="7-14"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb17-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<span id="cb17-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
+<span id="cb17-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb17-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb17-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
+<span id="cb17-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
+<span id="cb17-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
+<span id="cb17-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
+<span id="cb17-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
+<span id="cb17-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
+<span id="cb17-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
+<span id="cb17-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
+<span id="cb17-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
+<span id="cb17-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
+<span id="cb17-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb17-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb17-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
+<span id="cb17-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb17-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
+<span id="cb17-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
+<span id="cb17-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
+<span id="cb17-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>cmdstanr from GitHub: exact commit <em>and</em> content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.</p>
+</section>
+<section id="nix-a-nix-expression-default.nix-1" class="slide level2 code-walk">
+<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-code-line-numbers="15-17"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb18-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<span id="cb18-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
+<span id="cb18-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb18-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb18-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
+<span id="cb18-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
+<span id="cb18-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
+<span id="cb18-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
+<span id="cb18-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
+<span id="cb18-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
+<span id="cb18-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
+<span id="cb18-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
+<span id="cb18-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
+<span id="cb18-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
+<span id="cb18-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb18-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb18-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
+<span id="cb18-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb18-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
+<span id="cb18-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
+<span id="cb18-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
+<span id="cb18-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>System software: R itself, Quarto, pandoc and CmdStan, from the same snapshot.</p>
+</section>
+<section id="sec-nix-shell" class="slide level2 code-walk">
+<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-code-line-numbers="18-21"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb19-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
+<span id="cb19-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
+<span id="cb19-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
+<span id="cb19-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb19-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
+<span id="cb19-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
+<span id="cb19-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
+<span id="cb19-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
+<span id="cb19-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
+<span id="cb19-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
+<span id="cb19-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
+<span id="cb19-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
+<span id="cb19-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
+<span id="cb19-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
+<span id="cb19-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
+<span id="cb19-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
+<span id="cb19-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
+<span id="cb19-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
+<span id="cb19-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
+<span id="cb19-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
+<span id="cb19-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
+<span id="cb19-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The shell: everything above, bundled into what <code>nix-shell</code> opens. By hand, this means learning Nix. <code>{rix}</code> writes it for you, from R.</p>
+</section>
 <section id="sec-nix-evidence" class="slide level2">
 <h2>Nix: the empirical evidence</h2>
 <p>Malka, Zacchiroli, &amp; Zimmermann (2025)<sup>1</sup> rebuilt 709,816 packages from <code>nixpkgs</code> snapshots taken every four months, 2017–2023:</p>
@@ -1231,136 +1373,6 @@ will be updated:
           display:block!important;
       }</style></aside>
 </section>
-<section id="sec-rix-nix" class="slide level2 code-walk">
-<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-code-line-numbers="2-3"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb14-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
-<span id="cb14-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
-<span id="cb14-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb14-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb14-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
-<span id="cb14-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
-<span id="cb14-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
-<span id="cb14-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
-<span id="cb14-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
-<span id="cb14-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
-<span id="cb14-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
-<span id="cb14-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
-<span id="cb14-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
-<span id="cb14-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
-<span id="cb14-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb14-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
-<span id="cb14-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
-<span id="cb14-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb14-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
-<span id="cb14-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
-<span id="cb14-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
-<span id="cb14-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The snapshot: every package definition comes from nixpkgs as it was on 2026-08-24.</p>
-</section>
-<section id="nix-a-nix-expression-default.nix" class="slide level2 code-walk">
-<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-code-line-numbers="4-6"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb15-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
-<span id="cb15-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
-<span id="cb15-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb15-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb15-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
-<span id="cb15-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
-<span id="cb15-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
-<span id="cb15-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
-<span id="cb15-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
-<span id="cb15-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
-<span id="cb15-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
-<span id="cb15-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
-<span id="cb15-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
-<span id="cb15-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
-<span id="cb15-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb15-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
-<span id="cb15-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
-<span id="cb15-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb15-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
-<span id="cb15-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
-<span id="cb15-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
-<span id="cb15-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>R packages from that snapshot: exact versions, plus all of their dependencies.</p>
-</section>
-<section id="sec-nix-cmdstanr" class="slide level2 code-walk">
-<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-code-line-numbers="7-14"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb16-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
-<span id="cb16-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
-<span id="cb16-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb16-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb16-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
-<span id="cb16-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
-<span id="cb16-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
-<span id="cb16-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
-<span id="cb16-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
-<span id="cb16-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
-<span id="cb16-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
-<span id="cb16-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
-<span id="cb16-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
-<span id="cb16-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
-<span id="cb16-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb16-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
-<span id="cb16-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
-<span id="cb16-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb16-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
-<span id="cb16-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
-<span id="cb16-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
-<span id="cb16-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>cmdstanr from GitHub: exact commit <em>and</em> content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.</p>
-</section>
-<section id="nix-a-nix-expression-default.nix-1" class="slide level2 code-walk">
-<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-code-line-numbers="15-17"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb17-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
-<span id="cb17-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
-<span id="cb17-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb17-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb17-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
-<span id="cb17-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
-<span id="cb17-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
-<span id="cb17-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
-<span id="cb17-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
-<span id="cb17-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
-<span id="cb17-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
-<span id="cb17-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
-<span id="cb17-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
-<span id="cb17-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
-<span id="cb17-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb17-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
-<span id="cb17-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
-<span id="cb17-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb17-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
-<span id="cb17-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
-<span id="cb17-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
-<span id="cb17-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>System software: R itself, Quarto, pandoc and CmdStan, from the same snapshot.</p>
-</section>
-<section id="sec-nix-shell" class="slide level2 code-walk">
-<h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-code-line-numbers="18-21"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb18-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
-<span id="cb18-2"><a href="" aria-label="2"></a>  <span class="va">pkgs</span> <span class="op">=</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span></span>
-<span id="cb18-3"><a href="" aria-label="3"></a>    <span class="st">"https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz"</span><span class="op">)</span> <span class="op">{};</span></span>
-<span id="cb18-4"><a href="" aria-label="4"></a>  <span class="va">rpkgs</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb18-5"><a href="" aria-label="5"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">.</span>rPackages<span class="op">)</span> <span class="va">brms</span> <span class="va">knitr</span> <span class="va">palmerpenguins</span> <span class="va">rmarkdown</span><span class="op">;</span></span>
-<span id="cb18-6"><a href="" aria-label="6"></a>  <span class="op">};</span></span>
-<span id="cb18-7"><a href="" aria-label="7"></a>  <span class="va">cmdstanr</span> <span class="op">=</span> pkgs<span class="op">.</span>rPackages<span class="op">.</span>buildRPackage <span class="op">{</span></span>
-<span id="cb18-8"><a href="" aria-label="8"></a>    <span class="va">name</span> <span class="op">=</span> <span class="st">"cmdstanr"</span><span class="op">;</span></span>
-<span id="cb18-9"><a href="" aria-label="9"></a>    <span class="va">src</span> <span class="op">=</span> pkgs<span class="op">.</span>fetchgit <span class="op">{</span></span>
-<span id="cb18-10"><a href="" aria-label="10"></a>      <span class="va">url</span>    <span class="op">=</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span><span class="op">;</span></span>
-<span id="cb18-11"><a href="" aria-label="11"></a>      <span class="va">rev</span>    <span class="op">=</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span><span class="op">;</span></span>
-<span id="cb18-12"><a href="" aria-label="12"></a>      <span class="va">sha256</span> <span class="op">=</span> <span class="st">"sha256-wXfOxBexnuL83fvCM+6qv6d7UhTLGq+Xhvja3lRfQpI="</span><span class="op">;</span></span>
-<span id="cb18-13"><a href="" aria-label="13"></a>    <span class="op">};</span></span>
-<span id="cb18-14"><a href="" aria-label="14"></a>  <span class="op">};</span></span>
-<span id="cb18-15"><a href="" aria-label="15"></a>  <span class="va">system_packages</span> <span class="op">=</span> <span class="bu">builtins</span><span class="op">.</span>attrValues <span class="op">{</span></span>
-<span id="cb18-16"><a href="" aria-label="16"></a>    <span class="kw">inherit</span> <span class="op">(</span>pkgs<span class="op">)</span> <span class="va">cmdstan</span> <span class="va">pandoc</span> <span class="va">quarto</span> <span class="va">R</span><span class="op">;</span></span>
-<span id="cb18-17"><a href="" aria-label="17"></a>  <span class="op">};</span></span>
-<span id="cb18-18"><a href="" aria-label="18"></a>  <span class="va">shell</span> <span class="op">=</span> pkgs<span class="op">.</span>mkShell <span class="op">{</span></span>
-<span id="cb18-19"><a href="" aria-label="19"></a>    <span class="va">buildInputs</span> <span class="op">=</span> <span class="op">[</span> cmdstanr rpkgs system_packages <span class="op">];</span></span>
-<span id="cb18-20"><a href="" aria-label="20"></a>    <span class="va">shellHook</span>   <span class="op">=</span> <span class="st">"export CMDSTAN=..."</span><span class="op">;</span></span>
-<span id="cb18-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
-<span id="cb18-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The shell: everything above, bundled into what <code>nix-shell</code> opens. By hand, this means learning Nix. <code>{rix}</code> writes it for you, from R.</p>
-</section>
 <section id="sec-rix-intro" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code></h2>
 <div class="columns">
@@ -1376,49 +1388,12 @@ will be updated:
 </div>
 </div></div>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>, <span class="at">repos =</span> <span class="st">"https://ropensci.r-universe.dev"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="fu">install.packages</span>(<span class="st">"rix"</span>, <span class="at">repos =</span> <span class="st">"https://ropensci.r-universe.dev"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="sec-rix-call" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
-<span id="cb20-2"><a href="" aria-label="2"></a></span>
-<span id="cb20-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
-<span id="cb20-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
-<span id="cb20-5"><a href="" aria-label="5"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>, <span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>),</span>
-<span id="cb20-6"><a href="" aria-label="6"></a>  <span class="at">git_pkgs =</span> <span class="fu">list</span>(</span>
-<span id="cb20-7"><a href="" aria-label="7"></a>    <span class="at">package_name =</span> <span class="st">"cmdstanr"</span>,</span>
-<span id="cb20-8"><a href="" aria-label="8"></a>    <span class="at">repo_url     =</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span>,</span>
-<span id="cb20-9"><a href="" aria-label="9"></a>    <span class="at">commit       =</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span></span>
-<span id="cb20-10"><a href="" aria-label="10"></a>  ),</span>
-<span id="cb20-11"><a href="" aria-label="11"></a>  <span class="at">system_pkgs =</span> <span class="fu">c</span>(<span class="st">"quarto"</span>, <span class="st">"cmdstan"</span>),</span>
-<span id="cb20-12"><a href="" aria-label="12"></a>  <span class="at">shell_hook  =</span> <span class="fu">paste</span>(</span>
-<span id="cb20-13"><a href="" aria-label="13"></a>    <span class="st">"export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan"</span>,</span>
-<span id="cb20-14"><a href="" aria-label="14"></a>    <span class="st">"export PRECOMPILED_HEADERS=false"</span>,</span>
-<span id="cb20-15"><a href="" aria-label="15"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
-<span id="cb20-16"><a href="" aria-label="16"></a>  ),</span>
-<span id="cb20-17"><a href="" aria-label="17"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
-<span id="cb20-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
-<span id="cb20-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
-<span id="cb20-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>date</code>: becomes the snapshot line in <code>default.nix</code>, pinning <em>everything</em> to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.</p>
-<aside class="notes">
-<p>Never hand-edit the generated default.nix: all configuration flows through rix().</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="nixrix-the-rix-call" class="slide level2 code-walk">
-<h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb21-2"><a href="" aria-label="2"></a></span>
 <span id="cb21-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb21-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -1438,11 +1413,24 @@ will be updated:
 <span id="cb21-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb21-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb21-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>r_pkgs</code>: CRAN packages, at their versions on that date. <code>knitr</code> and <code>rmarkdown</code> are here because Quarto needs them to run R code.</p>
+<p><code>date</code>: becomes the snapshot line in <code>default.nix</code>, pinning <em>everything</em> to one snapshot of nixpkgs. R and every package come in the versions they had on that day, on any machine, forever.</p>
+<aside class="notes">
+<p>Never hand-edit the generated default.nix: all configuration flows through rix().</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="nixrix-the-rix-call-1" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-code-line-numbers="6-10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb22-2"><a href="" aria-label="2"></a></span>
 <span id="cb22-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb22-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -1462,11 +1450,11 @@ will be updated:
 <span id="cb22-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb22-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb22-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>git_pkgs</code>: packages that aren’t on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not “whatever is on GitHub today”.</p>
+<p><code>r_pkgs</code>: CRAN packages, at their versions on that date. <code>knitr</code> and <code>rmarkdown</code> are here because Quarto needs them to run R code.</p>
 </section>
-<section id="nixrix-the-rix-call-2" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call-1" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-code-line-numbers="11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-code-line-numbers="6-10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb23-2"><a href="" aria-label="2"></a></span>
 <span id="cb23-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb23-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -1486,11 +1474,11 @@ will be updated:
 <span id="cb23-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb23-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb23-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>system_pkgs</code>: software outside R. Quarto and CmdStan are the two things that broke in the demo; now they’re part of the environment.</p>
+<p><code>git_pkgs</code>: packages that aren’t on CRAN. cmdstanr is pinned to an exact commit (the v0.9.0 release), not “whatever is on GitHub today”.</p>
 </section>
-<section id="nixrix-the-rix-call-3" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call-2" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24" data-code-line-numbers="12-16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24" data-code-line-numbers="11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb24-2"><a href="" aria-label="2"></a></span>
 <span id="cb24-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb24-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -1510,11 +1498,11 @@ will be updated:
 <span id="cb24-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb24-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb24-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>shell_hook</code>: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.</p>
+<p><code>system_pkgs</code>: software outside R. Quarto and CmdStan are the two things that broke in the demo; now they’re part of the environment.</p>
 </section>
-<section id="nixrix-the-rix-call-4" class="slide level2 code-walk">
+<section id="nixrix-the-rix-call-3" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-code-line-numbers="17-19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-code-line-numbers="12-16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
 <span id="cb25-2"><a href="" aria-label="2"></a></span>
 <span id="cb25-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
 <span id="cb25-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
@@ -1534,23 +1522,47 @@ will be updated:
 <span id="cb25-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
 <span id="cb25-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
 <span id="cb25-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>shell_hook</code>: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.</p>
+</section>
+<section id="nixrix-the-rix-call-4" class="slide level2 code-walk">
+<h2>Nix/<code>Rix</code>: the <code>rix()</code> call</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-code-line-numbers="17-19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-label="1"></a><span class="fu">library</span>(rix)</span>
+<span id="cb26-2"><a href="" aria-label="2"></a></span>
+<span id="cb26-3"><a href="" aria-label="3"></a><span class="fu">rix</span>(</span>
+<span id="cb26-4"><a href="" aria-label="4"></a>  <span class="at">date   =</span> <span class="st">"2026-08-24"</span>,</span>
+<span id="cb26-5"><a href="" aria-label="5"></a>  <span class="at">r_pkgs =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"palmerpenguins"</span>, <span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>),</span>
+<span id="cb26-6"><a href="" aria-label="6"></a>  <span class="at">git_pkgs =</span> <span class="fu">list</span>(</span>
+<span id="cb26-7"><a href="" aria-label="7"></a>    <span class="at">package_name =</span> <span class="st">"cmdstanr"</span>,</span>
+<span id="cb26-8"><a href="" aria-label="8"></a>    <span class="at">repo_url     =</span> <span class="st">"https://github.com/stan-dev/cmdstanr"</span>,</span>
+<span id="cb26-9"><a href="" aria-label="9"></a>    <span class="at">commit       =</span> <span class="st">"da99e2ba954658bdad63bffb738c4444c33a4e0e"</span></span>
+<span id="cb26-10"><a href="" aria-label="10"></a>  ),</span>
+<span id="cb26-11"><a href="" aria-label="11"></a>  <span class="at">system_pkgs =</span> <span class="fu">c</span>(<span class="st">"quarto"</span>, <span class="st">"cmdstan"</span>),</span>
+<span id="cb26-12"><a href="" aria-label="12"></a>  <span class="at">shell_hook  =</span> <span class="fu">paste</span>(</span>
+<span id="cb26-13"><a href="" aria-label="13"></a>    <span class="st">"export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan"</span>,</span>
+<span id="cb26-14"><a href="" aria-label="14"></a>    <span class="st">"export PRECOMPILED_HEADERS=false"</span>,</span>
+<span id="cb26-15"><a href="" aria-label="15"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb26-16"><a href="" aria-label="16"></a>  ),</span>
+<span id="cb26-17"><a href="" aria-label="17"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
+<span id="cb26-18"><a href="" aria-label="18"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb26-19"><a href="" aria-label="19"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
+<span id="cb26-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>ide</code>, <code>project_path</code>, <code>overwrite</code>: no IDE (<code>\"rstudio\"</code>, <code>\"positron\"</code>, <code>\"code\"</code> also work); write <code>default.nix</code> into this folder.</p>
 </section>
 <section id="sec-rix-python" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code>: Python too</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-code-line-numbers="4-7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-label="1"></a><span class="fu">rix</span>(</span>
-<span id="cb26-2"><a href="" aria-label="2"></a>  <span class="at">date    =</span> <span class="st">"2026-08-24"</span>,</span>
-<span id="cb26-3"><a href="" aria-label="3"></a>  <span class="at">r_pkgs  =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"reticulate"</span>),</span>
-<span id="cb26-4"><a href="" aria-label="4"></a>  <span class="at">py_conf =</span> <span class="fu">list</span>(</span>
-<span id="cb26-5"><a href="" aria-label="5"></a>    <span class="at">py_version =</span> <span class="st">"3.12"</span>,</span>
-<span id="cb26-6"><a href="" aria-label="6"></a>    <span class="at">py_pkgs    =</span> <span class="fu">c</span>(<span class="st">"pandas"</span>, <span class="st">"numpy"</span>)</span>
-<span id="cb26-7"><a href="" aria-label="7"></a>  ),</span>
-<span id="cb26-8"><a href="" aria-label="8"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
-<span id="cb26-9"><a href="" aria-label="9"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
-<span id="cb26-10"><a href="" aria-label="10"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
-<span id="cb26-11"><a href="" aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="" aria-label="1"></a><span class="ex">$</span> nix-shell <span class="at">--pure</span> <span class="at">--run</span> <span class="st">'python --version'</span></span>
-<span id="cb27-2"><a href="" aria-label="2"></a><span class="ex">Python</span> 3.12.14                  <span class="co"># pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-code-line-numbers="4-7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-label="1"></a><span class="fu">rix</span>(</span>
+<span id="cb27-2"><a href="" aria-label="2"></a>  <span class="at">date    =</span> <span class="st">"2026-08-24"</span>,</span>
+<span id="cb27-3"><a href="" aria-label="3"></a>  <span class="at">r_pkgs  =</span> <span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"reticulate"</span>),</span>
+<span id="cb27-4"><a href="" aria-label="4"></a>  <span class="at">py_conf =</span> <span class="fu">list</span>(</span>
+<span id="cb27-5"><a href="" aria-label="5"></a>    <span class="at">py_version =</span> <span class="st">"3.12"</span>,</span>
+<span id="cb27-6"><a href="" aria-label="6"></a>    <span class="at">py_pkgs    =</span> <span class="fu">c</span>(<span class="st">"pandas"</span>, <span class="st">"numpy"</span>)</span>
+<span id="cb27-7"><a href="" aria-label="7"></a>  ),</span>
+<span id="cb27-8"><a href="" aria-label="8"></a>  <span class="at">ide          =</span> <span class="st">"none"</span>,</span>
+<span id="cb27-9"><a href="" aria-label="9"></a>  <span class="at">project_path =</span> <span class="st">"."</span>,</span>
+<span id="cb27-10"><a href="" aria-label="10"></a>  <span class="at">overwrite    =</span> <span class="cn">TRUE</span></span>
+<span id="cb27-11"><a href="" aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="" aria-label="1"></a><span class="ex">$</span> nix-shell <span class="at">--pure</span> <span class="at">--run</span> <span class="st">'python --version'</span></span>
+<span id="cb28-2"><a href="" aria-label="2"></a><span class="ex">Python</span> 3.12.14                  <span class="co"># pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>py_conf</code>: one <code>default.nix</code> pins R, Python <em>and</em> both sets of packages. R reaches that exact Python through <code>reticulate</code>, never a system one.</p>
 <aside class="notes">
 <p>Tested on macOS (Apple Silicon): builds and runs with –pure; reticulate calls the pinned numpy.</p>
@@ -1569,11 +1581,11 @@ will be updated:
 <section id="sec-rix-use" class="slide level2">
 <h2>Nix/<code>Rix</code>: using it</h2>
 <p>Install Nix (macOS, Linux, or Windows via WSL2), using the Determinate Systems installer:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="" aria-label="1"></a><span class="ex">curl</span> <span class="at">--proto</span> <span class="st">'=https'</span> <span class="at">--tlsv1.2</span> <span class="at">-sSf</span> <span class="at">-L</span> https://install.determinate.systems/nix <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb28-2"><a href="" aria-label="2"></a>  <span class="fu">sh</span> <span class="at">-s</span> <span class="at">--</span> install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="" aria-label="1"></a><span class="ex">Rscript</span> gen-env.R    <span class="co"># rix() writes default.nix</span></span>
-<span id="cb29-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build it (slow only the first time)</span></span>
-<span id="cb29-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span> <span class="at">--run</span> <span class="st">"quarto render nix_rix_example.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="" aria-label="1"></a><span class="ex">curl</span> <span class="at">--proto</span> <span class="st">'=https'</span> <span class="at">--tlsv1.2</span> <span class="at">-sSf</span> <span class="at">-L</span> https://install.determinate.systems/nix <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb29-2"><a href="" aria-label="2"></a>  <span class="fu">sh</span> <span class="at">-s</span> <span class="at">--</span> install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30" data-code-line-numbers="|1|2|3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="" aria-label="1"></a><span class="ex">Rscript</span> gen-env.R    <span class="co"># rix() writes default.nix</span></span>
+<span id="cb30-2"><a href="" aria-label="2"></a><span class="ex">nix-build</span>            <span class="co"># build it (slow only the first time)</span></span>
+<span id="cb30-3"><a href="" aria-label="3"></a><span class="ex">nix-shell</span> <span class="at">--pure</span> <span class="at">--run</span> <span class="st">"quarto render nix_rix_example.qmd"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li class="fragment">Plain <code>nix-shell</code> drops you into the environment to work interactively</li>
 <li class="fragment"><code>--pure</code>: nothing from your own machine leaks in: not your R, not your packages, not <code>~/.cmdstan</code></li>
@@ -1646,7 +1658,7 @@ will be updated:
 </ul></li>
 <li class="fragment">Windows
 <ul>
-<li class="fragment">{rix} can be cumbersome on Windows: you need WSL</li>
+<li class="fragment">nix can be cumbersome on Windows: you need WSL</li>
 </ul></li>
 </ul>
 </div></div>
