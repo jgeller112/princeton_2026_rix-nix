@@ -20,6 +20,8 @@ Thanks for having me. The title of this talk is a sentence I suspect everyone in
 
 One quick disclaimer. Most of my examples will be in R, because that's what I use. But almost everything I say applies to Python and other languages too, and I'll show a couple of Python examples to prove it.
 
+And since I'll be recommending some tools later: I have no connection to Nix or `{rix}`. I'm just a happy user.
+
 **[Slide: The Replication Crisis]**
 
 Let's start with where we've been. About a decade ago, psychology ran into what we now call the replication crisis. This figure, adapted from Munafò and colleagues' manifesto for reproducible science, shows the cycle of research. Now let's look at all the places it can go wrong.
@@ -200,7 +202,7 @@ Let's take the layers one at a time.
 
 **[Slide: 2. R packages]**
 
-Packages change too. **[click]** Functions get renamed or deprecated: `dplyr::cur_data()` is now `dplyr::pick()`, and the old one warns you it's going away. **[click]** And some code reaches into packages' internal functions. That's discouraged, but people do it, and those can change or vanish without notice.
+Packages change too. **[click]** Functions get renamed or deprecated: `dplyr::cur_data()` is now `dplyr::pick()`, and the old one warns you it's going away. **[click]** And some code reaches into packages' internal functions. That's discouraged, but people do it, and those can change or vanish without notice. **[click]** Here's a made-up example: version 1 of a package has an internal helper called `fit_model()`. In version 2 it's renamed `fitModel()`. Because it was never public, there's no deprecation warning. Your code just stops with "object not found".
 
 **[Slide: 3. Document tools]**
 

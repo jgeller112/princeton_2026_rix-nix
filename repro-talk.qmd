@@ -36,6 +36,8 @@ Slides: [jgeller112.github.io/princeton_2026_rix-nix](https://jgeller112.github.
 
 ::: {.larger}
 I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
+
+I have no connection to Nix or `{rix}`: just a happy user.
 :::
 
 ## The Replication Crisis[^munafo] {#sec-replication-crisis}
@@ -571,7 +573,7 @@ Punchline: most tools cover only one or two of these six boxes. The question isn
 Hand-off: "Let's start with how the environment breaks." -> Environment Fragility
 :::
 
-[^grid1]: Adapted from \[ADD SOURCE\]
+[^grid1]: Adapted from a presentation by Felipe Vieira.
 
 ## Environment Fragility
 
@@ -618,6 +620,15 @@ set.seed(123); sample(1:10, 3)
 
 - Renamed or deprecated: `dplyr::cur_data()`, but now `dplyr::pick()` (warning about the future).
 - Internal functions (discouraged, but used nonetheless):
+
+::: {.fragment}
+``` r
+mypkg:::fit_model(df)   # internal helper
+#> mypkg 1.0: works
+#> mypkg 2.0: Error: object 'fit_model' not found
+#>            (renamed to fitModel(), no warning)
+```
+:::
 
 ## 3. Document tools {#sec-env-docs}
 
