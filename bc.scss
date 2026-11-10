@@ -196,14 +196,19 @@ $code-block-font-size: 0.67em;
 .reveal section.code-walk pre.sourceCode code,
 .reveal section.code-walk div.sourceCode pre code,
 .reveal section.code-walk pre code {
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 20px;
+  line-height: 1.05;
   max-height: none;
   overflow: visible;
 }
 // Wide numeric output (BLAS sign-flip rows) needs the smaller size to stay on one line
 .reveal section#sec-env-sys pre code {
   font-size: 16px;
+}
+// .smaller slides shrink code along with the text; keep code readable from the back
+.reveal section.smaller pre code {
+  font-size: 20px;
+  line-height: 1.15;
 }
 // Open Science: bump the bullet text so it reads from the back of the room
 .reveal section#sec-open-science .column:first-child {
@@ -230,6 +235,20 @@ $code-block-font-size: 0.67em;
 .reveal .slides > section > section.title-slide h2,
 .reveal .slides > section > section.title-slide p {
   color: #FFFFFF !important;
+}
+
+// Link on a section divider: sit just under the maroon banner, black and bold
+.reveal .slides section.title-slide .below-banner {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.6em;
+  font-size: 0.8em;
+}
+.reveal .slides section.title-slide .below-banner a,
+.reveal .slides section.title-slide .below-banner p {
+  color: #000000 !important;
+  font-weight: bold;
 }
 
 // BC logo: top-right corner instead of Quarto's default bottom-right

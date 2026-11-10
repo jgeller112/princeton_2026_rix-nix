@@ -352,7 +352,7 @@ You might wonder whether this store actually has what you need.
 
 **[click]** It has nearly all of CRAN and Bioconductor, prebuilt. The binaries come from a cache, so installs are fast enough for daily work. And Nix works without admin rights, so you can use it on an HPC cluster.
 
-**[Slide: Nix: a Nix expression (default.nix), lines 2–3]**
+**[Slide: Nix: default.nix, lines 2–3]**
 
 So what does one of these files look like? Here's a `default.nix` for the demo project from earlier. I'll walk through it in pieces.
 
@@ -370,7 +370,7 @@ This block is cmdstanr, which isn't on CRAN, so it comes from GitHub. It's pinne
 
 This is the system software: R itself, Quarto, pandoc and CmdStan, all from the same snapshot. Notice that's the layer renv couldn't touch.
 
-**[Next slide: lines 18–21]**
+**[Next slide: lines 18–20]**
 
 And finally, the shell: everything above, bundled into the environment that `nix-shell` opens.
 
@@ -415,10 +415,6 @@ The `date` argument becomes the snapshot line in `default.nix`. It pins *everyth
 **[Next slide: `system_pkgs`]**
 
 `system_pkgs` is software outside R. Quarto and CmdStan: two of the three things that broke in the demo. Now they're part of the environment.
-
-**[Next slide: `shell_hook`]**
-
-`shell_hook` runs commands every time you enter the environment. Here, it tells cmdstanr where CmdStan lives.
 
 **[Next slide: `ide`, `project_path`, `overwrite`]**
 

@@ -768,7 +768,7 @@ Issue: combining incomplete tools, each stabilizing one part, which takes divers
 :::::: columns
 ::: {.column width="50%"}
 ```r
-# analysis.R uses palmerpenguins + ggplot2
+# analysis.R: palmerpenguins, ggplot2
 renv::init()
 ```
 ```
@@ -867,9 +867,9 @@ Docker images:
 The recipe drifts: every line fetches what's current *on build day*
 
 ``` dockerfile
-FROM rocker/r-ver:latest                    # which R? whatever "latest" means today
-RUN apt-get update && apt-get install -y libxml2-dev   # today's Ubuntu libraries
-RUN Rscript -e 'install.packages("brms")'   # today's CRAN
+FROM rocker/r-ver:latest                   # which R? today's "latest"
+RUN apt-get update && apt-get install -y libxml2-dev   # today's Ubuntu
+RUN Rscript -e 'install.packages("brms")'  # today's CRAN
 ```
 :::
 
@@ -959,7 +959,7 @@ Nearly all of CRAN and Bioconductor is in there, prebuilt. Prebuilt binaries com
 
 [^repology]: Source: <https://repology.org/repositories/graphs> (retrieved November 2026).
 
-## Nix: a Nix expression (`default.nix`) {#sec-rix-nix .code-walk}
+## Nix: `default.nix` {#sec-rix-nix .code-walk}
 
 ``` {.nix code-line-numbers="2-3"}
 let
@@ -981,14 +981,13 @@ let
   };
   shell = pkgs.mkShell {
     buildInputs = [ cmdstanr rpkgs system_packages ];
-    shellHook   = "export CMDSTAN=...";
   };
 in { inherit pkgs shell; }
 ```
 
 The snapshot: every package definition comes from nixpkgs as it was on 2026-08-24.
 
-## Nix: a Nix expression (`default.nix`) {.code-walk}
+## Nix: `default.nix` {.code-walk}
 
 ``` {.nix code-line-numbers="4-6"}
 let
@@ -1010,14 +1009,13 @@ let
   };
   shell = pkgs.mkShell {
     buildInputs = [ cmdstanr rpkgs system_packages ];
-    shellHook   = "export CMDSTAN=...";
   };
 in { inherit pkgs shell; }
 ```
 
 R packages from that snapshot: exact versions, plus all of their dependencies.
 
-## Nix: a Nix expression (`default.nix`) {#sec-nix-cmdstanr .code-walk}
+## Nix: `default.nix` {#sec-nix-cmdstanr .code-walk}
 
 ``` {.nix code-line-numbers="7-14"}
 let
@@ -1039,14 +1037,13 @@ let
   };
   shell = pkgs.mkShell {
     buildInputs = [ cmdstanr rpkgs system_packages ];
-    shellHook   = "export CMDSTAN=...";
   };
 in { inherit pkgs shell; }
 ```
 
 cmdstanr from GitHub: exact commit *and* content hash. If GitHub changes, the build fails rather than silently differing. By hand, you compute that hash yourself.
 
-## Nix: a Nix expression (`default.nix`) {.code-walk}
+## Nix: `default.nix` {.code-walk}
 
 ``` {.nix code-line-numbers="15-17"}
 let
@@ -1068,16 +1065,15 @@ let
   };
   shell = pkgs.mkShell {
     buildInputs = [ cmdstanr rpkgs system_packages ];
-    shellHook   = "export CMDSTAN=...";
   };
 in { inherit pkgs shell; }
 ```
 
 System software: R itself, Quarto, pandoc and CmdStan, from the same snapshot.
 
-## Nix: a Nix expression (`default.nix`) {#sec-nix-shell .code-walk}
+## Nix: `default.nix` {#sec-nix-shell .code-walk}
 
-``` {.nix code-line-numbers="18-21"}
+``` {.nix code-line-numbers="18-20"}
 let
   pkgs = import (fetchTarball
     "https://github.com/rstats-on-nix/nixpkgs/archive/2026-08-24.tar.gz") {};
@@ -1097,12 +1093,11 @@ let
   };
   shell = pkgs.mkShell {
     buildInputs = [ cmdstanr rpkgs system_packages ];
-    shellHook   = "export CMDSTAN=...";
   };
 in { inherit pkgs shell; }
 ```
 
-The shell: everything above, bundled into what `nix-shell` opens. By hand, this means learning Nix. `{rix}` writes it for you, from R.
+The shell: everything above, bundled into what `nix-shell` opens.
 
 ## Nix: the empirical evidence {#sec-nix-evidence}
 
@@ -1154,11 +1149,6 @@ rix(
     commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
   ),
   system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
   ide          = "none",
   project_path = ".",
   overwrite    = TRUE
@@ -1185,11 +1175,6 @@ rix(
     commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
   ),
   system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
   ide          = "none",
   project_path = ".",
   overwrite    = TRUE
@@ -1212,11 +1197,6 @@ rix(
     commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
   ),
   system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
   ide          = "none",
   project_path = ".",
   overwrite    = TRUE
@@ -1239,11 +1219,6 @@ rix(
     commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
   ),
   system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
   ide          = "none",
   project_path = ".",
   overwrite    = TRUE
@@ -1254,7 +1229,7 @@ rix(
 
 ## Nix/`Rix`: the `rix()` call {.code-walk}
 
-``` {.r code-line-numbers="12-16"}
+``` {.r code-line-numbers="12-14"}
 library(rix)
 
 rix(
@@ -1266,45 +1241,13 @@ rix(
     commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
   ),
   system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
   ide          = "none",
   project_path = ".",
   overwrite    = TRUE
 )
 ```
 
-`shell_hook`: commands that run each time you enter the environment. Here: tell cmdstanr where CmdStan lives.
-
-## Nix/`Rix`: the `rix()` call {.code-walk}
-
-``` {.r code-line-numbers="17-19"}
-library(rix)
-
-rix(
-  date   = "2026-08-24",
-  r_pkgs = c("brms", "palmerpenguins", "knitr", "rmarkdown"),
-  git_pkgs = list(
-    package_name = "cmdstanr",
-    repo_url     = "https://github.com/stan-dev/cmdstanr",
-    commit       = "da99e2ba954658bdad63bffb738c4444c33a4e0e"
-  ),
-  system_pkgs = c("quarto", "cmdstan"),
-  shell_hook  = paste(
-    "export CMDSTAN=$(dirname $(dirname $(command -v stan)))/opt/cmdstan",
-    "export PRECOMPILED_HEADERS=false",
-    sep = "\n"
-  ),
-  ide          = "none",
-  project_path = ".",
-  overwrite    = TRUE
-)
-```
-
-`ide`, `project_path`, `overwrite`: no IDE (`\"rstudio\"`, `\"positron\"`, `\"code\"` also work); write `default.nix` into this folder.
+`ide`, `project_path`, `overwrite`: no IDE (`"rstudio"`, `"positron"`, `"code"` also work); write `default.nix` into this folder.
 
 ## Nix/`Rix`: Python too {#sec-rix-python .code-walk}
 
@@ -1324,7 +1267,7 @@ rix(
 
 ``` bash
 $ nix-shell --pure --run 'python --version'
-Python 3.12.14                  # pandas 3.0.4, numpy 2.5.1: same 2026-08-24 snapshot
+Python 3.12.14   # pandas 3.0.4, numpy 2.5.1 (2026-08-24 snapshot)
 ```
 
 `py_conf`: one `default.nix` pins R, Python *and* both sets of packages. R reaches that exact Python through `reticulate`, never a system one.
@@ -1357,7 +1300,9 @@ Live demo here: same repo that failed earlier, now rendering inside the environm
 
 # Illustration
 
-  - <https://github.com/jgeller112/Rix-Nix_Test>
+::: {.below-banner}
+[github.com/jgeller112/Rix-Nix_Test](https://github.com/jgeller112/Rix-Nix_Test)
+:::
 
 ## Nix/`Rix`: using it (recording) {#sec-rix-use-video}
 
