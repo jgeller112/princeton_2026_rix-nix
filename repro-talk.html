@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-11-09">
+  <meta name="dcterms.date" content="2026-11-10">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-11-09</p>
+  <p class="date">2026-11-10</p>
 </section>
 <section id="slides" class="slide level2">
 <h2>Slides</h2>
@@ -559,12 +559,12 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center" width="820"></p>
+<p><img data-src="images/ladder-parts.svg" class="quarto-figure quarto-figure-center" width="440"></p>
 </figure>
 </div>
 </div>
 <aside class="notes">
-<p>Hand-off: So it’s not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, <em>and</em> the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn’t yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. [click: spectrum]</p>
+<p>Hand-off: So it’s not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, <em>and</em> the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn’t yes-or-no; every piece you share gets you closer. So it helps to think of it as a ladder. [click: ladder]</p>
 <p>The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard. Keep this ladder in mind: each study coming up breaks at a different step.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -682,7 +682,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <p>Brodeur et al.: 67 teams each reproduced one of 67 Psych Sci articles (2024-2025). Overall, 58.2% fully reproducible from the final analysis data, but only 28.4% from raw data.</p>
 <p>Point to panel B, bottom row: a clear README takes “reproducible from analysis data” from 50% to 88%. Documentation fixes “what do I run?”</p>
 <p>Then panel B, second-to-last row: from raw data, a clear README gets 31%, about the same as no README (27%). Documentation doesn’t fix “it won’t run on my machine.”</p>
-<p>Hand-off: so where does that leave us? Back to the spectrum. -&gt; Psychology: not so good</p>
+<p>Hand-off: so where does that leave us? Back to the ladder. -&gt; Psychology: not so good</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -698,12 +698,12 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <section id="sec-spectrum-recap" class="slide level2">
 <h2>Psychology: not so good 😟</h2>
 <ul>
-<li>Back to the spectrum: where do these studies leave us?</li>
+<li>Back to the ladder: where do these studies leave us?</li>
 </ul>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/spectrum-parts.svg" class="quarto-figure quarto-figure-center" width="820"></p>
+<p><img data-src="images/ladder-parts.svg" class="quarto-figure quarto-figure-center" width="500"></p>
 </figure>
 </div>
 </div>
@@ -713,8 +713,8 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 </ul>
 </div>
 <aside class="notes">
-<p>Bring the spectrum back and place the studies on it: - SCORE: most papers never get past “code + data”: nothing shared, nothing to check. - Quintana: materials are shared, but hard to reuse. - Brodeur / I4R: a clear README gets you to 88% from analysis data, but from raw data it’s 31%, no better than no README.</p>
-<p>What’s left is the last box: the computational environment. That’s the rest of this talk.</p>
+<p>Bring the ladder back and place the studies on it: - SCORE: most papers never get past “code + data”: nothing shared, nothing to check. - Quintana: materials are shared, but hard to reuse. - Brodeur / I4R: a clear README gets you to 88% from analysis data, but from raw data it’s 31%, no better than no README.</p>
+<p>What’s left is the top rung: the computational environment. That’s the rest of this talk.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -740,7 +740,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 </figure>
 </div>
 <aside class="notes">
-<p>Transition: we just landed on the last box of the spectrum, the environment. But what does “my environment is reproducible” actually mean?</p>
+<p>Transition: we just landed on the top rung of the ladder, the environment. But what does “my environment is reproducible” actually mean?</p>
 <p>Grid (don’t read every cell): two directions, across space (another machine/OS, today) and across time (years from now). Three levels: the build succeeds, the result is the same, the bytes are the same (strictest; numbers later on the Malka et al.&nbsp;slide).</p>
 <p>Punchline: most tools cover only one or two of these six boxes. The question isn’t “is it reproducible?” but “WHICH BOXES?” When we get to specific tools later, we’ll come back to this grid.</p>
 <p>Hand-off: “Let’s start with how the environment breaks.” -&gt; Environment Fragility</p>
@@ -1646,7 +1646,7 @@ will be updated:
 </ul></li>
 <li class="fragment">Windows
 <ul>
-<li class="fragment">{rix} can be cumbersome on Windows: you need WSL</li>
+<li class="fragment">nix can be cumbersome on Windows: you need WSL</li>
 </ul></li>
 </ul>
 </div></div>

@@ -321,11 +321,11 @@ Punchline: data and code were both shared, and it still did not reproduce. It is
 > "Ability to obtain consistent computational results using the same input data, computational steps, methods, code, and conditions of analysis"[^schultze]
 
 ::: {.fragment}
-![](images/spectrum-parts.svg){fig-align="center" width="820"}
+![](images/ladder-parts.svg){fig-align="center" width="440"}
 :::
 
 ::: notes
-Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a spectrum. [click: spectrum]
+Hand-off: So it's not as simple as having the data and the code. This definition says what it actually takes: the same input data, the same code and steps, *and* the same conditions of analysis, meaning the environment it ran in: R version, packages, system. The demo had the first four. It failed on the last one: a different R version. That is what the rest of the talk is about. In practice, reproducibility isn't yes-or-no; every piece you share gets you closer. So it helps to think of it as a ladder. [click: ladder]
 
 The vocabulary for the rest of the talk: code, then data, then documentation, then the article, then the environment. Each step gets you closer to the gold standard. Keep this ladder in mind: each study coming up breaks at a different step.
 :::
@@ -527,7 +527,7 @@ Point to panel B, bottom row: a clear README takes "reproducible from analysis d
 
 Then panel B, second-to-last row: from raw data, a clear README gets 31%, about the same as no README (27%). Documentation doesn't fix "it won't run on my machine."
 
-Hand-off: so where does that leave us? Back to the spectrum. -> Psychology: not so good
+Hand-off: so where does that leave us? Back to the ladder. -> Psychology: not so good
 :::
 
 [^Brodeur]: Brodeur, A., Abdul Baki, G., & Fazio, L. (2026). Mass reproducibility in psychological science.
@@ -535,11 +535,11 @@ Hand-off: so where does that leave us? Back to the spectrum. -> Psychology: not 
 ## Psychology: not so good 😟 {#sec-spectrum-recap}
 
 ::: {.nonincremental}
-- Back to the spectrum: where do these studies leave us?
+- Back to the ladder: where do these studies leave us?
 :::
 
 ::: {.fragment}
-![](images/spectrum-parts.svg){fig-align="center" width="820"}
+![](images/ladder-parts.svg){fig-align="center" width="500"}
 :::
 
 ::: {.fragment}
@@ -547,12 +547,12 @@ Hand-off: so where does that leave us? Back to the spectrum. -> Psychology: not 
 :::
 
 ::: notes
-Bring the spectrum back and place the studies on it:
+Bring the ladder back and place the studies on it:
 - SCORE: most papers never get past "code + data": nothing shared, nothing to check.
 - Quintana: materials are shared, but hard to reuse.
 - Brodeur / I4R: a clear README gets you to 88% from analysis data, but from raw data it's 31%, no better than no README.
 
-What's left is the last box: the computational environment. That's the rest of this talk.
+What's left is the top rung: the computational environment. That's the rest of this talk.
 :::
 
 # The Computational Environment
@@ -562,7 +562,7 @@ What's left is the last box: the computational environment. That's the rest of t
 ![](images/env-grid.svg){.hex fig-align="center"}
 
 ::: notes
-Transition: we just landed on the last box of the spectrum, the environment. But what does "my environment is reproducible" actually mean?
+Transition: we just landed on the top rung of the ladder, the environment. But what does "my environment is reproducible" actually mean?
 
 Grid (don't read every cell): two directions, across space (another machine/OS, today) and across time (years from now). Three levels: the build succeeds, the result is the same, the bytes are the same (strictest; numbers later on the Malka et al. slide).
 
@@ -1382,7 +1382,7 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about h
   - Use `nix-shell --pure`: only the declared environment, nothing from the host
 
 - Windows
-  - {rix} can be cumbersome on Windows: you need WSL
+  - nix can be cumbersome on Windows: you need WSL
 :::
 ::::
 
