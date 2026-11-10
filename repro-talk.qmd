@@ -257,8 +257,8 @@ ggplot() +
 
 | Analysis / Data    | Same Data        | Different Data    |
 |--------------------|------------------|-------------------|
-| Same Analysis      | Reproducible | Replicable    |
-| Different Analysis | Robust       | Generalisable |
+| Same Analysis      | [Reproducible]{.fragment fragment-index=1} | [Replicable]{.fragment fragment-index=2}    |
+| Different Analysis | [Robust]{.fragment fragment-index=3}       | [Generalisable]{.fragment fragment-index=4} |
 
 ::: notes
 Hand-off: Top-left cell is today's topic. Same data, same code: that should be the easy one, right? Let me show you. -> demo
@@ -948,24 +948,6 @@ Nearly all of CRAN and Bioconductor is in there, prebuilt. Prebuilt binaries com
 
 [^repology]: Source: <https://repology.org/repositories/graphs> (retrieved November 2026).
 
-## Nix: the empirical evidence {#sec-nix-evidence}
-
-Malka, Zacchiroli, & Zimmermann (2025)[^malka] rebuilt 709,816 packages from `nixpkgs` snapshots taken every four months, 2017–2023:
-
-- Rebuildable: 99.7% to 99.9% still build from their description.
-- Bitwise reproducible: 69% in 2017, 91% in 2023, rising.
-- Functionally reproducible: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.
-
-[^malka]: Malka, J., Zacchiroli, S., & Zimmermann, T. (2025). Does functional package management enable reproducible builds at scale? Yes. *2025 IEEE/ACM 22nd International Conference on Mining Software Repositories (MSR)*. <https://doi.org/10.1109/MSR66628.2025.00115>
-
-## Nix: which boxes? {#sec-nix-boxes}
-
-![](images/scorecard-nix.svg){.hex fig-align="center"}
-
-::: notes
-Numbers from the previous slide (Malka et al.): rebuildable 99.7-99.9%; bitwise 69% (2017) to 91% (2023). The one "partly" is the strictest level.
-:::
-
 ## Nix: a Nix expression (`default.nix`) {#sec-rix-nix .code-walk}
 
 ``` {.nix code-line-numbers="2-3"}
@@ -1110,6 +1092,24 @@ in { inherit pkgs shell; }
 ```
 
 The shell: everything above, bundled into what `nix-shell` opens. By hand, this means learning Nix. `{rix}` writes it for you, from R.
+
+## Nix: the empirical evidence {#sec-nix-evidence}
+
+Malka, Zacchiroli, & Zimmermann (2025)[^malka] rebuilt 709,816 packages from `nixpkgs` snapshots taken every four months, 2017–2023:
+
+- Rebuildable: 99.7% to 99.9% still build from their description.
+- Bitwise reproducible: 69% in 2017, 91% in 2023, rising.
+- Functionally reproducible: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.
+
+[^malka]: Malka, J., Zacchiroli, S., & Zimmermann, T. (2025). Does functional package management enable reproducible builds at scale? Yes. *2025 IEEE/ACM 22nd International Conference on Mining Software Repositories (MSR)*. <https://doi.org/10.1109/MSR66628.2025.00115>
+
+## Nix: which boxes? {#sec-nix-boxes}
+
+![](images/scorecard-nix.svg){.hex fig-align="center"}
+
+::: notes
+Numbers from the previous slide (Malka et al.): rebuildable 99.7-99.9%; bitwise 69% (2017) to 91% (2023). The one "partly" is the strictest level.
+:::
 
 ## Nix/`Rix` {#sec-rix-intro .code-walk}
 

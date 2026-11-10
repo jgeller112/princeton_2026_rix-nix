@@ -60,7 +60,7 @@ One product of that revolution is open science.
 
 First, some vocabulary, because these words get used loosely. This table crosses two questions: is it the same data or different data, and the same analysis or a different one?
 
-Same data, same analysis: that's *reproducible*. Different data, same analysis: *replicable*, which is what the replication crisis was about. Same data, different analysis: *robust*. And different data, different analysis: *generalisable*.
+**[click]** Same data, same analysis: that's *reproducible*. **[click]** Different data, same analysis: *replicable*, which is what the replication crisis was about. **[click]** Same data, different analysis: *robust*. **[click]** And different data, different analysis: *generalisable*.
 
 Today I'm in the top-left cell: reproducibility. Same data, same code. That sounds like the easy one: you have the data, you have the code, you press run. So let me show you what happens when you actually try.
 
@@ -350,22 +350,6 @@ You might wonder whether this store actually has what you need.
 
 **[click]** It has nearly all of CRAN and Bioconductor, prebuilt. The binaries come from a cache, so installs are fast enough for daily work. And Nix works without admin rights, so you can use it on an HPC cluster.
 
-**[Slide: Nix: the empirical evidence]**
-
-And this isn't just a promise. Malka, Zacchiroli and Zimmermann tested it at scale. They rebuilt **709,816 packages** from `nixpkgs` snapshots taken every four months between 2017 and 2023.
-
-**[click]** Rebuildable: 99.7 to 99.9% still build from their description, years later.
-
-**[click]** Bitwise reproducible: 69% in 2017, rising to 91% in 2023.
-
-**[click]** Functional reproducibility, meaning the same results, wasn't measured directly. But it follows for every package that rebuilds. Because every input is pinned by a hash, a rebuild can fail, but it can't quietly succeed with different versions. That's not true of Docker.
-
-**[Slide: Nix: which boxes?]**
-
-So here's the Nix scorecard. Across space: the same `default.nix` builds on any machine, with the same pinned versions everywhere. Across time: 99.7 to 99.9% still rebuild, with the same pinned inputs years later. The only "partly" is the strictest level, bitwise: mostly there, 91% in 2023, and rising.
-
-Compare that to renv's row of partlys and Docker's gap across time.
-
 **[Slide: Nix: a Nix expression (default.nix), lines 2–3]**
 
 So what does one of these files look like? Here's a `default.nix` for the demo project from earlier. I'll walk through it in pieces.
@@ -388,7 +372,23 @@ This is the system software: R itself, Quarto, pandoc and CmdStan, all from the 
 
 And finally, the shell: everything above, bundled into the environment that `nix-shell` opens.
 
-Now, writing this by hand means learning the Nix language, and I don't expect anyone in this room to want to do that. That's where `{rix}` comes in. It writes this file for you, from R.
+**[Slide: Nix: the empirical evidence]**
+
+And this isn't just a promise. Malka, Zacchiroli and Zimmermann tested it at scale. They rebuilt **709,816 packages** from `nixpkgs` snapshots taken every four months between 2017 and 2023.
+
+**[click]** Rebuildable: 99.7 to 99.9% still build from their description, years later.
+
+**[click]** Bitwise reproducible: 69% in 2017, rising to 91% in 2023.
+
+**[click]** Functional reproducibility, meaning the same results, wasn't measured directly. But it follows for every package that rebuilds. Because every input is pinned by a hash, a rebuild can fail, but it can't quietly succeed with different versions. That's not true of Docker.
+
+**[Slide: Nix: which boxes?]**
+
+So here's the Nix scorecard. Across space: the same `default.nix` builds on any machine, with the same pinned versions everywhere. Across time: 99.7 to 99.9% still rebuild, with the same pinned inputs years later. The only "partly" is the strictest level, bitwise: mostly there, 91% in 2023, and rising.
+
+Compare that to renv's row of partlys and Docker's gap across time.
+
+Now, writing a `default.nix` by hand means learning the Nix language, and I don't expect anyone in this room to want to do that. That's where `{rix}` comes in. It writes that file for you, from R.
 
 **[Slide: Nix/Rix]**
 

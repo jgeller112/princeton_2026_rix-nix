@@ -440,6 +440,11 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <section id="what-is-reproducibility" class="slide level2">
 <h2>What is Reproducibility?</h2>
 <table class="caption-top">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 31%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Analysis / Data</th>
@@ -450,13 +455,13 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <tbody>
 <tr class="odd">
 <td>Same Analysis</td>
-<td>Reproducible</td>
-<td>Replicable</td>
+<td><span class="fragment" data-fragment-index="1">Reproducible</span></td>
+<td><span class="fragment" data-fragment-index="2">Replicable</span></td>
 </tr>
 <tr class="even">
 <td>Different Analysis</td>
-<td>Robust</td>
-<td>Generalisable</td>
+<td><span class="fragment" data-fragment-index="3">Robust</span></td>
+<td><span class="fragment" data-fragment-index="4">Generalisable</span></td>
 </tr>
 </tbody>
 </table>
@@ -1205,32 +1210,6 @@ will be updated:
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn10"><p>Source: <a href="https://repology.org/repositories/graphs" class="uri">https://repology.org/repositories/graphs</a> (retrieved November 2026).</p></li></ol></aside></section>
-<section id="sec-nix-evidence" class="slide level2">
-<h2>Nix: the empirical evidence</h2>
-<p>Malka, Zacchiroli, &amp; Zimmermann (2025)<sup>1</sup> rebuilt 709,816 packages from <code>nixpkgs</code> snapshots taken every four months, 2017–2023:</p>
-<ul>
-<li class="fragment">Rebuildable: 99.7% to 99.9% still build from their description.</li>
-<li class="fragment">Bitwise reproducible: 69% in 2017, 91% in 2023, rising.</li>
-<li class="fragment">Functionally reproducible: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.</li>
-</ul>
-<aside><ol class="aside-footnotes"><li id="fn11"><p>Malka, J., Zacchiroli, S., &amp; Zimmermann, T. (2025). Does functional package management enable reproducible builds at scale? Yes. <em>2025 IEEE/ACM 22nd International Conference on Mining Software Repositories (MSR)</em>. <a href="https://doi.org/10.1109/MSR66628.2025.00115" class="uri">https://doi.org/10.1109/MSR66628.2025.00115</a></p></li></ol></aside></section>
-<section id="sec-nix-boxes" class="slide level2">
-<h2>Nix: which boxes?</h2>
-
-<img data-src="images/scorecard-nix.svg" class="hex quarto-figure quarto-figure-center r-stretch"><aside class="notes">
-<p>Numbers from the previous slide (Malka et al.): rebuildable 99.7-99.9%; bitwise 69% (2017) to 91% (2023). The one “partly” is the strictest level.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="sec-rix-nix" class="slide level2 code-walk">
 <h2>Nix: a Nix expression (<code>default.nix</code>)</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-code-line-numbers="2-3"><pre class="sourceCode numberSource nix number-lines code-with-copy"><code class="sourceCode nix"><span id="cb14-1"><a href="" aria-label="1"></a><span class="kw">let</span></span>
@@ -1360,6 +1339,32 @@ will be updated:
 <span id="cb18-21"><a href="" aria-label="21"></a>  <span class="op">};</span></span>
 <span id="cb18-22"><a href="" aria-label="22"></a><span class="kw">in</span> <span class="op">{</span> <span class="kw">inherit</span> <span class="va">pkgs</span> <span class="va">shell</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The shell: everything above, bundled into what <code>nix-shell</code> opens. By hand, this means learning Nix. <code>{rix}</code> writes it for you, from R.</p>
+</section>
+<section id="sec-nix-evidence" class="slide level2">
+<h2>Nix: the empirical evidence</h2>
+<p>Malka, Zacchiroli, &amp; Zimmermann (2025)<sup>1</sup> rebuilt 709,816 packages from <code>nixpkgs</code> snapshots taken every four months, 2017–2023:</p>
+<ul>
+<li class="fragment">Rebuildable: 99.7% to 99.9% still build from their description.</li>
+<li class="fragment">Bitwise reproducible: 69% in 2017, 91% in 2023, rising.</li>
+<li class="fragment">Functionally reproducible: not measured, but follows for every package that rebuilds. From my understanding, every input is pinned by hash, so a rebuild can fail but cannot succeed with different versions. This is not the same with Docker.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn11"><p>Malka, J., Zacchiroli, S., &amp; Zimmermann, T. (2025). Does functional package management enable reproducible builds at scale? Yes. <em>2025 IEEE/ACM 22nd International Conference on Mining Software Repositories (MSR)</em>. <a href="https://doi.org/10.1109/MSR66628.2025.00115" class="uri">https://doi.org/10.1109/MSR66628.2025.00115</a></p></li></ol></aside></section>
+<section id="sec-nix-boxes" class="slide level2">
+<h2>Nix: which boxes?</h2>
+
+<img data-src="images/scorecard-nix.svg" class="hex quarto-figure quarto-figure-center r-stretch"><aside class="notes">
+<p>Numbers from the previous slide (Malka et al.): rebuildable 99.7-99.9%; bitwise 69% (2017) to 91% (2023). The one “partly” is the strictest level.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="sec-rix-intro" class="slide level2 code-walk">
 <h2>Nix/<code>Rix</code></h2>
