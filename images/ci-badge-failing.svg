@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="36" viewBox="0 0 300 36" role="img" aria-label="works on my machine: failing">
+  <!-- Pill badge in the style of the works-on-my-machine-badge GitHub Action (MIT) -->
+  <defs>
+    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#2F3B52"/>
+      <stop offset="1" stop-color="#1F2A3D"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="215" height="36" rx="18" fill="url(#g)"/>
+  <rect x="215" y="0" width="85" height="36" rx="18" fill="#DC2626"/>
+  <rect x="205" y="0" width="20" height="36" fill="#DC2626"/>
+
+  <!-- computer icon: monitor + stand -->
+  <g transform="translate(14,7)">
+    <rect x="0" y="0" width="26" height="17" rx="2" fill="none" stroke="#E5E7EB" stroke-width="2"/>
+    <rect x="3" y="3" width="20" height="11" rx="0.5" fill="#3E4C66"/>
+    <path d="M10,17 L9,21 M16,17 L17,21 M6.5,21.5 L19.5,21.5" stroke="#E5E7EB" stroke-width="2" stroke-linecap="round"/>
+    <!-- red X over the screen -->
+    <path d="M7,4.5 L19,12.5 M19,4.5 L7,12.5" stroke="#EF4444" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+
+  <text x="50" y="23" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#E5E7EB">works on my machine</text>
+  <text x="257" y="23" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">failing</text>
+</svg>

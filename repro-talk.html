@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-869b58f3359c2dc010d9de777167208d.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-cc97477a97dfd0f1e44cc4632d257d1f.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -1894,6 +1894,11 @@ will be updated:
       img.alt = "Works on my machine badge, crossed out";
       img.className = "title-badge";
       slide.appendChild(img);
+      var ci = document.createElement("img");
+      ci.src = "images/ci-badge-failing.svg";
+      ci.alt = "CI badge: works on my machine, failing";
+      ci.className = "title-ci-badge";
+      slide.appendChild(ci);
     });
     </script>
     
