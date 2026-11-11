@@ -21,6 +21,7 @@ format:
     filters:
       - typst-pdf.lua
 resources:
+  - images/ci-badge-failing.svg
   - images/works-on-my-machine-x.svg
   - media/nix-rix-isolation-demo.mp4
 ---

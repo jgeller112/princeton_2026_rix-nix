@@ -8,5 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
   img.alt = "Works on my machine badge, crossed out";
   img.className = "title-badge";
   slide.appendChild(img);
+  var ci = document.createElement("img");
+  ci.src = "images/ci-badge-failing.svg";
+  ci.alt = "CI badge: works on my machine, failing";
+  ci.className = "title-ci-badge";
+  slide.appendChild(ci);
 });
 </script>

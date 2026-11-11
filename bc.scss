@@ -334,3 +334,16 @@ $code-block-font-size: 0.67em;
   border: none !important;
 }
 
+
+// GitHub-style "works on my machine | failing" badge, bottom-right of title slide
+.reveal #title-slide .title-ci-badge {
+  position: absolute;
+  right: -20px;
+  bottom: 60px;
+  width: 400px;
+  height: auto;
+  margin: 0;
+  box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+}
