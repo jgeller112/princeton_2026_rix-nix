@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <path id="top" d="M 50,150 A 100,100 0 0 1 250,150"/>
+    <path id="bottom" d="M 38,150 A 112,112 0 0 0 262,150"/>
+  </defs>
+  <!-- seal -->
+  <circle cx="150" cy="150" r="146" fill="#FFFFFF"/>
+  <circle cx="150" cy="150" r="138" fill="none" stroke="#BC9B6A" stroke-width="6"/>
+  <circle cx="150" cy="150" r="80" fill="none" stroke="#BC9B6A" stroke-width="3"/>
+  <!-- ring text -->
+  <text font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="27" fill="#5C001C" letter-spacing="2">
+    <textPath href="#top" startOffset="50%" text-anchor="middle">WORKS ON MY</textPath>
+  </text>
+  <text font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="27" fill="#5C001C" letter-spacing="2">
+    <textPath href="#bottom" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">MACHINE</textPath>
+  </text>
+  <circle cx="44" cy="150" r="5" fill="#BC9B6A"/>
+  <circle cx="256" cy="150" r="5" fill="#BC9B6A"/>
+  <!-- laptop -->
+  <rect x="108" y="112" width="84" height="56" rx="5" fill="#5C001C"/>
+  <rect x="115" y="119" width="70" height="42" rx="2" fill="#F3E9DC"/>
+  <path d="M 96,172 L 204,172 L 196,184 L 104,184 Z" fill="#5C001C"/>
+  <!-- the X -->
+  <g stroke="#E0201B" stroke-width="16" stroke-linecap="round" opacity="0.92">
+    <line x1="104" y1="104" x2="196" y2="196"/>
+    <line x1="196" y1="104" x2="104" y2="196"/>
+  </g>
+</svg>

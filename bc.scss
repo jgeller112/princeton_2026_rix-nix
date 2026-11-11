@@ -301,3 +301,36 @@ $code-block-font-size: 0.67em;
   box-shadow: none;
   border-radius: 0;
 }
+
+// Main title slide (Quarto gives it id="title-slide"): white text on the
+// maroon gradient set via title-slide-attributes in the YAML
+.reveal #title-slide h1.title,
+.reveal #title-slide .subtitle,
+.reveal #title-slide .quarto-title-author-name,
+.reveal #title-slide .date,
+.reveal #title-slide p {
+  color: #FFFFFF !important;
+}
+.reveal #title-slide h1.title {
+  font-size: 1.6em;
+  line-height: 1.25;
+  border-bottom: 3px solid $bc-gold;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.6em;
+}
+
+
+// Crossed-out "works on my machine" badge on the title slide
+.reveal #title-slide .title-badge {
+  position: absolute;
+  left: -40px;
+  bottom: -10px;
+  width: 210px;
+  height: auto;
+  margin: 0;
+  transform: rotate(-12deg);
+  box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+}
+

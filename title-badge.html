@@ -1,0 +1,12 @@
+<script>
+// Add the "works on my machine" badge to the title slide
+document.addEventListener("DOMContentLoaded", function () {
+  var slide = document.getElementById("title-slide");
+  if (!slide) return;
+  var img = document.createElement("img");
+  img.src = "images/works-on-my-machine-x.svg";
+  img.alt = "Works on my machine badge, crossed out";
+  img.className = "title-badge";
+  slide.appendChild(img);
+});
+</script>

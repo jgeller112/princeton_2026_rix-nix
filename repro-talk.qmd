@@ -2,6 +2,8 @@
 title: "I swear it worked on my computer! Computational Reproducibility Using Nix and rix"
 author: "Jason Geller, PH.D.(he/him)"
 date: today
+title-slide-attributes:
+  data-background-gradient: "linear-gradient(135deg, #5C001C 0%, #98002E 100%)"
 footer: "Princeton 2026 Seminar"
 format:
   revealjs:
@@ -10,6 +12,7 @@ format:
     logo: images/bc-logo.svg
     transition: fade
     incremental: true
+    include-after-body: title-badge.html
   clean-typst:
     output-file: repro-talk.pdf
     incremental: false
@@ -18,6 +21,7 @@ format:
     filters:
       - typst-pdf.lua
 resources:
+  - images/works-on-my-machine-x.svg
   - media/nix-rix-isolation-demo.mp4
 ---
 
@@ -259,7 +263,7 @@ ggplot() +
 
 | Analysis / Data    | Same Data        | Different Data    |
 |--------------------|------------------|-------------------|
-| Same Analysis      | [Reproducible]{.fragment fragment-index=1} | [Replicable]{.fragment fragment-index=2}    |
+| Same Analysis      | [**Reproducible**]{.fragment fragment-index=1} | [Replicable]{.fragment fragment-index=2}    |
 | Different Analysis | [Robust]{.fragment fragment-index=3}       | [Generalisable]{.fragment fragment-index=4} |
 
 ::: notes
@@ -338,11 +342,11 @@ The vocabulary for the rest of the talk: code, then data, then documentation, th
 
 ::: {.nonincremental}
 - SCORE: 600 papers, 62 journals, several fields (2009-2018)
-- Out of 600 papers, 144 made data available; for 38 more, they obtained source data
+- 144 of 600 shared data; 38 more rebuilt from source data
 :::
 
 ::: {.fragment}
-![](images/psych_repro_box.png){fig-align="center"}
+![](images/psych_repro_box.png){fig-align="center" height="360"}
 :::
 
 [^miske1]: Miske, O., Abatayo, A. L., Daley, M., et al. (2026). Investigating the reproducibility of the social and behavioural sciences. *Nature*, *652*, 126–134. <https://doi.org/10.1038/s41586-026-10203-5>
@@ -827,7 +831,7 @@ Real output from renv 1.2.3 on R 4.6.1 (macOS), lightly trimmed: 19 packages sna
 renv pins package versions, but not R itself or the system libraries underneath, so everything is "partly". Bitwise isn't addressed.
 :::
 
-## Docker: what a container does {#sec-docker}
+## Docker: what a container does {#sec-docker .smaller}
 
 ::::: columns
 ::: {.column width="86%"}
@@ -839,25 +843,21 @@ Dockerfile (recipe) $\rightarrow$ image (the environment, frozen) $\rightarrow$ 
 :::
 :::::
 
-![](images/docker-container.svg){fig-align="center"}
-
-[^rladies]: Figure adapted from Rodrigues, B. *Building reproducible pipelines with R, Docker and Nix*. R-Ladies Rome (English).
-
-## Docker images {#sec-docker-images}
-
 ::::: columns
-::: {.column width="86%"}
+::: {.column width="64%"}
+![](images/docker-container.svg){fig-align="center"}
+:::
+
+::: {.column .fragment .nonincremental width="36%"}
 Docker images:
 
-- contain all the software and code needed for your project
-- are immutable (cannot be changed at run-time)
-- can be shared on- and offline
-:::
-
-::: {.column width="14%"}
-![](images/docker-logo.svg){.hex fig-align="center" width="90"}
+- hold all the software and code
+- immutable once built
+- shareable on- and offline
 :::
 :::::
+
+[^rladies]: Figure adapted from Rodrigues, B. *Building reproducible pipelines with R, Docker and Nix*. R-Ladies Rome (English).
 
 ## Docker: built for shipping {#sec-docker-issues .code-walk}
 
@@ -1344,11 +1344,14 @@ The "evaluation warning" lines are a harmless Nixpkgs deprecation notice about h
 
 ## What a Lab Can Actually Do
 
-Not ready for Nix/{Rix}? Start smaller:
+Not ready for Nix/{Rix}? 
+
+Start smaller:
 
 - {renv} and {rig} for R dependency snapshots and R version management
   - {groundhog}  
 - Docker for a shared environment
+  - Code Ocean is also a good alternative
 - {targets} for analytic pipelines
 - Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check
 
@@ -1362,12 +1365,13 @@ Not ready for Nix/{Rix}? Start smaller:
 
 1.  Reproducibility is a ladder, not a cliff
     - Every step you take makes your pipeline more reproducible
-
-1.  Document it
-    - A clear README: what to run, in what order, starting from raw data
+    - Document everything! 
 
 1.  Freeze the environment
     - Nix/`{rix}` declares R, packages, and system tools in one file, pinned to a date
+
+1. Science is hard! 
+    - Try your best! 
 
 ## Thanks!
 
