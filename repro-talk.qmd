@@ -386,7 +386,7 @@ So the ~50% is a best case, among the papers that shared. Hand-off: and when mat
 ::: {.column width="32%"}
 - Quintana (2026)[^quintana]
 
-- Downloaded materials from OSF repos (334 papers)
+- Downloaded materials from OSF repos (652 papers)
 
   - *Psych Sci*, *JML*, and *ESP*
 
@@ -546,7 +546,7 @@ Hand-off: so where does that leave us? Back to the ladder. -> Psychology: not so
 :::
 
 ::: {.fragment}
-![](images/ladder-parts.svg){fig-align="center" width="500"}
+![](images/ladder-recap.svg){fig-align="center" width="500"}
 :::
 
 ::: {.fragment}
@@ -1358,21 +1358,21 @@ Start smaller:
 
 ## Culture, Not Just Tools
 
-- Train RAs 
+- Train RAs/graduate students/postdocs in your lab 
 - Make "can a stranger rerun this?" a lab norm
 - Include tools/discussion in courses
 
 ## Takeaways {#sec-takeaways}
 
 1.  Reproducibility is a ladder, not a cliff
-    - Every step you take makes your pipeline more reproducible
-    - Document everything! 
+    - Every step you take makes your pipeline more reproducible 
 
 1.  Freeze the environment
     - Nix/`{rix}` declares R, packages, and system tools in one file, pinned to a date
 
 1. Science is hard! 
     - Try your best! 
+    - Be as transparent as possible! 
 
 ## Thanks!
 
