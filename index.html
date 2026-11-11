@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-11-10">
+  <meta name="dcterms.date" content="2026-11-11">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-4ed8114ef5ad8cc35b1d9b49e59d2d85.css">
+  <link rel="stylesheet" href="repro-talk_files/libs/revealjs/dist/theme/quarto-869b58f3359c2dc010d9de777167208d.css">
   <link href="repro-talk_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="repro-talk_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -199,7 +199,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-gradient="linear-gradient(135deg, #5C001C 0%, #98002E 100%)" class="quarto-title-block center">
   <h1 class="title">I swear it worked on my computer! Computational Reproducibility Using Nix and rix</h1>
 
 <div class="quarto-title-authors">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-11-10</p>
+  <p class="date">2026-11-11</p>
 </section>
 <section id="slides" class="slide level2">
 <h2>Slides</h2>
@@ -456,7 +456,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <tbody>
 <tr class="odd">
 <td>Same Analysis</td>
-<td><span class="fragment" data-fragment-index="1">Reproducible</span></td>
+<td><span class="fragment" data-fragment-index="1"><strong>Reproducible</strong></span></td>
 <td><span class="fragment" data-fragment-index="2">Replicable</span></td>
 </tr>
 <tr class="even">
@@ -588,12 +588,12 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <h2>Psychology: about half reproduce<sup>1</sup></h2>
 <ul>
 <li>SCORE: 600 papers, 62 journals, several fields (2009-2018)</li>
-<li>Out of 600 papers, 144 made data available; for 38 more, they obtained source data</li>
+<li>144 of 600 shared data; 38 more rebuilt from source data</li>
 </ul>
 <div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/psych_repro_box.png" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="images/psych_repro_box.png" class="quarto-figure quarto-figure-center" height="360"></p>
 </figure>
 </div>
 </div>
@@ -1025,7 +1025,7 @@ will be updated:
           display:block!important;
       }</style></aside>
 </section>
-<section id="sec-docker" class="slide level2">
+<section id="sec-docker" class="slide level2 smaller">
 <h2>Docker: what a container does</h2>
 <div class="columns">
 <div class="column" style="width:86%;">
@@ -1037,30 +1037,22 @@ will be updated:
 </figure>
 </div>
 </div></div>
+<div class="columns">
+<div class="column" style="width:64%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/docker-container.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-<aside><ol class="aside-footnotes"><li id="fn9"><p>Figure adapted from Rodrigues, B. <em>Building reproducible pipelines with R, Docker and Nix</em>. R-Ladies Rome (English).</p></li></ol></aside></section>
-<section id="sec-docker-images" class="slide level2">
-<h2>Docker images</h2>
-<div class="columns">
-<div class="column" style="width:86%;">
+</div><div class="column fragment" style="width:36%;">
 <p>Docker images:</p>
 <ul>
-<li class="fragment">contain all the software and code needed for your project</li>
-<li class="fragment">are immutable (cannot be changed at run-time)</li>
-<li class="fragment">can be shared on- and offline</li>
+<li>hold all the software and code</li>
+<li>immutable once built</li>
+<li>shareable on- and offline</li>
 </ul>
-</div><div class="column" style="width:14%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/docker-logo.svg" class="hex quarto-figure quarto-figure-center" width="90"></p>
-</figure>
-</div>
 </div></div>
-</section>
+<aside><ol class="aside-footnotes"><li id="fn9"><p>Figure adapted from Rodrigues, B. <em>Building reproducible pipelines with R, Docker and Nix</em>. R-Ladies Rome (English).</p></li></ol></aside></section>
 <section id="sec-docker-issues" class="slide level2 code-walk">
 <h2>Docker: built for shipping</h2>
 <ul>
@@ -1611,14 +1603,18 @@ will be updated:
 </section>
 <section id="what-a-lab-can-actually-do" class="slide level2">
 <h2>What a Lab Can Actually Do</h2>
-<p>Not ready for Nix/{Rix}? Start smaller:</p>
+<p>Not ready for Nix/{Rix}?</p>
+<p>Start smaller:</p>
 <ul>
 <li class="fragment">{renv} and {rig} for R dependency snapshots and R version management
 <ul>
 <li class="fragment">{groundhog}<br>
 </li>
 </ul></li>
-<li class="fragment">Docker for a shared environment</li>
+<li class="fragment">Docker for a shared environment
+<ul>
+<li class="fragment">Code Ocean is also a good alternative</li>
+</ul></li>
 <li class="fragment">{targets} for analytic pipelines</li>
 <li class="fragment">Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check</li>
 </ul>
@@ -1637,14 +1633,15 @@ will be updated:
 <li class="fragment">Reproducibility is a ladder, not a cliff
 <ul>
 <li class="fragment">Every step you take makes your pipeline more reproducible</li>
-</ul></li>
-<li class="fragment">Document it
-<ul>
-<li class="fragment">A clear README: what to run, in what order, starting from raw data</li>
+<li class="fragment">Document everything!</li>
 </ul></li>
 <li class="fragment">Freeze the environment
 <ul>
 <li class="fragment">Nix/<code>{rix}</code> declares R, packages, and system tools in one file, pinned to a date</li>
+</ul></li>
+<li class="fragment">Science is hard!
+<ul>
+<li class="fragment">Try your best!</li>
 </ul></li>
 </ol>
 </section>
@@ -1886,6 +1883,18 @@ will be updated:
           RevealZoom
         ]
       });
+    </script>
+    <script>
+    // Add the "works on my machine" badge to the title slide
+    document.addEventListener("DOMContentLoaded", function () {
+      var slide = document.getElementById("title-slide");
+      if (!slide) return;
+      var img = document.createElement("img");
+      img.src = "images/works-on-my-machine-x.svg";
+      img.alt = "Works on my machine badge, crossed out";
+      img.className = "title-badge";
+      slide.appendChild(img);
+    });
     </script>
     
     <script>
