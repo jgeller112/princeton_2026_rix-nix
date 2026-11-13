@@ -45,6 +45,8 @@ I will mostly be using ![R](images/Rlogo.svg){.inline-logo} examples.
 I have no connection to Nix or `{rix}`: just a happy user.
 :::
 
+# What is the current state of science? 
+
 ## The Replication Crisis[^munafo] {#sec-replication-crisis}
 
 ```{dot}
@@ -703,7 +705,9 @@ x = np.float32(0.1) + 0.2
 - Models: scikit-learn 0.22 changed `LogisticRegression`'s default solver (`liblinear` → `lbfgs`): same call, different coefficients.
 - System libraries: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.
 
-## Managing the environment {#sec-env-tools}
+# Managing the environment {#sec-env-tools}
+
+## Lots of tools 
 
 :::::: {.tool-grid}
 ::: {.tool-cell}
@@ -1349,11 +1353,12 @@ Not ready for Nix/{Rix}?
 
 Start smaller:
 
-- {renv} and {rig} for R dependency snapshots and R version management
-  - {groundhog}  
+- {renv} and {rig} for R dependency snapshots and R version management  
+
 - Docker for a shared environment
+
   - Code Ocean is also a good alternative
-- {targets} for analytic pipelines
+
 - Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check
 
 ## Culture, Not Just Tools
