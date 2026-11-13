@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Jason Geller, PH.D.(he/him)">
-  <meta name="dcterms.date" content="2026-11-11">
+  <meta name="dcterms.date" content="2026-11-13">
   <title>I swear it worked on my computer! Computational Reproducibility Using Nix and rix</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@ Jason Geller, PH.D.(he/him)
 </div>
 </div>
 
-  <p class="date">2026-11-11</p>
+  <p class="date">2026-11-13</p>
 </section>
 <section id="slides" class="slide level2">
 <h2>Slides</h2>
@@ -226,6 +226,11 @@ Jason Geller, PH.D.(he/him)
 <p>I will mostly be using <img data-src="images/Rlogo.svg" class="inline-logo" alt="R"> examples.</p>
 <p>I have no connection to Nix or <code>{rix}</code>: just a happy user.</p>
 </div>
+</section>
+<section>
+<section id="what-is-the-current-state-of-science" class="title-slide slide level1 center">
+<h1>What is the current state of science?</h1>
+
 </section>
 <section id="sec-replication-crisis" class="slide level2">
 <h2>The Replication Crisis<sup>1</sup></h2>
@@ -732,7 +737,7 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
+</section></section>
 <section>
 <section id="the-computational-environment" class="title-slide slide level1 center">
 <h1>The Computational Environment</h1>
@@ -888,9 +893,14 @@ document.querySelectorAll("#sec-replication-crisis svg .fragment").forEach(funct
 <li class="fragment">Models: scikit-learn 0.22 changed <code>LogisticRegression</code>’s default solver (<code>liblinear</code> → <code>lbfgs</code>): same call, different coefficients.</li>
 <li class="fragment">System libraries: numpy links OpenBLAS, MKL, or Apple Accelerate depending on how it was installed: the same BLAS story as R.</li>
 </ul>
+</section></section>
+<section>
+<section id="sec-env-tools" class="title-slide slide level1 center">
+<h1>Managing the environment</h1>
+
 </section>
-<section id="sec-env-tools" class="slide level2">
-<h2>Managing the environment</h2>
+<section id="lots-of-tools" class="slide level2">
+<h2>Lots of tools</h2>
 <div class="tool-grid">
 <div class="tool-cell">
 <p><img data-src="images/renv.png" class="hex"></p>
@@ -1606,17 +1616,12 @@ will be updated:
 <p>Not ready for Nix/{Rix}?</p>
 <p>Start smaller:</p>
 <ul>
-<li class="fragment">{renv} and {rig} for R dependency snapshots and R version management
-<ul>
-<li class="fragment">{groundhog}<br>
-</li>
-</ul></li>
-<li class="fragment">Docker for a shared environment
+<li class="fragment"><p>{renv} and {rig} for R dependency snapshots and R version management</p></li>
+<li class="fragment"><p>Docker for a shared environment</p>
 <ul>
 <li class="fragment">Code Ocean is also a good alternative</li>
 </ul></li>
-<li class="fragment">{targets} for analytic pipelines</li>
-<li class="fragment">Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check</li>
+<li class="fragment"><p>Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check</p></li>
 </ul>
 </section>
 <section id="culture-not-just-tools" class="slide level2">
