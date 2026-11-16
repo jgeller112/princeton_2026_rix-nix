@@ -1362,7 +1362,7 @@ Start smaller:
 
   - Code Ocean is also a good alternative
 
-- Metacheck (https://www.scienceverse.org/metacheck_book/) allows for a reproduibility check
+- Metacheck (https://www.scienceverse.org/metacheck_book/)
 
 ## Culture, Not Just Tools
 
