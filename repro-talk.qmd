@@ -1380,7 +1380,15 @@ Start smaller:
 
 1. Science is hard! 
     - Try your best! 
-    - Be as transparent as possible! 
+    - Be as transparent as possible!
+
+## Be Excellent {.center}
+
+![](images/bill-ted.jpg){fig-align="center" width="85%"}
+
+::: {style="text-align:center; font-size:1.4em;"}
+**...and do good science!**
+:::
 
 ## Thanks!
 
