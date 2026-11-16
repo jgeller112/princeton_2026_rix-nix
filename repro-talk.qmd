@@ -1,5 +1,5 @@
 ---
-title: "I swear it worked on my computer! Computational Reproducibility Using Nix and rix"
+title: "I swear it worked on my computer! Computational Reproducibility Using Nix and {rix}"
 author: "Jason Geller, PH.D.(he/him)"
 date: today
 title-slide-attributes:
@@ -1136,6 +1136,9 @@ Numbers from the previous slide (Malka et al.): rebuildable 99.7-99.9%; bitwise 
 
 ::: {.fragment}
 ``` r
+#r-universer 
+#cran
+
 install.packages("rix", repos = "https://ropensci.r-universe.dev")
 ```
 :::
@@ -1291,9 +1294,9 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 
 ``` {.bash code-line-numbers="|1|2|3"}
-Rscript gen-env.R    # rix() writes default.nix
+rix()   # rix() writes default.nix
 nix-build            # build it (slow only the first time)
-nix-shell --pure --run "quarto render nix_rix_example.qmd"
+nix-shell
 ```
 - Plain `nix-shell` drops you into the environment to work interactively
 - `--pure`: nothing from your own machine leaks in: not your R, not your packages, not `~/.cmdstan`
